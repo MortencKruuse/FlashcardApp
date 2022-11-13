@@ -1,5 +1,4 @@
-package com.example.flashcardapp.domain
-
+package com.example.flashcardapp.data.exceptions
 
 
 /**
@@ -10,8 +9,8 @@ package com.example.flashcardapp.domain
  * so ours should be, too, if we're trying to be 100% compatible with Exception.
  * SOURCE: https://stackoverflow.com/a/68775013
  */
-class DomainException(message: String? = null, cause: Throwable? = null) : Exception(message, cause),
-    IDomainException {
+class DataException(message: String? = null, cause: Throwable? = null) : Exception(message, cause),
+    IDataException {
     constructor(cause: Throwable) : this(null, cause)
 
 }

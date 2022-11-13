@@ -1,4 +1,4 @@
-package com.example.flashcardapp.data
+package com.example.flashcardapp.data.exceptions
 
 /**
  * @TODO Fill out

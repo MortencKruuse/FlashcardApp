@@ -1,6 +1,7 @@
 package com.example.flashcardapp.repo
 
 import com.example.flashcardapp.data.IDeck
+import com.example.flashcardapp.repo.exceptions.RepoException
 
 /**
  * I deck handler
@@ -15,7 +16,7 @@ interface IDeckHandler {
      * @return
      */
     fun getDeck(id : String) : IDeck? {
-        //Should be IRepoException
+        //Should be IRepoException TODO(TODO_FIXME)
         throw RepoException("No deck with id $id found")
     }
     /**

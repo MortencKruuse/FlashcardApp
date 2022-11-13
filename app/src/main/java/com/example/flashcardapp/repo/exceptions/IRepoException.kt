@@ -1,9 +1,9 @@
-package com.example.flashcardapp.repo
+package com.example.flashcardapp.repo.exceptions
 
 /**
  * @TODO Add online logging function
  */
-interface IRepoException {
+interface IRepoException  {
     fun log(message : String)
 
 }

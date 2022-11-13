@@ -1,4 +1,4 @@
-package com.example.flashcardapp.domain
+package com.example.flashcardapp.domain.exceptions
 
 /**
  * @TODO Fill out
