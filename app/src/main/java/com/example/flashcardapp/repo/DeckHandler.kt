@@ -6,15 +6,16 @@ import com.example.flashcardapp.repo.exceptions.RepoException
 /**
  * Server:
  */
-class DeckHandler : IDeckHandler {
+open class DeckHandler : IDeckHandler {
     private val IP = ""
-    override fun searchForDeck(keyword: String): IDeck? {
-        TODO("Not yet implemented")
+    override fun searchForDeck(keyword: String): Array<IDeck> {
+        //TODO("Not yet implemented")
         throw RepoException("Not implemented");
 
     }
 
     override fun getDeck(id: String): IDeck?{
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
+        throw RepoException("Not implemented");
     }
 }
