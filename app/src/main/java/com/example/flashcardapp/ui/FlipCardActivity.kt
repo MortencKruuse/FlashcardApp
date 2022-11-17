@@ -1,4 +1,4 @@
-package com.example.flashcardapp
+package com.example.flashcardapp.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
