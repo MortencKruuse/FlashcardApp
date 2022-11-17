@@ -41,3 +41,8 @@ fun CardText(){
 fun DeckText(){
 
 }
+
+@Composable
+fun FlashCardDivider(modifier: Modifier = Modifier) {
+    Divider(color = MaterialTheme.colors.background, thickness = 1.dp, modifier = modifier)
+}
