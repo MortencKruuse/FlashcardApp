@@ -12,32 +12,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.flashcardapp.ui.theme.FlashcardAppTheme
 
-class MainActivity : ComponentActivity() {
+class FlashCardActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            FlashcardAppTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
-                }
-            }
+            FlashCardApp()
+
         }
     }
 }
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
 
-@Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
-    FlashcardAppTheme {
-        Greeting("Android")
-    }
+fun FlashCardApp(){
+
 }

@@ -28,16 +28,16 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun card(){
+fun Card(){
 
 }
 
 @Composable
-fun cardText(){
+fun CardText(){
 
 }
 
 @Composable
-fun deckText(){
+fun DeckText(){
 
 }
