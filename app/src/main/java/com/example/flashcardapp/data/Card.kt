@@ -1,40 +1,27 @@
 package com.example.flashcardapp.data
 
-import javax.inject.Singleton
-
-
-
+import android.annotation.SuppressLint
 
 class Card : ICard {
-    private var instance: Singleton? = null
 
-    private fun Card() {
-        var id = null;
-        var question = null;
-        var answer = null;
-
+    @SuppressLint("NotConstructor")
+    private fun Card(idX: String, questionX: String, answerX: String) {
+        val id: String = idX
+        val question: String = questionX
+        val answer: String = answerX
     }
 
-    fun getInstance(): Card? {
-        if (instance == null) {
-            synchronized(Card::class.java) {
-                if (instance == null) {
-                    instance = Card()
-                }
-            }
-        }
-        return instance
-    }
-    override fun getQuestion(): String {
+
+    override fun getQuestion(cardId: String): String {
         TODO("Not yet implemented")
     }
 
-    override fun getAnswer(): String {
+    override fun getAnswer(cardId: String): String {
         TODO("Not yet implemented")
     }
 
-    override fun updateCard(question: String, answer: String) {
-
+    override fun updateCard(cardId: String, question: String, answer: String) {
+        TODO("Not yet implemented")
     }
 
     override fun setCardID(): String {
