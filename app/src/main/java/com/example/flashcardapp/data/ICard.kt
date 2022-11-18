@@ -10,4 +10,6 @@ interface ICard {
     fun getQuestion() : String
     fun getAnswer() : String
     fun updateCard(question : String, answer : String)
+    fun setCardID() : String
+    fun getCardID() : String
 }
