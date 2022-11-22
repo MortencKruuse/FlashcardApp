@@ -1,34 +1,25 @@
 package com.example.flashcardapp.data
 
-import android.annotation.SuppressLint
-
-class Card : ICard {
-
-    @SuppressLint("NotConstructor")
-    private fun Card(idX: String, questionX: String, answerX: String) {
-        val id: String = idX
-        val question: String = questionX
-        val answer: String = answerX
-    }
-
+data class Card(override var cardId: String,override var question: String,override var answer: String) : ICard {
 
     override fun getQuestion(cardId: String): String {
-        TODO("Not yet implemented")
+        return question
     }
 
     override fun getAnswer(cardId: String): String {
-        TODO("Not yet implemented")
+        return answer
     }
 
-    override fun updateCard(cardId: String, question: String, answer: String) {
-        TODO("Not yet implemented")
+    override fun updateCard(cardIdToUpdate: String, questionToUpdate: String, answerToUpdate: String) {
+        if (cardIdToUpdate == cardId){
+            question = questionToUpdate
+            answer = answerToUpdate
+        } else return
     }
 
-    override fun setCardID(): String {
-        TODO("Not yet implemented")
-    }
-
-    override fun getCardID(): String {
-        TODO("Not yet implemented")
+    override fun setCardID(formerCardIdToUpdate: String, cardIdToUpdate: String) {
+        if (formerCardIdToUpdate == cardId){
+            cardId = cardIdToUpdate
+        } else return
     }
 }
