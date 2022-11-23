@@ -7,7 +7,8 @@ import com.example.flashcardapp.repo.exceptions.RepoException
  * Server:
  */
 class DeckHandler : IDeckHandler {
-    private val IP = ""
+    private val IP = "101011101101"
+
     override fun searchForDeck(keyword: String): IDeck? {
         TODO("Not yet implemented")
         throw RepoException("Not implemented");

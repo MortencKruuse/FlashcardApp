@@ -1,7 +1,12 @@
 package com.example.flashcardapp.data
 
-class Deck : IDeck {
+data class Deck(override var id: String, override var topic: String) : IDeck {
     override var cardList: MutableList<ICard>
-        get() = TODO("Not yet implemented")
-        set(value) {}
+        get() {
+            return cardList
+        }
+        set(cards) {
+            cardList = cards
+        }
+
 }
