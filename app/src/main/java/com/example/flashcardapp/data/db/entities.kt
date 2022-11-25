@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 import com.example.flashcardapp.data.ICard
-import com.example.flashcardapp.data.IDeck
 
 //this is currently "ish" what i am working out from
 // - Philip
