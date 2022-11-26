@@ -13,13 +13,23 @@ import com.example.flashcardapp.ui.theme.FlashcardAppTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModelProvider
+import com.example.flashcardapp.data.Deck
+import com.example.flashcardapp.data.viewmodels.DeckViewModel
+import com.example.flashcardapp.ui.components.Card
 import com.example.flashcardapp.ui.components.FlashCardTabRow
 
 
+
 class FlashCardActivity : ComponentActivity() {
+    //TODO DB STUFF: Research appropriate location for line below
+    private lateinit var deckViewModel: DeckViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            //TODO DB STUFF: maybe not here the viewmodel should be initialized. Research later on.
+            deckViewModel = ViewModelProvider(this).get(DeckViewModel::class.java)
             FlashCardApp()
 
         }
