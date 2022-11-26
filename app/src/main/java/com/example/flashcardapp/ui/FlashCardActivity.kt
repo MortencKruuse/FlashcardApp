@@ -44,7 +44,8 @@ class FlashCardActivity : ComponentActivity() {
             Card(7, "Q", "A", 1),
             Card(8, "Q", "A", 1),
             Card(9, "Q", "A", 1),
-            Card(10, "Q", "A", 1)
+            Card(10, "Q", "A", 1),
+            Card(11, "Q", "A", 1)
         )
 
         val decks = mutableListOf<Deck>(
