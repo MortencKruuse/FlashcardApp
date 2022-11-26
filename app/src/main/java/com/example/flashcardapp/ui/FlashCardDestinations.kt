@@ -2,14 +2,12 @@ package com.example.flashcardapp.ui
 
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.PieChart
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
-import com.example.flashcardapp.R
-
-import com.example.flashcardapp.ui.mainscreen.MainScreen
 import com.example.flashcardapp.ui.flashscreen.FlashScreen
+import com.example.flashcardapp.ui.mainscreen.MainScreen
 
 interface FlashCardDestination {
     val icon: ImageVector
