@@ -25,5 +25,5 @@ interface IDeckHandler {
      * @param keyword Search for deck with keyword
      * @return Can be null if no deck with keyword is found
      */
-    fun searchForDeck(keyword : String) : IDeck?
+    fun searchForDeck(keyword : String) : Array<IDeck>
 }
