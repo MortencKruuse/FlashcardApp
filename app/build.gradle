@@ -18,6 +18,19 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        //Room stuff
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                     "$projectDir/schemas".toString()]
+            }
+        }
+    }
+    //Room stuff
+    sourceSets {
+        androidTest.assets.srcDirs +=
+                files("$projectDir/schemas".toString())
     }
 
     buildTypes {
