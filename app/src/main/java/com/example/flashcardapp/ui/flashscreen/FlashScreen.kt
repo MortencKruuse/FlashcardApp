@@ -7,6 +7,6 @@ import androidx.compose.ui.res.vectorResource
 import com.example.flashcardapp.R
 
 @Composable
-fun FlashScreen( ){
+fun FlashScreen() {
 
 }

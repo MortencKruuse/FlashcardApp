@@ -15,7 +15,7 @@ class DeckHandler : IDeckHandler {
 
     }
 
-    override fun getDeck(id: String): IDeck?{
+    override fun getDeck(id: String): IDeck? {
         TODO("Not yet implemented")
     }
 }

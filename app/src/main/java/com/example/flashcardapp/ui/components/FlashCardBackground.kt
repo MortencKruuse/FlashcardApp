@@ -26,9 +26,11 @@ fun FlashCardBackgroundImage(
         Modifier
             .fillMaxHeight()
             .fillMaxWidth()
-    ){
-        Image(painter = painterResource(id = R.drawable.background), contentDescription = "Background image")
-
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.background),
+            contentDescription = "Background image"
+        )
 
 
     }

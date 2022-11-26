@@ -21,7 +21,6 @@ import com.example.flashcardapp.ui.components.FlashCardDivider
 import java.util.*
 
 
-
 @Composable
 fun MainScreen(
 ) {
@@ -37,16 +36,9 @@ fun MainScreen(
 
 
 @Composable
-fun MainMenu(){
-    Image(painter = painterResource(id = R.drawable.background), contentDescription ="" )
+fun MainMenu() {
+    Image(painter = painterResource(id = R.drawable.background), contentDescription = "")
 }
-
-
-
-
-
-
-
 
 
 private val RallyDefaultPadding = 12.dp

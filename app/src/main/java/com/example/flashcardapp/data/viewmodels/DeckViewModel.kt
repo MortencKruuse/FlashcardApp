@@ -10,7 +10,7 @@ import com.example.flashcardapp.data.repositories.DeckRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DeckViewModel (application: Application) : AndroidViewModel(application) {
+class DeckViewModel(application: Application) : AndroidViewModel(application) {
     private val readAllData: LiveData<List<Deck>>
     private val repository: DeckRepository
 
@@ -20,8 +20,8 @@ class DeckViewModel (application: Application) : AndroidViewModel(application) {
         readAllData = repository.readAllData
     }
 
-    fun addDeck(deck: Deck){
-        viewModelScope.launch(Dispatchers.IO){
+    fun addDeck(deck: Deck) {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.addDeck(deck)
         }
     }

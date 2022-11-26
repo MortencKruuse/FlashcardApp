@@ -8,7 +8,7 @@ data class Deck(
     val deckId: Int,
     @ColumnInfo(name = "deck_name")
     val DeckName: String,
-    @ColumnInfo(name ="card_list")
+    @ColumnInfo(name = "card_list")
     var cardList: MutableList<Card>
 )
 

@@ -7,7 +7,7 @@ import com.example.flashcardapp.data.dao.DeckDAO
 class DeckRepository(private val deckDAO: DeckDAO) {
     val readAllData: LiveData<List<Deck>> = deckDAO.readAllDataFromDeck()
 
-    suspend fun addDeck(deck: Deck){
+    suspend fun addDeck(deck: Deck) {
         deckDAO.addDeck(deck)
     }
 }

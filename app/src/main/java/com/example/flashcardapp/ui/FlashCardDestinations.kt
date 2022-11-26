@@ -20,14 +20,14 @@ interface FlashCardDestination {
 object MainScreen : FlashCardDestination {
     override val icon = Icons.Default.PieChart
     override val route = "mainscreen"
-    override val screen: @Composable () -> Unit = { MainScreen()}
+    override val screen: @Composable () -> Unit = { MainScreen() }
 }
 
 
 object FlashScreen : FlashCardDestination {
     override val icon = Icons.Default.AccountCircle
     override val route = "flashscreen"
-    override val screen: @Composable () -> Unit = { FlashScreen()}
+    override val screen: @Composable () -> Unit = { FlashScreen() }
 }
 
 object DeckScreen : FlashCardDestination {
@@ -37,4 +37,4 @@ object DeckScreen : FlashCardDestination {
 }
 
 
-val flashCardTabRowScreens = listOf(MainScreen, FlashScreen,DeckScreen)
+val flashCardTabRowScreens = listOf(MainScreen, FlashScreen, DeckScreen)
