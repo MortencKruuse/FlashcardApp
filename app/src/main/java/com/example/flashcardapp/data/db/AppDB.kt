@@ -4,11 +4,11 @@ import android.content.Context
 import androidx.room.*
 import androidx.room.Database
 
-import com.example.flashcardapp.data.Deck
+import com.example.flashcardapp.data.*
 
 
 @Database(
-    entities = [Deck::class/*, Feature::class*/],
+    entities = [DeckEntity::class],
     version = 2,
     exportSchema = false
 )
@@ -16,7 +16,7 @@ abstract class appDB : RoomDatabase(){
 
     abstract fun deckDao(): DeckDao
 
-    abstract fun otherDao(): OtherDao
+    //abstract fun otherDao(): OtherDao
 
     companion object {
         @Volatile

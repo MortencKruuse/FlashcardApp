@@ -13,7 +13,7 @@ data class User (
  */
 
 @Entity(tableName = "decks")
-data class deckEntity(
+data class DeckEntity(
     @PrimaryKey(autoGenerate = true)val id: Int,
     @ColumnInfo(name = "deck_name") val DeckName: String,
     @ColumnInfo(name ="card_list") var cardList: MutableList<ICard>
