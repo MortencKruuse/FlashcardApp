@@ -23,6 +23,7 @@ import com.example.flashcardapp.ui.components.FlashCardTabRow
 
 class FlashCardActivity : ComponentActivity() {
     //TODO DB STUFF: Research appropriate location for line below
+    val commit = ""
     private lateinit var deckViewModel: DeckViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
