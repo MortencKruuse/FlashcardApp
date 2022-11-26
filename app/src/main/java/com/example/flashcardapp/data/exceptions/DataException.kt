@@ -13,4 +13,8 @@ class DataException(message: String? = null, cause: Throwable? = null) : Excepti
     IDataException {
     constructor(cause: Throwable) : this(null, cause)
 
+    override var exceptionId: String
+        get() = TODO("Not yet implemented")
+        set(value) {}
+
 }
