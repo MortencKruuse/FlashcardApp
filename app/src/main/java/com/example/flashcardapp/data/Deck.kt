@@ -1,7 +1,6 @@
 package com.example.flashcardapp.data
 
 import androidx.room.*
-import com.example.flashcardapp.data.ICard
 
 @Entity(tableName = "deck_table")
 data class Deck(
@@ -17,10 +16,10 @@ data class Deck(
 data class Card(
     @PrimaryKey(autoGenerate = true)
     val cardId: Int,
-    @ColumnInfo(name = "deck_name")
-    val DeckName: String,
-    @ColumnInfo(name ="card_list")
-    var cardList: MutableList<ICard>,
+    @ColumnInfo(name = "card_question")
+    val question: String,
+    @ColumnInfo(name = "card_answer")
+    val answer: String,
     @ColumnInfo(name = "deck_id")
     var associatedDeckId: Int
 )
