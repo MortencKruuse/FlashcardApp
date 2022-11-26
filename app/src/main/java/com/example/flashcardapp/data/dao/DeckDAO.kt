@@ -14,13 +14,20 @@ interface DeckDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun addDeck(deck: Deck)
 
+    @Query("DELETE FROM deck_table WHERE deckId = :id")
+    fun deleteDeck(id: Deck)
+
+    @Query("SELECT * FROM deck_table WHERE deckId == :id")
+    fun findDeck(id: Int): List<Deck>
+
     @Query("SELECT * FROM deck_table ORDER BY deckId DESC")
     fun readAllDataFromDeck(): LiveData<List<Deck>>
 
     // CARDS
     //TODO Switch .IGNORE to something more applicable
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun addCard(deck: Deck)
+    fun addCard(deck: Deck): LiveData<List<Deck>>
+
 
     @Query("SELECT * FROM card_table ORDER BY deck_id DESC")
     fun readAllDataFromCard(): LiveData<List<Card>>
