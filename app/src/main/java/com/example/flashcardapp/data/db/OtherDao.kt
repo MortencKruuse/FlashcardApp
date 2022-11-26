@@ -22,5 +22,4 @@ interface OtherDao {
     @Query("SELECT * FROM decks WHERE id LIKE :id LIMIT 1")
     suspend fun findbyID(id: Int)
 
-
 }

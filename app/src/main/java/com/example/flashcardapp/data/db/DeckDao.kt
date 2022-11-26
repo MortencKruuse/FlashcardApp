@@ -7,7 +7,6 @@ import com.example.flashcardapp.data.*
 
 @Dao
 interface DeckDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addDeck(deck: DeckEntity)
 
@@ -22,6 +21,4 @@ interface DeckDao {
 
     @Query("SELECT * FROM decks WHERE id LIKE :id LIMIT 1")
     suspend fun findDeckbyID(id: Int)
-
-
 }

@@ -17,9 +17,6 @@ data class DeckEntity(
     @PrimaryKey(autoGenerate = true)val id: Int,
     @ColumnInfo(name = "deck_name") val DeckName: String,
     @ColumnInfo(name ="card_list") var cardList: MutableList<ICard>
-    //...
-    // DeckEntity placeholder
-
 )
 
 @Entity(tableName = "other_features")
