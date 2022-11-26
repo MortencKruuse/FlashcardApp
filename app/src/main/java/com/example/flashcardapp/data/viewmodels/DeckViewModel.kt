@@ -1,28 +1,41 @@
 package com.example.flashcardapp.data.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.flashcardapp.data.Deck
 import com.example.flashcardapp.data.db.DeckDatabase
 import com.example.flashcardapp.data.repositories.DeckRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DeckViewModel(application: Application) : AndroidViewModel(application) {
-    private val readAllData: LiveData<List<Deck>>
+class DeckViewModel(application: Application) : ViewModel() {
+    val allDecks: LiveData<List<Deck>>
     private val repository: DeckRepository
+    val searchResults: MutableLiveData<List<Deck>>
 
     init {
-        val deckDAO = DeckDatabase.getDatabase(application).deckDAO()
-        repository = DeckRepository(deckDAO)
-        readAllData = repository.readAllData
+        val deckDb = DeckDatabase.getDatabase(application)
+        val deckDao = deckDb.deckDAO()
+        repository = DeckRepository(deckDao)
+
+        allDecks = repository.readAllData
+        searchResults = repository.searchResults
+    }
+    fun addDeck(deck: Deck) {
+        repository.addDeck(deck)
     }
 
+    fun findDeck(deck: Deck) {
+        repository.findDeck(deck.deckId)
+    }
+
+    fun deleteDeck(deck: Deck) {
+        repository.deleteDeck(deck)
+    }
+/*
     fun addDeck(deck: Deck) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addDeck(deck)
         }
-    }
+    }*/
 }
