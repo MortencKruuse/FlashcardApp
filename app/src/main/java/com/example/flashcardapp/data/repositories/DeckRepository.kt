@@ -1,12 +1,15 @@
 package com.example.flashcardapp.data.repositories
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.flashcardapp.data.Deck
 import com.example.flashcardapp.data.dao.DeckDAO
 import kotlinx.coroutines.*
 
 class DeckRepository(private val deckDAO: DeckDAO) {
-    val readAllData = MutableLiveData<List<Deck>>()
+    val readAllData: LiveData<List<Deck>> = deckDAO.readAllDataFromDeck()
+    val searchResults = MutableLiveData<List<Deck>>()
+
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
 
@@ -24,7 +27,7 @@ class DeckRepository(private val deckDAO: DeckDAO) {
 
     fun findDeck(id: Int) {
         coroutineScope.launch(Dispatchers.Main) {
-            readAllData.value = asyncFind(id).await()
+            searchResults.value = asyncFind(id).await()
         }
     }
 
