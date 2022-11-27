@@ -27,12 +27,16 @@ fun FlashCardBackgroundImage(
             .fillMaxHeight()
             .fillMaxWidth()
     ) {
-        Box(Modifier.selectableGroup()){
-            allScreens.forEach{ screen ->
-                Image(painter = painterResource(id = R.drawable.background),
+        Box(Modifier.selectableGroup()) {
+            allScreens.forEach { screen ->
+                Image(
+                    painter = painterResource(id = R.drawable.background),
                     contentDescription = "",
-                    modifier = Modifier.fillMaxSize().blur(6.dp),
-                    contentScale = ContentScale.Crop)
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .blur(6.dp),
+                    contentScale = ContentScale.Crop
+                )
 
             }
         }

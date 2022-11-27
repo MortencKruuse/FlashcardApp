@@ -29,15 +29,9 @@ fun MainScreen(
 
 
 @Composable
-fun MainMenu(){
+fun MainMenu() {
 
 }
-
-
-
-
-
-
 
 
 private val RallyDefaultPadding = 12.dp

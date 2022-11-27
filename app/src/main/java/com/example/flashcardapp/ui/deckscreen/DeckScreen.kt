@@ -34,7 +34,6 @@ fun DeckScreen() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
         ) {
-
             val owner = LocalViewModelStoreOwner.current
 
             owner?.let {
@@ -46,7 +45,6 @@ fun DeckScreen() {
                                 as Application
                     )
                 )
-
                 SetUpDeckScreen(viewModel)
             }
         }
@@ -55,21 +53,21 @@ fun DeckScreen() {
 
 @Composable
 fun SetUpDeckScreen(viewModel: FlashcardViewModel) {
-    var topic by remember() {
+    var topic by remember {
         mutableStateOf("")
     }
     try {
         if (viewModel.allDecks == null) {
-            var deck = Deck(0, "No topic given")
+            var deck = Deck(0, "Egg White")
             viewModel.addDeck(deck)
             viewModel.deleteDeck(deck.deckId)
         }
-    } catch (e: Exception){
+    } catch (e: Exception) {
         e.printStackTrace()
     }
 
     val allDecks by viewModel.allDecks.observeAsState(listOf())
-    val searchResults by viewModel.deckSearchResults.observeAsState(listOf())
+    val deckSearchResults by viewModel.deckSearchResults.observeAsState(listOf())
     Column(
         Modifier
             .fillMaxSize()

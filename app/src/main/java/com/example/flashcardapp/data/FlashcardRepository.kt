@@ -13,7 +13,7 @@ class FlashcardRepository(private val DAO: DAO) {
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
 
-    fun addDeck (deck: Deck) {
+    fun addDeck(deck: Deck) {
         coroutineScope.launch(Dispatchers.IO) {
             DAO.addDeck(deck)
         }
@@ -22,6 +22,12 @@ class FlashcardRepository(private val DAO: DAO) {
     fun addCard(card: Card) {
         coroutineScope.launch(Dispatchers.IO) {
             DAO.addCard(card)
+        }
+    }
+
+    fun deleteCard(cardId: Int) {
+        coroutineScope.launch(Dispatchers.IO) {
+            DAO.deleteCard(cardId)
         }
     }
 

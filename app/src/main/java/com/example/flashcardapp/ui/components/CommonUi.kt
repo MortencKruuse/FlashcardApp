@@ -36,13 +36,18 @@ fun FlashCardDivider(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Background(alpha: Float){
-    Box(Modifier.fillMaxSize()){
-            Image(painter = painterResource(id = R.drawable.background),
-                contentDescription = "",
-                modifier = Modifier.fillMaxSize().blur(6.dp).alpha(alpha),
-                contentScale = ContentScale.Crop)
+fun Background(alpha: Float) {
+    Box(Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(id = R.drawable.background),
+            contentDescription = "",
+            modifier = Modifier
+                .fillMaxSize()
+                .blur(6.dp)
+                .alpha(alpha),
+            contentScale = ContentScale.Crop
+        )
 
 
-        }
     }
+}
