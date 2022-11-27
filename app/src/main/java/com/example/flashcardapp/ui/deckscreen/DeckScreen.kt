@@ -1,9 +1,10 @@
 package com.example.flashcardapp.ui.deckscreen
 
 
-
 import android.app.Application
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,6 +16,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +31,7 @@ import com.example.flashcardapp.data.repositories.DeckRepository
 import com.example.flashcardapp.data.viewmodels.DeckViewModel
 import com.example.flashcardapp.data.viewmodels.ViewModelFactory
 import com.example.flashcardapp.ui.ScreenSetup
+import com.example.flashcardapp.ui.mainscreen.MainScreen
 import com.example.flashcardapp.ui.theme.FlashcardAppTheme
 
 @Composable
@@ -63,10 +66,13 @@ fun DeckScreen() {
 }
 
 @Composable
-fun SetUpDeckScreen(viewModel : DeckViewModel){
+fun SetUpDeckScreen(viewModel: DeckViewModel) {
     var topic by remember() {
-        mutableStateOf("topicTemp")
+        mutableStateOf("")
     }
+    var deck = Deck(0, "null")
+    viewModel.addDeck(deck)
+
     val allDecks by viewModel.allDecks.observeAsState(listOf())
     val searchResults by viewModel.searchResults.observeAsState(listOf())
 
@@ -76,15 +82,14 @@ fun SetUpDeckScreen(viewModel : DeckViewModel){
             .padding(48.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TextFieldWithIconsDeck("Topic", "Enter a topic name for your deck")
+        TextFieldWithIconsDeck("Topic", "Enter your deck topic here")
         {
             topic = it
         }
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
-            viewModel.addDeck(Deck(2,"MyTopic"))
             //TODO Add Topic instead of deck
-            //viewModel.addDeck(topic)
+            viewModel.addDeck(Deck(0, topic))
         }, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Submit")
         }
@@ -103,7 +108,7 @@ fun SetUpDeckScreen(viewModel : DeckViewModel){
 
 
             items(list) { deck ->
-                DeckRow(id = deck.deckId, name = deck.DeckName)
+                DeckRow(id = deck.deckId, name = deck.deckTopic, modifier = Modifier)
             }
         }
     }
@@ -117,37 +122,48 @@ fun DeckTitleRow(head1: String, head2: String) {
             .fillMaxWidth()
             .padding(5.dp)
     ) {
-        Text(head1, color = Color.White,
+        Text(
+            head1, color = Color.White,
             modifier = Modifier
-                .weight(0.1f))
-        Text(head2, color = Color.White,
+                .weight(0.1f)
+        )
+        Text(
+            head2, color = Color.White,
             modifier = Modifier
-                .weight(0.5f))
+                .weight(0.5f)
+        )
     }
 }
 
+val screen: @Composable () -> Unit = { MainScreen() }
+
 @Composable
-fun DeckRow(id: Int, name: String) {
+fun DeckRow(id: Int, name: String, modifier: Modifier) {
     Row(
-        modifier = Modifier
+        modifier
             .fillMaxWidth()
             .padding(5.dp)
+            .clickable(onClick = {
+                screen
+            }),
     ) {
-        Text(id.toString(), modifier = Modifier
-            .weight(0.1f))
+        Text(
+            id.toString(), modifier = Modifier
+                .weight(0.1f)
+        )
         Text(name, modifier = Modifier.weight(0.5f))
     }
 }
 
 
 @Composable
-fun TextFieldWithIconsDeck(label: String,placeholder: String, thingie :(String) -> Unit) {
+fun TextFieldWithIconsDeck(label: String, placeholder: String, thingie: (String) -> Unit) {
     return OutlinedTextField(
-        value = "" ,
+        value = "",
         leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "emailIcon") },
         onValueChange = thingie,
         label = { Text(text = label) },
-        placeholder = { Text(text = placeholder) },
+        placeholder = { Text(text = placeholder) }
     )
 }
 

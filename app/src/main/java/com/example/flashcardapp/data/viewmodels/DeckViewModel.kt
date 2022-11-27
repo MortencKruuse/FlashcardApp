@@ -29,13 +29,7 @@ class DeckViewModel(application: Application) : ViewModel() {
         repository.findDeck(deck.deckId)
     }
 
-    fun deleteDeck(deck: Deck) {
-        repository.deleteDeck(deck)
+    fun deleteDeck(deckId: Int) {
+        repository.deleteDeck(deckId)
     }
-/*
-    fun addDeck(deck: Deck) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.addDeck(deck)
-        }
-    }*/
 }

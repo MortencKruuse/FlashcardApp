@@ -19,9 +19,9 @@ class DeckRepository(private val deckDAO: DeckDAO) {
         }
     }
 
-    fun deleteDeck(deck: Deck) {
+    fun deleteDeck(deckId: Int) {
         coroutineScope.launch(Dispatchers.IO) {
-            deckDAO.deleteDeck(deck)
+            deckDAO.deleteDeck(deckId)
         }
     }
 
