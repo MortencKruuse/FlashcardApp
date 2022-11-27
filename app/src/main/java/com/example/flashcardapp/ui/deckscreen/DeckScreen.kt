@@ -78,10 +78,6 @@ fun SetUpDeckScreen(viewModel: DeckViewModel) {
         }
     } catch (e: Exception){
         e.printStackTrace()
-    } finally {
-        var deck = Deck(0, "No topic given")
-        viewModel.addDeck(deck)
-        viewModel.deleteDeck(deck.deckId)
     }
 
     val allDecks by viewModel.allDecks.observeAsState(listOf())
