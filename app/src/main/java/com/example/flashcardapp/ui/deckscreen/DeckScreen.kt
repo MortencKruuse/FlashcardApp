@@ -2,26 +2,73 @@ package com.example.flashcardapp.ui.deckscreen
 
 
 
+import android.app.Application
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.flashcardapp.data.Deck
+import com.example.flashcardapp.data.db.DeckDatabase
+import com.example.flashcardapp.data.repositories.DeckRepository
+import com.example.flashcardapp.data.viewmodels.DeckViewModel
+import com.example.flashcardapp.data.viewmodels.ViewModelFactory
+import com.example.flashcardapp.ui.ScreenSetup
+import com.example.flashcardapp.ui.theme.FlashcardAppTheme
 
-@Preview
 @Composable
 fun DeckScreen() {
-    var topic by remember() {
-        mutableStateOf("")
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        FlashcardAppTheme {
+            // A surface container using the 'background' color from the theme
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colors.background
+            ) {
+
+                val owner = LocalViewModelStoreOwner.current
+
+                owner?.let {
+                    val viewModel: DeckViewModel = viewModel(
+                        it,
+                        "MainViewModel",
+                        ViewModelFactory(
+                            LocalContext.current.applicationContext
+                                    as Application
+                        )
+                    )
+
+                    SetUpDeckScreen(viewModel)
+                }
+            }
+        }
     }
+}
+
+@Composable
+fun SetUpDeckScreen(viewModel : DeckViewModel){
+    var topic by remember() {
+        mutableStateOf("topicTemp")
+    }
+    val allDecks by viewModel.allDecks.observeAsState(listOf())
+    val searchResults by viewModel.searchResults.observeAsState(listOf())
 
     Column(
         Modifier
@@ -35,7 +82,9 @@ fun DeckScreen() {
         }
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
-            /*TODO*/
+            viewModel.addDeck(Deck(2,"MyTopic"))
+            //TODO Add Topic instead of deck
+            //viewModel.addDeck(topic)
         }, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Submit")
         }
@@ -50,9 +99,11 @@ fun DeckScreen() {
             item {
                 DeckTitleRow(head1 = "ID", head2 = "Deck Topic")
             }
+            val list = allDecks
 
-            items(1) { deck ->
-                DeckRow(id = 1, name = "The hard truth of egg white")
+
+            items(list) { deck ->
+                DeckRow(id = deck.deckId, name = deck.DeckName)
             }
         }
     }
