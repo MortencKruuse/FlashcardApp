@@ -1,11 +1,9 @@
 package com.example.flashcardapp
 
 import com.example.flashcardapp.repo.DeckHandler
-import com.example.flashcardapp.repo.IDeckHandler
 import com.example.flashcardapp.repo.exceptions.RepoException
-import org.junit.Test
-
 import org.junit.Assert.*
+import org.junit.Test
 
 /**
  * Example local unit test, which will execute on the development machine (host).

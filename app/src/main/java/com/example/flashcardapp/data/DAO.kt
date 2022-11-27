@@ -1,8 +1,7 @@
-package com.example.flashcardapp.data.dao
+package com.example.flashcardapp.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.flashcardapp.data.Deck
 
 
 @Dao
@@ -16,7 +15,7 @@ internal abstract class BaseDao<T> {
 }
 
 @Dao
-interface DeckDAO {
+interface DAO {
 
     // DECKS
     //TODO Switch .IGNORE to something more applicable
