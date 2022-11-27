@@ -7,9 +7,7 @@ data class Deck(
     @PrimaryKey(autoGenerate = true)
     val deckId: Int,
     @ColumnInfo(name = "deck_name")
-    val DeckName: String,
-    @ColumnInfo(name = "card_list")
-    var cardList: MutableList<Card>
+    val DeckName: String
 )
 
 @Entity(tableName = "card_table")
@@ -24,11 +22,3 @@ data class Card(
     var associatedDeckId: Int
 )
 
-data class DeckWithCards(
-    @Embedded val deck: Deck,
-    @Relation(
-        parentColumn = "deckId",
-        entityColumn = "deck_id"
-    )
-    val cards: MutableList<Card>
-)

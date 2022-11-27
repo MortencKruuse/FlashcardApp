@@ -37,60 +37,6 @@ import kotlinx.coroutines.flow.SharingStarted
 
 
 class FlashCardActivity : ComponentActivity() {
-    /*
-    val db = DeckDatabase.getDatabase(this)
-
-    init {
-        val cards = mutableListOf<Card>(
-            Card(1, "Q", "A", 1),
-            Card(2, "Q", "A", 1),
-            Card(3, "Q", "A", 1),
-            Card(4, "Q", "A", 1),
-            Card(5, "Q", "A", 1),
-            Card(6, "Q", "A", 1),
-            Card(7, "Q", "A", 1),
-            Card(8, "Q", "A", 1),
-            Card(9, "Q", "A", 1),
-            Card(10, "Q", "A", 1),
-            Card(11, "Q", "A", 1)
-        )
-
-        val decks = mutableListOf<Deck>(
-            Deck(1, "DeckOne", cards)
-        )
-        //deckViewModel.addDeck(decks.first())
-        db.deckDAO().addDeck(decks.first())
-    }
-    @Inject
-    lateinit var deckRepository: DeckRepository
-
-    val deckRepositoryState by lazy {
-        deckRepository.getDeck().stateIn(lifecycleScope,started = SharingStarted.WhileSubscribed(),emptyList())
-    }
-
-    //TODO DB STUFF: Research appropriate location for line below and if should be "lateInit var"
-    var deckViewModel: DeckViewModel = ViewModelProvider(this).get(DeckViewModel::class.java)
-
-    init {
-        val cards = mutableListOf<Card>(
-            Card(1, "Q", "A", 1),
-            Card(2, "Q", "A", 1),
-            Card(3, "Q", "A", 1),
-            Card(4, "Q", "A", 1),
-            Card(5, "Q", "A", 1),
-            Card(6, "Q", "A", 1),
-            Card(7, "Q", "A", 1),
-            Card(8, "Q", "A", 1),
-            Card(9, "Q", "A", 1),
-            Card(10, "Q", "A", 1)
-        )
-
-        val decks = mutableListOf<Deck>(
-            Deck(1, "DeckOne", cards)
-        )
-        deckViewModel.addDeck(decks.first())
-    }*/
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -98,71 +44,18 @@ class FlashCardActivity : ComponentActivity() {
             Surface(
                 modifier = Modifier.fillMaxSize(),
             ) {
-                val owner = LocalViewModelStoreOwner.current
-
-                owner?.let {
-                    val viewModel: DeckViewModel = viewModel(
-                        it,
-                        "DeckViewModel",
-                        ViewModelFactory(
-                            LocalContext.current.applicationContext
-                                    as Application
-                        )
-                    )
-                    ScreenSetup(viewModel)
-                }
+                FlashCardApp()
             }
-
         }
     }
 }
 
 
-@Composable
-fun ScreenSetup(viewModel: DeckViewModel) {
-    AddTestData(viewModel)
-
-    val allDecks by viewModel.allDecks.observeAsState(listOf())
-    val searchResults by viewModel.searchResults.observeAsState(listOf())
-
-    FlashCardApp(
-        allDecks = allDecks,
-        searchResults = searchResults,
-        viewModel = viewModel
-    )
-}
-
-fun AddTestData(viewModel: DeckViewModel) {
-    val cards = mutableListOf<Card>(
-        Card(1, "Q", "A", 1),
-        Card(2, "Q", "A", 1),
-        Card(3, "Q", "A", 1),
-        Card(4, "Q", "A", 1),
-        Card(5, "Q", "A", 1),
-        Card(6, "Q", "A", 1),
-        Card(7, "Q", "A", 1),
-        Card(8, "Q", "A", 1),
-        Card(9, "Q", "A", 1),
-        Card(10, "Q", "A", 1),
-        Card(11, "Q", "A", 1)
-    )
-
-    val decks = mutableListOf<Deck>(
-        Deck(1, "DeckOne", cards)
-    )
-
-    viewModel.addDeck(decks.first())
-}
 
 
 @Composable
-fun FlashCardApp(
-    allDecks: List<Deck>,
-    searchResults: List<Deck>,
-    viewModel: DeckViewModel
-) {
+fun FlashCardApp() {
     FlashcardAppTheme {
-
         //remember keeps a value (any value) consistent across recompositions.
         //mutableStateOf returns a MutableState. Think mutableListOf.
         //MutableState is just a thing that holds a value, where Compose will automatically observe changes to the value. Think MutableLiveData, but you don't need to call observe yourself.
