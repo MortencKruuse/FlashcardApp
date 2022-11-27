@@ -61,6 +61,7 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'
     def room_version = "2.3.0"
 
     implementation "androidx.room:room-runtime:$room_version"
@@ -68,6 +69,7 @@ dependencies {
     // To use Kotlin annotation processing tool (kapt)
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 
 
     //OLD
