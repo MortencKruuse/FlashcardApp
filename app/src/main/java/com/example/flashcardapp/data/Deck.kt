@@ -30,5 +30,5 @@ data class DeckWithCards(
         parentColumn = "deckId",
         entityColumn = "deck_id"
     )
-    val cards: List<Card>
+    val cards: MutableList<Card>
 )

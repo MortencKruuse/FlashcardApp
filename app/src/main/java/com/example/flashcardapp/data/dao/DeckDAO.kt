@@ -14,11 +14,11 @@ interface DeckDAO {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun addDeck(deck: Deck)
 
-    @Query("DELETE FROM deck_table WHERE deckId = :id")
-    fun deleteDeck(id: Deck)
+    @Delete
+    fun deleteDeck(deck: Deck)
 
     @Query("SELECT * FROM deck_table WHERE deckId == :id")
-    fun findDeck(id: Int): List<Deck>
+    fun findDeck(id: Int): MutableList<Deck>
 
     @Query("SELECT * FROM deck_table ORDER BY deckId DESC")
     fun readAllDataFromDeck(): LiveData<List<Deck>>
@@ -35,5 +35,5 @@ interface DeckDAO {
     // RELATION WITH DECK AND CARD
     @Transaction
     @Query("SELECT * FROM deck_table")
-    fun getDecksWithCards(): List<DeckWithCards>
+    fun getDecksWithCards(): MutableList<DeckWithCards>
 }
