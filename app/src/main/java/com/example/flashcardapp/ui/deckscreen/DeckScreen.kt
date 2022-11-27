@@ -1,19 +1,27 @@
 package com.example.flashcardapp.ui.deckscreen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
+import com.example.flashcardapp.ui.FlashCardActivity
+import com.example.flashcardapp.ui.FlashCardApp
+import com.example.flashcardapp.ui.FlashCardDestination
+import com.example.flashcardapp.ui.components.Background
+import com.example.flashcardapp.ui.mainscreen.MainScreen
+
 
 @Composable
-fun DeckScreen() {
+fun DeckScreen(
+    ) {
+
+    Background(1f)
     var cardID by remember(){
         mutableStateOf("")
     }
@@ -28,17 +36,19 @@ fun DeckScreen() {
 
 
     Column(
-        Modifier.fillMaxSize().padding(48.dp),
+        Modifier
+            .fillMaxSize()
+            .padding(48.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TextFieldWithIcons("cardId", "Enter cardId") { cardID = it }
         Spacer(modifier = Modifier.height(8.dp))
-        TextFieldWithIcons("question", "question your e-mail"){ question = it }
+        TextFieldWithIcons("question", "questio n your e-mail"){ question = it }
         Spacer(modifier = Modifier.height(8.dp))
         TextFieldWithIcons("answer", "Enter your answer"){ answer = it }
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
-                         /*TODO*/
+
         }, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Submit")
         }

@@ -4,11 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,6 +13,10 @@ import com.example.flashcardapp.ui.theme.FlashcardAppTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
+import androidx.navigation.compose.rememberNavController
+import com.example.flashcardapp.ui.components.Background
 import com.example.flashcardapp.ui.components.FlashCardTabRow
 
 
@@ -37,7 +38,7 @@ fun FlashCardApp(){
         //mutableStateOf returns a MutableState. Think mutableListOf.
         //MutableState is just a thing that holds a value, where Compose will automatically observe changes to the value. Think MutableLiveData, but you don't need to call observe yourself.
         var currentScreen: FlashCardDestination by remember { mutableStateOf(MainScreen) }
-        Scaffold(
+        Scaffold(backgroundColor = Color.Transparent,
             bottomBar = {
                 FlashCardTabRow(
                     allScreens = flashCardTabRowScreens,
@@ -46,7 +47,8 @@ fun FlashCardApp(){
                 )
             }
         ) { innerPadding ->
-            Box(Modifier.padding(innerPadding)) {
+            Box(Modifier.padding(innerPadding),
+            ) {
                 currentScreen.screen()
             }
         }
