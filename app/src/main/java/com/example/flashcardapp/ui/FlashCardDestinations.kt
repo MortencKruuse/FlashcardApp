@@ -14,6 +14,7 @@ import com.example.flashcardapp.ui.flashscreen.FlashScreen
 import com.example.flashcardapp.ui.mainscreen.MainScreen
 import com.example.flashcardapp.ui.deckscreen.CardScreen
 import com.example.flashcardapp.ui.deckscreen.DeckScreen
+import com.example.flashcardapp.ui.deckscreen.EditCardScreen
 
 interface FlashCardDestination {
     val icon: ImageVector
@@ -47,4 +48,11 @@ object CardScreen : FlashCardDestination {
 }
 
 
-val flashCardTabRowScreens = listOf(MainScreen, FlashScreen, DeckScreen, CardScreen)
+object EditCardScreen : FlashCardDestination {
+    override val icon = Icons.Default.AccountBalance
+    override val route = "editcardscreen"
+    override val screen: @Composable () -> Unit = { EditCardScreen() }
+}
+
+
+val flashCardTabRowScreens = listOf(MainScreen, FlashScreen, DeckScreen, CardScreen, EditCardScreen)
