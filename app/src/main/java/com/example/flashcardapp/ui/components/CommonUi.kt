@@ -1,44 +1,32 @@
 package com.example.flashcardapp.ui.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.ContentAlpha
+import android.graphics.Color.alpha
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.clearAndSetSemantics
-import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.flashcardapp.R
 
 
 @Composable
-fun Card(){
+fun Card() {
 
 }
 
 @Composable
-fun CardText(){
+fun CardText() {
 
 }
 
 @Composable
-fun DeckText(){
+fun DeckText() {
 
 }
 
@@ -46,3 +34,15 @@ fun DeckText(){
 fun FlashCardDivider(modifier: Modifier = Modifier) {
     Divider(color = MaterialTheme.colors.background, thickness = 1.dp, modifier = modifier)
 }
+
+@Composable
+fun Background(alpha: Float){
+    Box(Modifier.fillMaxSize()){
+            Image(painter = painterResource(id = R.drawable.background),
+                contentDescription = "",
+                modifier = Modifier.fillMaxSize().blur(6.dp).alpha(alpha),
+                contentScale = ContentScale.Crop)
+
+
+        }
+    }
