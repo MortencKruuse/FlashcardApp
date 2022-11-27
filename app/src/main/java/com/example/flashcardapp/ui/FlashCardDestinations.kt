@@ -2,6 +2,7 @@ package com.example.flashcardapp.ui
 
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccessAlarm
 import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.PieChart
@@ -12,6 +13,7 @@ import com.example.flashcardapp.data.viewmodels.DeckViewModel
 import com.example.flashcardapp.ui.flashscreen.FlashScreen
 import com.example.flashcardapp.ui.mainscreen.MainScreen
 import com.example.flashcardapp.ui.deckscreen.CardScreen
+import com.example.flashcardapp.ui.deckscreen.DeckScreen
 
 interface FlashCardDestination {
     val icon: ImageVector
@@ -33,10 +35,16 @@ object FlashScreen : FlashCardDestination {
 }
 
 object DeckScreen : FlashCardDestination {
-    override val icon = Icons.Default.AccountBalance
+    override val icon = Icons.Default.AccessAlarm
     override val route = "deckscreen"
+    override val screen: @Composable () -> Unit = { DeckScreen() }
+}
+
+object CardScreen : FlashCardDestination {
+    override val icon = Icons.Default.AccountBalance
+    override val route = "cardscreen"
     override val screen: @Composable () -> Unit = { CardScreen() }
 }
 
 
-val flashCardTabRowScreens = listOf(MainScreen, FlashScreen, DeckScreen)
+val flashCardTabRowScreens = listOf(MainScreen, FlashScreen, DeckScreen, CardScreen)

@@ -13,9 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModelProvider
-import com.example.flashcardapp.data.Card
-import com.example.flashcardapp.data.viewmodels.DeckViewModel
 
 
 @Preview
@@ -62,9 +59,9 @@ fun CardScreen() {
         }
 
 
-        TextFieldWithIcons("question", "question your e-mail") { question = it }
+        TextFieldWithIconsCard("question", "question your e-mail") { question = it }
         Spacer(modifier = Modifier.height(8.dp))
-        TextFieldWithIcons("answer", "Enter your answer") { answer = it }
+        TextFieldWithIconsCard("answer", "Enter your answer") { answer = it }
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
             /*TODO*/
@@ -80,10 +77,10 @@ fun CardScreen() {
             //val list = if (searching) searchResults else allProducts
 
             item {
-                TitleRow(head1 = "ID", head2 = "Question")
+                CardTitleRow(head1 = "ID", head2 = "Question")
             }
 
-            items(1) { product ->
+            items(1) { card ->
                 CardRow(id = 1, name = "Is this a topic and do we like it? Or is it a question?")
             }
         }
@@ -91,7 +88,7 @@ fun CardScreen() {
 }
 
 @Composable
-fun TitleRow(head1: String, head2: String) {
+fun CardTitleRow(head1: String, head2: String) {
     Row(
         modifier = Modifier
             .background(MaterialTheme.colors.primary)
@@ -122,7 +119,7 @@ fun CardRow(id: Int, name: String) {
 
 
 @Composable
-fun TextFieldWithIcons(label: String,placeholder: String, thingie :(String) -> Unit) {
+fun TextFieldWithIconsCard(label: String,placeholder: String, thingie :(String) -> Unit) {
     return OutlinedTextField(
         value = "" ,
         leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "emailIcon") },
