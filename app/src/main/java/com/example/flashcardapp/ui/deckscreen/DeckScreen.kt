@@ -2,6 +2,8 @@ package com.example.flashcardapp.ui.deckscreen
 
 
 import android.app.Application
+import android.text.TextUtils.isEmpty
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -39,27 +41,25 @@ fun DeckScreen() {
     Surface(
         modifier = Modifier.fillMaxSize(),
     ) {
-        FlashcardAppTheme {
-            // A surface container using the 'background' color from the theme
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = MaterialTheme.colors.background
-            ) {
+        // A surface container using the 'background' color from the theme
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colors.background
+        ) {
 
-                val owner = LocalViewModelStoreOwner.current
+            val owner = LocalViewModelStoreOwner.current
 
-                owner?.let {
-                    val viewModel: DeckViewModel = viewModel(
-                        it,
-                        "MainViewModel",
-                        ViewModelFactory(
-                            LocalContext.current.applicationContext
-                                    as Application
-                        )
+            owner?.let {
+                val viewModel: DeckViewModel = viewModel(
+                    it,
+                    "DeckViewModel",
+                    ViewModelFactory(
+                        LocalContext.current.applicationContext
+                                as Application
                     )
+                )
 
-                    SetUpDeckScreen(viewModel)
-                }
+                SetUpDeckScreen(viewModel)
             }
         }
     }
@@ -70,8 +70,19 @@ fun SetUpDeckScreen(viewModel: DeckViewModel) {
     var topic by remember() {
         mutableStateOf("")
     }
-    var deck = Deck(0, "null")
-    viewModel.addDeck(deck)
+    try {
+        if (viewModel.allDecks == null) {
+            var deck = Deck(0, "No topic given")
+            viewModel.addDeck(deck)
+            viewModel.deleteDeck(deck.deckId)
+        }
+    } catch (e: Exception){
+        e.printStackTrace()
+    } finally {
+        var deck = Deck(0, "No topic given")
+        viewModel.addDeck(deck)
+        viewModel.deleteDeck(deck.deckId)
+    }
 
     val allDecks by viewModel.allDecks.observeAsState(listOf())
     val searchResults by viewModel.searchResults.observeAsState(listOf())
@@ -88,7 +99,6 @@ fun SetUpDeckScreen(viewModel: DeckViewModel) {
         }
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
-            //TODO Add Topic instead of deck
             viewModel.addDeck(Deck(0, topic))
         }, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Submit")

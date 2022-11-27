@@ -9,7 +9,7 @@ import com.example.flashcardapp.data.dao.DeckDAO
 
 //TODO Schema can be set to true later
 //TODO Don't know which version of db is the current. If it fucks up try incrementing.
-@Database(entities = [Deck::class], version = 6, exportSchema = false)
+@Database(entities = [Deck::class], version = 8, exportSchema = false)
 abstract class DeckDatabase : RoomDatabase() {
     abstract fun deckDAO(): DeckDAO
 

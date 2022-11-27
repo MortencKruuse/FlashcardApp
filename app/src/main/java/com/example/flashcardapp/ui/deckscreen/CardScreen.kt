@@ -18,10 +18,6 @@ import androidx.compose.ui.unit.dp
 @Preview
 @Composable
 fun CardScreen() {
-    var cardID by remember() {
-        mutableStateOf("")
-    }
-
     var question by remember() {
         mutableStateOf("")
     }
