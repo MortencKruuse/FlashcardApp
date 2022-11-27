@@ -47,6 +47,7 @@ fun FlashcardAppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Comp
         content = content
     )
 }
+
 @Composable
 fun FlashCardDialogThemeOverlay(content: @Composable () -> Unit) {
     // Rally is always dark themed.

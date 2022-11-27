@@ -16,17 +16,17 @@ import com.example.flashcardapp.R
 
 
 @Composable
-fun Card(){
+fun Card() {
 
 }
 
 @Composable
-fun CardText(){
+fun CardText() {
 
 }
 
 @Composable
-fun DeckText(){
+fun DeckText() {
 
 }
 

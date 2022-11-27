@@ -1,39 +1,31 @@
 package com.example.flashcardapp.data
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-/*
-@Entity(tableName = "users")
-data class User (
-    @PrimaryKey val id: Int,
-    @ColumnInfo(name = "first_name") val firstName: String?,
-    @ColumnInfo(name = "last_name") val lastName: String?
-)
- */
+import androidx.annotation.NonNull
+import androidx.room.*
 
-@Entity(tableName = "decks")
-data class DeckEntity(
-    @PrimaryKey(autoGenerate = true)val id: Int,
-    @ColumnInfo(name = "deck_name") val DeckName: String,
-    @ColumnInfo(name ="card_list") var cardList: MutableList<ICard>
+@Entity(tableName = "deck_table")
+data class Deck(
+    @NonNull
+    @PrimaryKey(autoGenerate = true)
+    val deckId: Int,
+    @NonNull
+    @ColumnInfo(name = "deck_topic")
+    val deckTopic: String
 )
 
-@Entity(tableName = "other_features")
-data class Feature(
-    @PrimaryKey val id: Int,    //set ID to corresponding feature?
-    @ColumnInfo(name = "feature_enable") val status: Boolean, //check to see if it should be active
-    //...
-    // FeatureEntity placeholder
+@Entity(tableName = "card_table")
+data class Card(
+    @NonNull
+    @PrimaryKey(autoGenerate = true)
+    val cardId: Int,
+    @NonNull
+    @ColumnInfo(name = "card_topic")
+    val cardTopic: String,
+    @NonNull
+    @ColumnInfo(name = "card_question")
+    val question: String,
+    @NonNull
+    @ColumnInfo(name = "card_answer")
+    val answer: String
 )
-/*
-data class Deck(override var id: String, override var topic: String) : IDeck {
-    override var cardList: MutableList<ICard>
-        get() {
-            return cardList
-        }
-        set(cards) {
-            cardList = cards
-        }
 
-}*/
