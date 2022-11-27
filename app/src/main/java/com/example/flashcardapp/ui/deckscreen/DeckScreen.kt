@@ -82,7 +82,6 @@ fun SetUpDeckScreen(viewModel: DeckViewModel) {
 
     val allDecks by viewModel.allDecks.observeAsState(listOf())
     val searchResults by viewModel.searchResults.observeAsState(listOf())
-
     Column(
         Modifier
             .fillMaxSize()
