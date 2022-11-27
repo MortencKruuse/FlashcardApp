@@ -63,7 +63,7 @@ class FlashCardActivity : ComponentActivity() {
 fun ScreenSetup(viewModel: FlashcardViewModel) {
 
     val allDecks by viewModel.allDecks.observeAsState(listOf())
-    val searchResults by viewModel.searchResults.observeAsState(listOf())
+    val searchResults by viewModel.deckSearchResults.observeAsState(listOf())
 
     MainScreen(
         allDecks = allDecks,

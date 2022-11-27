@@ -6,18 +6,28 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class FlashcardViewModel(application: Application) : ViewModel() {
-    val allDecks: LiveData<List<Deck>>
     private val repository: FlashcardRepository
-    val searchResults: MutableLiveData<List<Deck>>
+    val allDecks: LiveData<List<Deck>>
+    val deckSearchResults: MutableLiveData<List<Deck>>
+    val allCards: LiveData<List<Card>>
+    val cardSearchResults: MutableLiveData<List<Card>>
+
 
     init {
         val deckDb = FlashcardDatabase.getDatabase(application)
-        val deckDao = deckDb.deckDAO()
+        val deckDao = deckDb.dao()
         repository = FlashcardRepository(deckDao)
 
-        allDecks = repository.readAllData
-        searchResults = repository.searchResults
+        allDecks = repository.readAllDeckData
+        deckSearchResults = repository.deckSearchResults
+        allCards = repository.readAllCardData
+        cardSearchResults = repository.cardSearchResults
+
     }
+    fun addCard(card: Card){
+        repository.addCard(card)
+    }
+
     fun addDeck(deck: Deck) {
         repository.addDeck(deck)
     }

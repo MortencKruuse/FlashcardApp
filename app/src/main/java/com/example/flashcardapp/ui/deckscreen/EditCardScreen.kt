@@ -74,7 +74,7 @@ fun EditCardScreen() {
                 .fillMaxWidth()
                 .padding(10.dp)
         ) {
-            //val list = if (searching) searchResults else allProducts
+            //val list = if (searching) deckSearchResults else allProducts
 
             item {
                 EditCardTitleRow(head1 = "Question", head2 = "Answer")

@@ -4,15 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 
 
-@Dao
-internal abstract class BaseDao<T> {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insert(entity: T)
-    @Update
-    abstract fun update(entity: T)
-    @Delete
-    abstract fun delete(entity: T)
-}
 
 @Dao
 interface DAO {
@@ -30,6 +21,14 @@ interface DAO {
 
     @Query("SELECT * FROM deck_table ORDER BY deckId DESC")
     fun readAllDataFromDeck(): LiveData<List<Deck>>
+
+
+    // CARDS
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun addCard(card: Card)
+
+    @Query("SELECT * FROM card_table ORDER BY cardId DESC")
+    fun readAllDataFromCard(): LiveData<List<Card>>
 
 
 }

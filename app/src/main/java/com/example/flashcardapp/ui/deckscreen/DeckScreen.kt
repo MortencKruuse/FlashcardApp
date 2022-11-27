@@ -69,7 +69,7 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel) {
     }
 
     val allDecks by viewModel.allDecks.observeAsState(listOf())
-    val searchResults by viewModel.searchResults.observeAsState(listOf())
+    val searchResults by viewModel.deckSearchResults.observeAsState(listOf())
     Column(
         Modifier
             .fillMaxSize()
@@ -92,7 +92,7 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel) {
                 .fillMaxWidth()
                 .padding(10.dp)
         ) {
-            //val list = if (searching) searchResults else allProducts
+            //val list = if (searching) deckSearchResults else allProducts
 
             item {
                 DeckTitleRow(head1 = "ID", head2 = "Deck Topic")

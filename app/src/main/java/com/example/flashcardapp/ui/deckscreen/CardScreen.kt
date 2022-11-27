@@ -76,7 +76,7 @@ fun SetUpCardScreen(viewModel: DeckScreen){
                 .fillMaxWidth()
                 .padding(10.dp)
         ) {
-            //val list = if (searching) searchResults else allProducts
+            //val list = if (searching) deckSearchResults else allProducts
 
             item {
                 CardTitleRow(head1 = "ID", head2 = "Question")

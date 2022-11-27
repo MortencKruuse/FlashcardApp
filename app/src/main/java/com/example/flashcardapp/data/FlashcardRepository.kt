@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
 
 class FlashcardRepository(private val DAO: DAO) {
-    val readAllData: LiveData<List<Deck>> = DAO.readAllDataFromDeck()
-    val searchResults = MutableLiveData<List<Deck>>()
+    val readAllDeckData: LiveData<List<Deck>> = DAO.readAllDataFromDeck()
+    val deckSearchResults = MutableLiveData<List<Deck>>()
+    val readAllCardData: LiveData<List<Card>> = DAO.readAllDataFromCard()
+    val cardSearchResults = MutableLiveData<List<Card>>()
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
@@ -14,6 +16,12 @@ class FlashcardRepository(private val DAO: DAO) {
     fun addDeck (deck: Deck) {
         coroutineScope.launch(Dispatchers.IO) {
             DAO.addDeck(deck)
+        }
+    }
+
+    fun addCard(card: Card) {
+        coroutineScope.launch(Dispatchers.IO) {
+            DAO.addCard(card)
         }
     }
 
@@ -25,7 +33,7 @@ class FlashcardRepository(private val DAO: DAO) {
 
     fun findDeck(id: Int) {
         coroutineScope.launch(Dispatchers.Main) {
-            searchResults.value = asyncFind(id).await()
+            deckSearchResults.value = asyncFind(id).await()
         }
     }
 
