@@ -2,6 +2,7 @@ package com.example.flashcardapp.ui.deckscreen
 
 
 import android.app.Application
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -68,6 +69,10 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel) {
 
     val allDecks by viewModel.allDecks.observeAsState(listOf())
     val deckSearchResults by viewModel.deckSearchResults.observeAsState(listOf())
+
+    // Fetching the local context for using the Toast
+    val context = LocalContext.current
+
     Column(
         Modifier
             .fillMaxSize()
@@ -80,7 +85,8 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel) {
         }
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
-            viewModel.addDeck(Deck(0, topic))
+            //viewModel.addDeck(Deck(0, topic))
+            Toast.makeText(context, viewModel.addDeck(Deck(0, topic)),Toast.LENGTH_LONG).show()
         }, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Submit")
         }
