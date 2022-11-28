@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.flashcardapp.data.validators.CardValidator
+import com.example.flashcardapp.data.validators.DeckValidator
 
 class FlashcardViewModel(application: Application) : ViewModel() {
     private val repository: FlashcardRepository
@@ -24,13 +26,18 @@ class FlashcardViewModel(application: Application) : ViewModel() {
         cardSearchResults = repository.cardSearchResults
 
     }
-
-    fun addCard(card: Card) {
-        repository.addCard(card)
+    fun addDeck(deck: Deck) : String{
+        if (DeckValidator().ValidateDeck(deck).length < 1){
+            repository.addDeck(deck)
+        }
+        return DeckValidator().ValidateDeck(deck)
     }
 
-    fun addDeck(deck: Deck) {
-        repository.addDeck(deck)
+    fun addCard(card: Card) : String{
+        if (CardValidator().ValidateCard(card).length < 1){
+            repository.addCard(card)
+        }
+        return CardValidator().ValidateCard(card)
     }
 
     fun findDeck(deck: Deck) {

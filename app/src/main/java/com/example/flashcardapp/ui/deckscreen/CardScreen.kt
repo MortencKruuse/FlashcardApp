@@ -1,6 +1,7 @@
 package com.example.flashcardapp.ui.deckscreen
 
 import android.app.Application
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -64,7 +65,7 @@ fun SetUpCardScreen(viewModel: FlashcardViewModel) {
         mutableStateOf("")
     }
     try {
-        if (viewModel.allCards != null) {
+        if (viewModel.allCards == null) {
             var card = Card(0, "Egg White", "What is an egg white not?", "Yellow.")
             viewModel.addCard(card)
             viewModel.deleteCard(card.cardId)
@@ -75,6 +76,9 @@ fun SetUpCardScreen(viewModel: FlashcardViewModel) {
 
     val allCards by viewModel.allCards.observeAsState(listOf())
     val cardSearchResults by viewModel.cardSearchResults.observeAsState(listOf())
+
+    // Fetching the local context for using the Toast
+    val context = LocalContext.current
 
     Column(
         Modifier
@@ -105,7 +109,9 @@ fun SetUpCardScreen(viewModel: FlashcardViewModel) {
         TextFieldWithIconsCard("answer", "Enter your answer") { answer = it }
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
-            viewModel.addCard(Card(0, "Egg White", question, answer))
+            //TODO addCardTopic from decktopic
+            //viewModel.addCard(Card(0, "Egg White", question, answer))
+            Toast.makeText(context, viewModel.addCard(Card(0, "Egg White", question, answer)), Toast.LENGTH_LONG).show()
         }, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Submit")
         }
