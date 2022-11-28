@@ -37,6 +37,10 @@ class FlashcardViewModel(application: Application) : ViewModel() {
         repository.findDeck(deck.deckId)
     }
 
+    fun findCard(card: Card){
+        repository.findCard(card.cardId)
+    }
+
     fun deleteDeck(deckId: Int) {
         repository.deleteDeck(deckId)
     }

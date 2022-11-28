@@ -25,26 +25,37 @@ class FlashcardRepository(private val DAO: DAO) {
         }
     }
 
-    fun deleteCard(cardId: Int) {
-        coroutineScope.launch(Dispatchers.IO) {
-            DAO.deleteCard(cardId)
-        }
-    }
-
     fun deleteDeck(deckId: Int) {
         coroutineScope.launch(Dispatchers.IO) {
             DAO.deleteDeck(deckId)
         }
     }
 
-    fun findDeck(id: Int) {
-        coroutineScope.launch(Dispatchers.Main) {
-            deckSearchResults.value = asyncFind(id).await()
+    fun deleteCard(cardId: Int) {
+        coroutineScope.launch(Dispatchers.IO) {
+            DAO.deleteCard(cardId)
         }
     }
 
-    private fun asyncFind(id: Int): Deferred<List<Deck>?> =
+    fun findDeck(id: Int) {
+        coroutineScope.launch(Dispatchers.Main) {
+            deckSearchResults.value = asyncFindDeck(id).await()
+        }
+    }
+
+    fun findCard(cardId: Int){
+        coroutineScope.launch(Dispatchers.Main){
+            cardSearchResults.value = asyncFindCard(cardId).await()
+        }
+    }
+
+    private fun asyncFindDeck(deckId: Int): Deferred<List<Deck>?> =
         coroutineScope.async(Dispatchers.IO) {
-            return@async DAO.findDeck(id)
+            return@async DAO.findDeck(deckId)
+        }
+
+    private fun asyncFindCard(cardId: Int): Deferred<List<Card>?> =
+        coroutineScope.async(Dispatchers.IO) {
+            return@async DAO.findCard(cardId)
         }
 }
