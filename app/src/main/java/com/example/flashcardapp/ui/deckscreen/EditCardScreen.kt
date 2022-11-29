@@ -13,7 +13,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-
+import com.example.flashcardapp.ui.components.Background
+import com.example.flashcardapp.ui.components.BackgroundBox
 
 
 @Composable
@@ -33,7 +34,8 @@ fun EditCardScreen(cardID : Int?) {
     var topic by remember() {
         mutableStateOf("")
     }
-
+    Background(alpha = 1f)
+    BackgroundBox()
     Column(
         Modifier
             .fillMaxSize()

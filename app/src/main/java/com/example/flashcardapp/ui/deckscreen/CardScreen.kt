@@ -19,6 +19,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.flashcardapp.ui.components.Background
+import com.example.flashcardapp.ui.components.BackgroundBox
 
 import com.example.flashcardapp.ui.mainscreen.MainScreen
 
@@ -37,6 +39,8 @@ fun CardScreen(deckID: Int?, navController: NavController) {
     var topic by remember() {
         mutableStateOf("")
     }
+    Background(alpha = 1f)
+    BackgroundBox()
 
 
     Column(
