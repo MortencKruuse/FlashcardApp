@@ -99,7 +99,7 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController)
 
 
             items(list) { deck ->
-                DeckRow(id = deck.deckId, name = deck.deckTopic, modifier = Modifier, navController)
+                DeckRow(deckId = deck.deckId, deckTopic = deck.deckTopic, modifier = Modifier, navController = navController)
             }
         }
     }
@@ -128,18 +128,18 @@ fun DeckTitleRow(head1: String, head2: String) {
 
 
 @Composable
-fun DeckRow(id: Int, name: String, modifier: Modifier, navController: NavController) {
+fun DeckRow(deckId: Int, deckTopic: String, modifier: Modifier, navController: NavController) {
     Row(
         modifier
             .fillMaxWidth()
             .padding(5.dp)
-            .clickable { navController.navigate("cardScreen/$id") },
+            .clickable { navController.navigate("cardScreen/$deckId/$deckTopic") },
     ) {
         Text(
-            id.toString(), modifier = Modifier
+            deckId.toString(), modifier = Modifier
                 .weight(0.1f)
         )
-        Text(name, modifier = Modifier.weight(0.5f))
+        Text(deckTopic, modifier = Modifier.weight(0.5f))
     }
 }
 

@@ -28,7 +28,7 @@ import com.example.flashcardapp.ui.components.BackgroundBox
 
 
 @Composable
-fun CardScreen(deckId: Int?, navController: NavController) {
+fun CardScreen(deckId: Int?, navController: NavController, deckTopic: String?) {
     Surface(
         modifier = Modifier.fillMaxSize(),
     ) {
@@ -48,14 +48,19 @@ fun CardScreen(deckId: Int?, navController: NavController) {
                                 as Application
                     )
                 )
-                SetUpCardScreen(viewModel, navController, deckId!!)
+                SetUpCardScreen(viewModel, navController, deckTopic!!, deckId!!)
             }
         }
     }
 }
 
 @Composable
-fun SetUpCardScreen(viewModel: FlashcardViewModel, navController: NavController, deckId: Int) {
+fun SetUpCardScreen(
+    viewModel: FlashcardViewModel,
+    navController: NavController,
+    deckTopic: String,
+    deckId: Int
+) {
 
     var question by remember {
         mutableStateOf("")
@@ -63,7 +68,9 @@ fun SetUpCardScreen(viewModel: FlashcardViewModel, navController: NavController,
     var answer by remember {
         mutableStateOf("")
     }
-    var topic = deckId.toString()
+    var topic = deckTopic.toString()
+
+    var deckId = deckId.toString()
     /*
     var topic by remember {
         mutableStateOf("")
@@ -110,7 +117,7 @@ fun SetUpCardScreen(viewModel: FlashcardViewModel, navController: NavController,
                     .fillMaxWidth()
                     .padding(2.dp), horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("DeckID: $deckId", textAlign = TextAlign.Center)
+                Text("DeckID: $deckTopic", textAlign = TextAlign.Center)
             }
         }
 
@@ -128,7 +135,7 @@ fun SetUpCardScreen(viewModel: FlashcardViewModel, navController: NavController,
                 context, viewModel.addCard(
                     com.example.flashcardapp.data.Card(
                         0,
-                        "DeckId/?Topic?: $deckId ",
+                        "$deckTopic ",
                         question,
                         answer
                     )
@@ -151,7 +158,7 @@ fun SetUpCardScreen(viewModel: FlashcardViewModel, navController: NavController,
             val list = allCards
 
             items(list) { card ->
-                CardRow(deckId = deckId, card.question, navController)
+                CardRow(cardId = card.cardId, card.question, navController)
             }
         }
     }
@@ -179,17 +186,14 @@ fun CardTitleRow(head1: String, head2: String) {
 }
 
 @Composable
-fun CardRow(deckId: Int, question: String, navController: NavController) {
+fun CardRow(cardId: Int, question: String, navController: NavController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(5.dp)
-            .clickable { navController.navigate("editCardScreen/$deckId") }
+            .clickable { navController.navigate("editCardScreen/$cardId") }
     ) {
-        Text(
-            deckId.toString(), modifier = Modifier
-                .weight(0.1f)
-        )
+        Text(cardId.toString(), modifier = Modifier.weight(0.1f))
         Text(question, modifier = Modifier.weight(0.5f))
     }
 }

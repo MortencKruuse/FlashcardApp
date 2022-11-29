@@ -40,16 +40,24 @@ fun MyAppNavHost(
             )
         }
 
-        composable("cardScreen/{deckID}", arguments = listOf(navArgument("deckID") {
-            type = NavType.IntType
-        })) { CardScreen(it.arguments?.getInt("deckID"), navController) }
-
+        composable(
+            "cardScreen/{deckId}/{deckTopic}",
+            arguments = listOf(navArgument("deckId") { type = NavType.IntType },
+                navArgument("deckTopic") { type = NavType.StringType })
+        ) {
+            CardScreen(
+                it.arguments?.getInt("deckId"),
+                navController,
+                it.arguments?.getString("deckTopic")
+            )
+        }
         composable("flashScreen") { FlashScreen() }
 
-        composable("editCardScreen/{cardID}", arguments = listOf(navArgument("cardID") {
-            type = NavType.IntType
-        })) {
-            EditCardScreen(it.arguments?.getInt("cardD"))
+        composable(
+            "editCardScreen/{cardID}",
+            arguments = listOf(navArgument("cardID") { type = NavType.IntType })
+        ) {
+            EditCardScreen(it.arguments?.getInt("cardID"))
         }
     }
 }
