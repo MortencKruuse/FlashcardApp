@@ -2,6 +2,9 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    // Add the Google services Gradle plugin
+    id 'com.google.gms.google-services'
+
 }
 
 android {
@@ -107,9 +110,21 @@ dependencies {
     // optional - Paging 3 Integration
     //implementation("androidx.room:room-paging:$room_version")
 
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach{
-        kotlinOptions{
-            freeCompilerArgs +=["-Xjvm-default=all",]
+    //Firebase database
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:31.1.0')
+
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    // Declare the dependency for the Cloud Firestore library
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+
+    // Add the dependencies for any other desired Firebase products
+    // https://firebase.google.com/docs/android/setup#available-libraries
+
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+        kotlinOptions {
+            freeCompilerArgs += ["-Xjvm-default=all",]
         }
     }
 }

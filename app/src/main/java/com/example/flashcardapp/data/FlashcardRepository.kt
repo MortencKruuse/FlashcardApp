@@ -43,8 +43,8 @@ class FlashcardRepository(private val DAO: DAO) {
         }
     }
 
-    fun findCard(cardId: Int){
-        coroutineScope.launch(Dispatchers.Main){
+    fun findCard(cardId: Int) {
+        coroutineScope.launch(Dispatchers.Main) {
             cardSearchResults.value = asyncFindCard(cardId).await()
         }
     }
