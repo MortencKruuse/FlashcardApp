@@ -6,14 +6,13 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
-import com.example.flashcardapp.ui.FlashCardDestination
 import androidx.compose.material.Surface
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.flashcardapp.R
-
+/*
 @Composable
 fun FlashCardBackgroundImage(
     allScreens: List<FlashCardDestination>,
@@ -38,3 +37,4 @@ fun FlashCardBackgroundImage(
 }
 
 
+*/

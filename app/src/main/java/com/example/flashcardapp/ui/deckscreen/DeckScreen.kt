@@ -27,17 +27,27 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.flashcardapp.data.Deck
 import com.example.flashcardapp.data.db.DeckDatabase
 import com.example.flashcardapp.data.repositories.DeckRepository
 import com.example.flashcardapp.data.viewmodels.DeckViewModel
 import com.example.flashcardapp.data.viewmodels.ViewModelFactory
-import com.example.flashcardapp.ui.ScreenSetup
+
 import com.example.flashcardapp.ui.mainscreen.MainScreen
 import com.example.flashcardapp.ui.theme.FlashcardAppTheme
 
 @Composable
-fun DeckScreen() {
+fun DeckScreen(
+    //onNavigateToCard: () -> Unit
+    navController: NavController
+) {
+
+
     Surface(
         modifier = Modifier.fillMaxSize(),
     ) {
@@ -78,10 +88,6 @@ fun SetUpDeckScreen(viewModel: DeckViewModel) {
         }
     } catch (e: Exception){
         e.printStackTrace()
-    } finally {
-        var deck = Deck(0, "No topic given")
-        viewModel.addDeck(deck)
-        viewModel.deleteDeck(deck.deckId)
     }
 
     val allDecks by viewModel.allDecks.observeAsState(listOf())
@@ -145,17 +151,14 @@ fun DeckTitleRow(head1: String, head2: String) {
     }
 }
 
-val screen: @Composable () -> Unit = { MainScreen() }
 
 @Composable
-fun DeckRow(id: Int, name: String, modifier: Modifier) {
+fun DeckRow(id: Int, name: String, modifier: Modifier,navController: NavController) {
     Row(
         modifier
             .fillMaxWidth()
             .padding(5.dp)
-            .clickable(onClick = {
-                screen
-            }),
+            .clickable { navController.navigate("cardScreen/$id") },
     ) {
         Text(
             id.toString(), modifier = Modifier

@@ -13,11 +13,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+
+import com.example.flashcardapp.ui.mainscreen.MainScreen
 
 
-@Preview
+
 @Composable
-fun CardScreen() {
+fun CardScreen(deckID: Int?) {
     var question by remember() {
         mutableStateOf("")
     }
@@ -29,6 +35,7 @@ fun CardScreen() {
     var topic by remember() {
         mutableStateOf("")
     }
+
 
     Column(
         Modifier
@@ -60,7 +67,11 @@ fun CardScreen() {
         TextFieldWithIconsCard("answer", "Enter your answer") { answer = it }
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
-            /*TODO*/
+                navController.navigate("editcardscreen"){
+                    popUpTo(navController.currentBackStackEntry?.destination?.route ?: return@navigate){
+                        inclusive = true
+                    }
+                }
         }, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Submit")
         }
