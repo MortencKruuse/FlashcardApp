@@ -21,8 +21,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.flashcardapp.data.Deck
-import com.example.flashcardapp.data.viewmodels.DeckViewModel
-import com.example.flashcardapp.data.viewmodels.ViewModelFactory
+import com.example.flashcardapp.data.FlashcardViewModel
+import com.example.flashcardapp.data.ViewModelFactory
 import com.example.flashcardapp.ui.mainscreen.MainScreen
 
 
@@ -44,7 +44,7 @@ class FlashCardActivity : ComponentActivity() {
                         val owner = LocalViewModelStoreOwner.current
 
                         owner?.let {
-                            val viewModel: DeckViewModel = viewModel(
+                            val viewModel: FlashcardViewModel = viewModel(
                                 it,
                                 "MainViewModel",
                                 ViewModelFactory(
@@ -64,10 +64,10 @@ class FlashCardActivity : ComponentActivity() {
 }
 
 @Composable
-fun ScreenSetup(viewModel: DeckViewModel) {
+fun ScreenSetup(viewModel: FlashcardViewModel) {
 
     val allDecks by viewModel.allDecks.observeAsState(listOf())
-    val searchResults by viewModel.searchResults.observeAsState(listOf())
+    val searchResults by viewModel.deckSearchResults.observeAsState(listOf())
 
 
     MainSetup(
@@ -81,7 +81,7 @@ fun ScreenSetup(viewModel: DeckViewModel) {
 fun MainSetup(
     allDecks: List<Deck>,
     searchResults: List<Deck>,
-    viewModel: DeckViewModel
+    viewModel: FlashcardViewModel
 ) {
 
 }

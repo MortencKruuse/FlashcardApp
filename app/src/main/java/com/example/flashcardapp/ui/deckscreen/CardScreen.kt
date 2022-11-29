@@ -1,44 +1,94 @@
 package com.example.flashcardapp.ui.deckscreen
 
+import android.app.Application
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import com.example.flashcardapp.data.FlashcardViewModel
+import com.example.flashcardapp.data.ViewModelFactory
 import com.example.flashcardapp.ui.components.Background
 import com.example.flashcardapp.ui.components.BackgroundBox
 
-import com.example.flashcardapp.ui.mainscreen.MainScreen
-
-
 
 @Composable
-fun CardScreen(deckID: Int?, navController: NavController) {
-    var question by remember() {
+fun CardScreen(deckId: Int?, navController: NavController) {
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        // A surface container using the 'background' color from the theme
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colors.background
+        ) {
+            val owner = LocalViewModelStoreOwner.current
+
+            owner?.let {
+                val viewModel: FlashcardViewModel = viewModel(
+                    it,
+                    "FlashcardViewModel",
+                    ViewModelFactory(
+                        LocalContext.current.applicationContext
+                                as Application
+                    )
+                )
+                SetUpCardScreen(viewModel, navController, deckId!!)
+            }
+        }
+    }
+}
+
+@Composable
+fun SetUpCardScreen(viewModel: FlashcardViewModel, navController: NavController, deckId: Int) {
+
+    var question by remember {
         mutableStateOf("")
+    }
+    var answer by remember {
+        mutableStateOf("")
+    }
+    var topic = deckId.toString()
+    /*
+    var topic by remember {
+        mutableStateOf("")
+    }*/
+    try {
+        if (viewModel.allCards == null) {
+            var card = com.example.flashcardapp.data.Card(
+                0,
+                "Egg White",
+                "What is an egg white not?",
+                "Yellow."
+            )
+            viewModel.addCard(card)
+            viewModel.deleteCard(card.cardId)
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
     }
 
-    var answer by remember() {
-        mutableStateOf("")
-    }
+    val allCards by viewModel.allCards.observeAsState(listOf())
+    val cardSearchResults by viewModel.cardSearchResults.observeAsState(listOf())
 
-    var topic by remember() {
-        mutableStateOf("")
-    }
+    // Fetching the local context for using the Toast
+    val context = LocalContext.current
+
     Background(alpha = 1f)
     BackgroundBox()
 
@@ -60,19 +110,28 @@ fun CardScreen(deckID: Int?, navController: NavController) {
                     .fillMaxWidth()
                     .padding(2.dp), horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
-                //TODO change to take input from viewModel
-                //topic = it
-                Text("$deckID", textAlign = TextAlign.Center)
+                Text("DeckID: $deckId", textAlign = TextAlign.Center)
             }
         }
 
 
-        TextFieldWithIconsCard("question", "question your e-mail") { question = it }
+        TextFieldWithIconsCard("question", "question your e-mail") {
+            question = it
+        }
         Spacer(modifier = Modifier.height(8.dp))
-        TextFieldWithIconsCard("answer", "Enter your answer") { answer = it }
+        TextFieldWithIconsCard("answer", "Enter your answer") {
+            answer = it
+        }
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
+            Toast.makeText(context, viewModel.addCard(
+                com.example.flashcardapp.data.Card(
+                    0,
+                    "DeckId/?Topic?: $deckId ",
+                    question,
+                    answer
+                )
+            ), Toast.LENGTH_LONG).show()
         }, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Submit")
         }
@@ -87,9 +146,10 @@ fun CardScreen(deckID: Int?, navController: NavController) {
             item {
                 CardTitleRow(head1 = "ID", head2 = "Question")
             }
+            val list = allCards
 
-            items(1) { card ->
-                CardRow(id = 1, name = "Is this a topic and do we like it? Or is it a question?",navController)
+            items(list) { card ->
+                CardRow(deckId = deckId, card.question, navController)
             }
         }
     }
@@ -103,34 +163,40 @@ fun CardTitleRow(head1: String, head2: String) {
             .fillMaxWidth()
             .padding(5.dp)
     ) {
-        Text(head1, color = Color.White,
+        Text(
+            head1, color = Color.White,
             modifier = Modifier
-                .weight(0.1f))
-        Text(head2, color = Color.White,
+                .weight(0.1f)
+        )
+        Text(
+            head2, color = Color.White,
             modifier = Modifier
-                .weight(0.5f))
+                .weight(0.5f)
+        )
     }
 }
 
 @Composable
-fun CardRow(id: Int, name: String, navController: NavController) {
+fun CardRow(deckId: Int, question: String, navController: NavController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(5.dp)
-            .clickable { navController.navigate("editCardScreen/$id") }
+            .clickable { navController.navigate("editCardScreen/$deckId") }
     ) {
-        Text(id.toString(), modifier = Modifier
-            .weight(0.1f))
-        Text(name, modifier = Modifier.weight(0.5f))
+        Text(
+            deckId.toString(), modifier = Modifier
+                .weight(0.1f)
+        )
+        Text(question, modifier = Modifier.weight(0.5f))
     }
 }
 
 
 @Composable
-fun TextFieldWithIconsCard(label: String,placeholder: String, thingie :(String) -> Unit) {
+fun TextFieldWithIconsCard(label: String, placeholder: String, thingie: (String) -> Unit) {
     return OutlinedTextField(
-        value = "" ,
+        value = "",
         leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "emailIcon") },
         onValueChange = thingie,
         label = { Text(text = label) },

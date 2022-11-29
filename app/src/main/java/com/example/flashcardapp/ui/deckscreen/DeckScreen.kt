@@ -33,10 +33,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.flashcardapp.data.Deck
-import com.example.flashcardapp.data.db.DeckDatabase
-import com.example.flashcardapp.data.repositories.DeckRepository
-import com.example.flashcardapp.data.viewmodels.DeckViewModel
-import com.example.flashcardapp.data.viewmodels.ViewModelFactory
+import com.example.flashcardapp.data.FlashcardDatabase
+import com.example.flashcardapp.data.FlashcardRepository
+import com.example.flashcardapp.data.FlashcardViewModel
+import com.example.flashcardapp.data.ViewModelFactory
 import com.example.flashcardapp.ui.components.Background
 import com.example.flashcardapp.ui.components.BackgroundBox
 
@@ -54,7 +54,7 @@ fun DeckScreen(
             val owner = LocalViewModelStoreOwner.current
 
             owner?.let {
-                val viewModel: DeckViewModel = viewModel(
+                val viewModel: FlashcardViewModel = viewModel(
                     it,
                     "DeckViewModel",
                     ViewModelFactory(
@@ -68,7 +68,7 @@ fun DeckScreen(
         }
 
 @Composable
-fun SetUpDeckScreen(viewModel: DeckViewModel, navController: NavController) {
+fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController) {
     var topic by remember() {
         mutableStateOf("")
     }
@@ -83,7 +83,7 @@ fun SetUpDeckScreen(viewModel: DeckViewModel, navController: NavController) {
     }
 
     val allDecks by viewModel.allDecks.observeAsState(listOf())
-    val searchResults by viewModel.searchResults.observeAsState(listOf())
+    val searchResults by viewModel.deckSearchResults.observeAsState(listOf())
 
     Column(
         Modifier

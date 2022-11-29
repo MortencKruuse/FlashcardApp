@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 //TODO Schema can be set to true later
 //TODO Don't know which version of db is the current. If it fucks up try incrementing.
-@Database(entities = [Deck::class, Card::class], version = 9, exportSchema = false)
+@Database(entities = [Deck::class, Card::class], version = 11, exportSchema = false)
 abstract class FlashcardDatabase : RoomDatabase() {
     abstract fun dao(): DAO
 
