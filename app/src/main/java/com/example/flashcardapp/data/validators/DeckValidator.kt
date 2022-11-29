@@ -1,9 +1,8 @@
 package com.example.flashcardapp.data.validators
 
 import com.example.flashcardapp.data.Deck
-import com.example.flashcardapp.data.FlashcardViewModel
 
-class DeckValidator() {
+class DeckValidator {
     fun ValidateDeck(deck: Deck): String {
 
         if (deck.deckTopic.length < 1) {

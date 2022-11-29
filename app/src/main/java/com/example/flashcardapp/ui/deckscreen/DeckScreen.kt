@@ -2,11 +2,8 @@ package com.example.flashcardapp.ui.deckscreen
 
 
 import android.app.Application
-import android.text.TextUtils.isEmpty
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,30 +15,16 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.example.flashcardapp.data.Deck
-import com.example.flashcardapp.data.FlashcardDatabase
-import com.example.flashcardapp.data.FlashcardRepository
 import com.example.flashcardapp.data.FlashcardViewModel
 import com.example.flashcardapp.data.ViewModelFactory
 import com.example.flashcardapp.ui.components.Background
 import com.example.flashcardapp.ui.components.BackgroundBox
-
-import com.example.flashcardapp.ui.mainscreen.MainScreen
-import com.example.flashcardapp.ui.theme.FlashcardAppTheme
 
 @Composable
 fun DeckScreen(
@@ -51,25 +34,25 @@ fun DeckScreen(
     Background(1f)
     BackgroundBox()
 
-            val owner = LocalViewModelStoreOwner.current
+    val owner = LocalViewModelStoreOwner.current
 
-            owner?.let {
-                val viewModel: FlashcardViewModel = viewModel(
-                    it,
-                    "DeckViewModel",
-                    ViewModelFactory(
-                        LocalContext.current.applicationContext
-                                as Application
-                    )
-                )
+    owner?.let {
+        val viewModel: FlashcardViewModel = viewModel(
+            it,
+            "DeckViewModel",
+            ViewModelFactory(
+                LocalContext.current.applicationContext
+                        as Application
+            )
+        )
 
-                SetUpDeckScreen(viewModel, navController)
-            }
-        }
+        SetUpDeckScreen(viewModel, navController)
+    }
+}
 
 @Composable
 fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController) {
-    var topic by remember() {
+    var topic by remember {
         mutableStateOf("")
     }
     try {
@@ -78,7 +61,7 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController)
             viewModel.addDeck(deck)
             viewModel.deleteDeck(deck.deckId)
         }
-    } catch (e: Exception){
+    } catch (e: Exception) {
         e.printStackTrace()
     }
 
@@ -145,7 +128,7 @@ fun DeckTitleRow(head1: String, head2: String) {
 
 
 @Composable
-fun DeckRow(id: Int, name: String, modifier: Modifier,navController: NavController) {
+fun DeckRow(id: Int, name: String, modifier: Modifier, navController: NavController) {
     Row(
         modifier
             .fillMaxWidth()

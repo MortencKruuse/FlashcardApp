@@ -26,15 +26,16 @@ class FlashcardViewModel(application: Application) : ViewModel() {
         cardSearchResults = repository.cardSearchResults
 
     }
-    fun addDeck(deck: Deck) : String{
-        if (DeckValidator().ValidateDeck(deck).length < 1){
+
+    fun addDeck(deck: Deck): String {
+        if (DeckValidator().ValidateDeck(deck).length < 1) {
             repository.addDeck(deck)
         }
         return DeckValidator().ValidateDeck(deck)
     }
 
-    fun addCard(card: Card) : String{
-        if (CardValidator().ValidateCard(card).length < 1){
+    fun addCard(card: Card): String {
+        if (CardValidator().ValidateCard(card).length < 1) {
             repository.addCard(card)
         }
         return CardValidator().ValidateCard(card)
@@ -44,7 +45,7 @@ class FlashcardViewModel(application: Application) : ViewModel() {
         repository.findDeck(deck.deckId)
     }
 
-    fun findCard(card: Card){
+    fun findCard(card: Card) {
         repository.findCard(card.cardId)
     }
 

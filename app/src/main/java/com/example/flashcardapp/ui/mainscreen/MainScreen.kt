@@ -1,17 +1,16 @@
 package com.example.flashcardapp.ui.mainscreen
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.flashcardapp.ui.components.Background
 import com.example.flashcardapp.ui.components.BackgroundBox
 
@@ -36,20 +35,14 @@ fun MainScreen(
 
 
 @Composable
-fun MainMenu(onNavigateToDeck: () -> Unit,onNavigateToFlash: () -> Unit){
-    Button(onClick =  onNavigateToDeck, ) {
+fun MainMenu(onNavigateToDeck: () -> Unit, onNavigateToFlash: () -> Unit) {
+    Button(onClick = onNavigateToDeck) {
         Text(text = "Go to deck screen")
     }
     Button(onClick = onNavigateToFlash) {
 
     }
 }
-
-
-
-
-
-
 
 
 private val RallyDefaultPadding = 12.dp

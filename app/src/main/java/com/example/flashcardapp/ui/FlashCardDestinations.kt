@@ -1,18 +1,6 @@
 package com.example.flashcardapp.ui
 
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccessAlarm
-import androidx.compose.material.icons.filled.AccountBalance
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.PieChart
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.vector.ImageVector
-import com.example.flashcardapp.ui.flashscreen.FlashScreen
-import com.example.flashcardapp.ui.mainscreen.MainScreen
-import com.example.flashcardapp.ui.deckscreen.CardScreen
-import com.example.flashcardapp.ui.deckscreen.DeckScreen
-import com.example.flashcardapp.ui.deckscreen.EditCardScreen
 /*
 interface FlashCardDestination {
     val icon: ImageVector

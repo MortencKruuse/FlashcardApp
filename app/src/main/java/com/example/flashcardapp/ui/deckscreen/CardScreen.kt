@@ -124,14 +124,16 @@ fun SetUpCardScreen(viewModel: FlashcardViewModel, navController: NavController,
         }
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
-            Toast.makeText(context, viewModel.addCard(
-                com.example.flashcardapp.data.Card(
-                    0,
-                    "DeckId/?Topic?: $deckId ",
-                    question,
-                    answer
-                )
-            ), Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                context, viewModel.addCard(
+                    com.example.flashcardapp.data.Card(
+                        0,
+                        "DeckId/?Topic?: $deckId ",
+                        question,
+                        answer
+                    )
+                ), Toast.LENGTH_LONG
+            ).show()
         }, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Submit")
         }
