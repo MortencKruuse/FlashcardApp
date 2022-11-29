@@ -2,9 +2,11 @@ package com.example.flashcardapp.ui.deckscreen
 
 
 import android.app.Application
-import android.widget.Toast
+import android.text.TextUtils.isEmpty
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,62 +18,72 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.flashcardapp.data.Deck
-import com.example.flashcardapp.data.FlashcardViewModel
-import com.example.flashcardapp.data.ViewModelFactory
+import com.example.flashcardapp.data.db.DeckDatabase
+import com.example.flashcardapp.data.repositories.DeckRepository
+import com.example.flashcardapp.data.viewmodels.DeckViewModel
+import com.example.flashcardapp.data.viewmodels.ViewModelFactory
+import com.example.flashcardapp.ui.components.Background
+import com.example.flashcardapp.ui.components.BackgroundBox
+
 import com.example.flashcardapp.ui.mainscreen.MainScreen
+import com.example.flashcardapp.ui.theme.FlashcardAppTheme
 
 @Composable
-fun DeckScreen() {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        // A surface container using the 'background' color from the theme
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.background
-        ) {
+fun DeckScreen(
+    //onNavigateToCard: () -> Unit
+    navController: NavController
+) {
+    Background(1f)
+    BackgroundBox()
+
             val owner = LocalViewModelStoreOwner.current
 
             owner?.let {
-                val viewModel: FlashcardViewModel = viewModel(
+                val viewModel: DeckViewModel = viewModel(
                     it,
-                    "FlashcardViewModel",
+                    "DeckViewModel",
                     ViewModelFactory(
                         LocalContext.current.applicationContext
                                 as Application
                     )
                 )
-                SetUpDeckScreen(viewModel)
+
+                SetUpDeckScreen(viewModel, navController)
             }
         }
-    }
-}
 
 @Composable
-fun SetUpDeckScreen(viewModel: FlashcardViewModel) {
-    var topic by remember {
+fun SetUpDeckScreen(viewModel: DeckViewModel, navController: NavController) {
+    var topic by remember() {
         mutableStateOf("")
     }
     try {
         if (viewModel.allDecks == null) {
-            var deck = Deck(0, "Egg White")
+            var deck = Deck(0, "No topic given")
             viewModel.addDeck(deck)
             viewModel.deleteDeck(deck.deckId)
         }
-    } catch (e: Exception) {
+    } catch (e: Exception){
         e.printStackTrace()
     }
 
     val allDecks by viewModel.allDecks.observeAsState(listOf())
-    val deckSearchResults by viewModel.deckSearchResults.observeAsState(listOf())
-
-    // Fetching the local context for using the Toast
-    val context = LocalContext.current
+    val searchResults by viewModel.searchResults.observeAsState(listOf())
 
     Column(
         Modifier
@@ -85,8 +97,7 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel) {
         }
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
-            //viewModel.addDeck(Deck(0, topic))
-            Toast.makeText(context, viewModel.addDeck(Deck(0, topic)),Toast.LENGTH_LONG).show()
+            viewModel.addDeck(Deck(0, topic))
         }, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Submit")
         }
@@ -96,7 +107,7 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel) {
                 .fillMaxWidth()
                 .padding(10.dp)
         ) {
-            //val list = if (searching) deckSearchResults else allProducts
+            //val list = if (searching) searchResults else allProducts
 
             item {
                 DeckTitleRow(head1 = "ID", head2 = "Deck Topic")
@@ -105,7 +116,7 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel) {
 
 
             items(list) { deck ->
-                DeckRow(id = deck.deckId, name = deck.deckTopic, modifier = Modifier)
+                DeckRow(id = deck.deckId, name = deck.deckTopic, modifier = Modifier, navController)
             }
         }
     }
@@ -132,17 +143,14 @@ fun DeckTitleRow(head1: String, head2: String) {
     }
 }
 
-val screen: @Composable () -> Unit = { MainScreen() }
 
 @Composable
-fun DeckRow(id: Int, name: String, modifier: Modifier) {
+fun DeckRow(id: Int, name: String, modifier: Modifier,navController: NavController) {
     Row(
         modifier
             .fillMaxWidth()
             .padding(5.dp)
-            .clickable(onClick = {
-                screen
-            }),
+            .clickable { navController.navigate("cardScreen/$id") },
     ) {
         Text(
             id.toString(), modifier = Modifier

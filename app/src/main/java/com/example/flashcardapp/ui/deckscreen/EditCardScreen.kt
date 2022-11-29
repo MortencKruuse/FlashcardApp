@@ -13,27 +13,29 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.flashcardapp.ui.components.Background
+import com.example.flashcardapp.ui.components.BackgroundBox
 
 
-@Preview
 @Composable
-fun EditCardScreen() {
-    var cardID by remember {
+fun EditCardScreen(cardID : Int?) {
+    var cardID by remember() {
         mutableStateOf("")
     }
 
-    var question by remember {
+    var question by remember() {
         mutableStateOf("")
     }
 
-    var answer by remember {
+    var answer by remember() {
         mutableStateOf("")
     }
 
-    var topic by remember {
+    var topic by remember() {
         mutableStateOf("")
     }
-
+    Background(alpha = 1f)
+    BackgroundBox()
     Column(
         Modifier
             .fillMaxSize()
@@ -74,17 +76,14 @@ fun EditCardScreen() {
                 .fillMaxWidth()
                 .padding(10.dp)
         ) {
-            //val list = if (searching) deckSearchResults else allProducts
+            //val list = if (searching) searchResults else allProducts
 
             item {
                 EditCardTitleRow(head1 = "Question", head2 = "Answer")
             }
 
             items(1) { card ->
-                EditCardRow(
-                    id = "Who doesn't like egg whites?",
-                    name = "People without a sense of taste."
-                )
+                EditCardRow(id = "Who doesn't like egg whites?", name = "People without a sense of taste.")
             }
         }
     }
@@ -98,16 +97,12 @@ fun EditCardTitleRow(head1: String, head2: String) {
             .fillMaxWidth()
             .padding(5.dp)
     ) {
-        Text(
-            head1, color = Color.White,
+        Text(head1, color = Color.White,
             modifier = Modifier
-                .weight(0.1f)
-        )
-        Text(
-            head2, color = Color.White,
+                .weight(0.1f))
+        Text(head2, color = Color.White,
             modifier = Modifier
-                .weight(0.1f)
-        )
+                .weight(0.1f))
     }
 }
 
@@ -125,9 +120,9 @@ fun EditCardRow(id: String, name: String) {
 
 
 @Composable
-fun TextFieldWithIconsEditCard(label: String, placeholder: String, thingie: (String) -> Unit) {
+fun TextFieldWithIconsEditCard(label: String,placeholder: String, thingie :(String) -> Unit) {
     return OutlinedTextField(
-        value = "",
+        value = "" ,
         leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "emailIcon") },
         onValueChange = thingie,
         label = { Text(text = label) },
