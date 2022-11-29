@@ -15,9 +15,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 
-@Preview
+
 @Composable
-fun EditCardScreen() {
+fun EditCardScreen(cardID : Int?) {
     var cardID by remember() {
         mutableStateOf("")
     }
