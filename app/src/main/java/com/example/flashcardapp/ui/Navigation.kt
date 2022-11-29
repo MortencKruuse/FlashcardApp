@@ -29,7 +29,6 @@ fun MyAppNavHost(
             MainScreen(
                 onNavigateToDeck = { navController.navigate("deckScreen") },
                 onNavigateToFlash = { navController.navigate("flashScreen") }
-                /*...*/
             )
         }
         composable("deckScreen")

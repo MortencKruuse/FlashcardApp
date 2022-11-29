@@ -57,7 +57,7 @@ fun CardScreen(deckID: Int?) {
 
                 //TODO change to take input from viewModel
                 //topic = it
-                Text("Topic", textAlign = TextAlign.Center)
+                Text("deckID", textAlign = TextAlign.Center)
             }
         }
 
@@ -67,11 +67,6 @@ fun CardScreen(deckID: Int?) {
         TextFieldWithIconsCard("answer", "Enter your answer") { answer = it }
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
-                navController.navigate("editcardscreen"){
-                    popUpTo(navController.currentBackStackEntry?.destination?.route ?: return@navigate){
-                        inclusive = true
-                    }
-                }
         }, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Submit")
         }

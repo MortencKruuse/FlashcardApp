@@ -37,6 +37,8 @@ import com.example.flashcardapp.data.db.DeckDatabase
 import com.example.flashcardapp.data.repositories.DeckRepository
 import com.example.flashcardapp.data.viewmodels.DeckViewModel
 import com.example.flashcardapp.data.viewmodels.ViewModelFactory
+import com.example.flashcardapp.ui.components.Background
+import com.example.flashcardapp.ui.components.BackgroundBox
 
 import com.example.flashcardapp.ui.mainscreen.MainScreen
 import com.example.flashcardapp.ui.theme.FlashcardAppTheme
@@ -46,16 +48,8 @@ fun DeckScreen(
     //onNavigateToCard: () -> Unit
     navController: NavController
 ) {
-
-
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        // A surface container using the 'background' color from the theme
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.background
-        ) {
+    Background(1f)
+    BackgroundBox()
 
             val owner = LocalViewModelStoreOwner.current
 
@@ -69,14 +63,12 @@ fun DeckScreen(
                     )
                 )
 
-                SetUpDeckScreen(viewModel)
+                SetUpDeckScreen(viewModel, navController)
             }
         }
-    }
-}
 
 @Composable
-fun SetUpDeckScreen(viewModel: DeckViewModel) {
+fun SetUpDeckScreen(viewModel: DeckViewModel, navController: NavController) {
     var topic by remember() {
         mutableStateOf("")
     }
@@ -124,7 +116,7 @@ fun SetUpDeckScreen(viewModel: DeckViewModel) {
 
 
             items(list) { deck ->
-                DeckRow(id = deck.deckId, name = deck.deckTopic, modifier = Modifier)
+                DeckRow(id = deck.deckId, name = deck.deckTopic, modifier = Modifier, navController)
             }
         }
     }
