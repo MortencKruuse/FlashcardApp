@@ -70,7 +70,7 @@ fun SetUpCardScreen(
     }
     var topic = deckTopic.toString()
 
-    var deckId = deckId.toString()
+    var deckId = deckId
     /*
     var topic by remember {
         mutableStateOf("")
@@ -158,7 +158,7 @@ fun SetUpCardScreen(
             val list = allCards
 
             items(list) { card ->
-                CardRow(cardId = card.cardId, card.question, navController)
+                CardRow(deckId, deckTopic,card.cardId, card.question, card.answer, navController)
             }
         }
     }
@@ -186,15 +186,15 @@ fun CardTitleRow(head1: String, head2: String) {
 }
 
 @Composable
-fun CardRow(cardId: Int, question: String, navController: NavController) {
+fun CardRow(deckId: Int, deckTopic: String, cardId: Int, cardQuestion: String, cardAnswer: String, navController: NavController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(5.dp)
-            .clickable { navController.navigate("editCardScreen/$cardId") }
+            .clickable { navController.navigate("editCardScreen/$deckId/$deckTopic/$cardId/$cardQuestion/$cardAnswer") }
     ) {
         Text(cardId.toString(), modifier = Modifier.weight(0.1f))
-        Text(question, modifier = Modifier.weight(0.5f))
+        Text(cardQuestion, modifier = Modifier.weight(0.5f))
     }
 }
 
