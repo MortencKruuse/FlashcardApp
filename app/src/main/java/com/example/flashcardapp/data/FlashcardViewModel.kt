@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import com.example.flashcardapp.data.validators.CardValidator
 import com.example.flashcardapp.data.validators.DeckValidator
 
@@ -55,5 +57,9 @@ class FlashcardViewModel(application: Application) : ViewModel() {
 
     fun deleteCard(cardId: Int) {
         repository.deleteCard(cardId)
+    }
+
+    fun updateCard(cardToAdd: Card, cardIdToDelete: Int){
+        repository.updateCard(cardToAdd, cardIdToDelete)
     }
 }

@@ -58,4 +58,11 @@ class FlashcardRepository(private val DAO: DAO) {
         coroutineScope.async(Dispatchers.IO) {
             return@async DAO.findCard(cardId)
         }
+
+    fun updateCard(cardToAdd: Card, cardIdToDelete : Int){
+        coroutineScope.launch(Dispatchers.IO) {
+            DAO.deleteCard(cardIdToDelete)
+            DAO.addCard(cardToAdd)
+        }
+    }
 }
