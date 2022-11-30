@@ -13,5 +13,6 @@ data class Deck(
     @NonNull
     @ColumnInfo(name = "deck_topic")
     val deckTopic: String
+
 )
 

@@ -1,4 +1,4 @@
-package com.example.flashcardapp.data.validators
+package com.example.flashcardapp.data.helpers
 
 import com.example.flashcardapp.data.Card
 

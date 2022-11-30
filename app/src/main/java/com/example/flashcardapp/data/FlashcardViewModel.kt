@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.flashcardapp.data.repo.FlashcardDatabase
-import com.example.flashcardapp.data.validators.CardValidator
-import com.example.flashcardapp.data.validators.DeckValidator
+import com.example.flashcardapp.data.helpers.CardValidator
+import com.example.flashcardapp.data.helpers.DeckValidator
 
 class FlashcardViewModel(application: Application) : ViewModel() {
     private val repository: FlashcardRepository

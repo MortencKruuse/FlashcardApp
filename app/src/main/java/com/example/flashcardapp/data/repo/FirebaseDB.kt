@@ -2,36 +2,62 @@ package com.example.flashcardapp.data.repo
 
 import android.content.ContentValues.TAG
 import android.util.Log
-//import com.google.firebase.firestore.ktx.firestore
-//import com.google.firebase.ktx.Firebase
+import com.example.flashcardapp.data.Card
+import com.example.flashcardapp.data.Deck
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 
 class FirebaseDB {
-    /*val db = Firebase.firestore
+    val db = Firebase.firestore
 
-
-    fun addUsers(user: String /*temp*/) {
-        // Add a new document with a generated ID
-        db.collection("users")
-            .add(user)
-            .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+    fun addDeckToFirebase(deck: Deck /*temp*/) {
+        db.collection("decks")
+            .add(deck)
+            .addOnSuccessListener { deck ->
+                Log.d(TAG, "Deck added with ID: ${deck.id}")
             }
             .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
+                Log.w(TAG, "Error adding deck:${e.message}", e)
             }
     }
 
-    fun getUsers() {
-        db.collection("users")
+    fun getDecks() {
+        db.collection("decks")
             .get()
             .addOnSuccessListener { result ->
-                for (document in result) {
-                    Log.d(TAG, "${document.id} => ${document.data}")
+                for (deck in result) {
+                    Log.d(TAG, "${deck.id} => ${deck.data}")
                 }
             }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents.", exception)
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error getting decks: " + e.message, e)
+            }
+    }
+
+    fun addCardToFirebase(card: Card /*temp*/) {
+        db.collection("cards")
+            .add(card)
+            .addOnSuccessListener { card ->
+                Log.d(TAG, "Card added with ID: ${card.id}")
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error adding card:${e.message}", e)
+            }
+    }
+/*
+    fun getCards() : MutableList<Card> {
+        var returnVal : MutableList<Card>
+        db.collection("cards")
+            .get()
+            .addOnSuccessListener { result ->
+                for (card in result) {
+                    Log.d(TAG, "${card.id} => ${card.data}")
+                }
+
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error getting cards: " + e.message, e)
             }
     }*/
 }
