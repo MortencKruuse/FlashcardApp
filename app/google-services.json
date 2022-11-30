@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:964299858976:android:f743c01b29a541f2780845",
         "android_client_info": {
-          "package_name": "com.app.flashcardapp"
+          "package_name": "com.example.flashcardapp"
         }
       },
       "oauth_client": [
