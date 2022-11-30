@@ -3,6 +3,9 @@ package com.example.flashcardapp.data
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.flashcardapp.data.repo.DAO
+import com.example.flashcardapp.data.repo.FirebaseDB
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
 
 class FlashcardRepository(private val DAO: DAO) {
@@ -12,7 +15,6 @@ class FlashcardRepository(private val DAO: DAO) {
     val cardSearchResults = MutableLiveData<List<Card>>()
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
-
 
     fun addDeck(deck: Deck) {
         coroutineScope.launch(Dispatchers.IO) {
