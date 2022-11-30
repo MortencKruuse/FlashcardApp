@@ -1,17 +1,17 @@
-package com.example.flashcardapp.data
+package com.example.flashcardapp.data.repo
 
 import android.content.ContentValues.TAG
 import android.util.Log
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+//import com.google.firebase.firestore.ktx.firestore
+//import com.google.firebase.ktx.Firebase
 
 
 class FirebaseDB {
-    val db = Firebase.firestore
+    /*val db = Firebase.firestore
 
 
-    fun getUsers(user: String /*temp*/) {
-// Add a new document with a generated ID
+    fun addUsers(user: String /*temp*/) {
+        // Add a new document with a generated ID
         db.collection("users")
             .add(user)
             .addOnSuccessListener { documentReference ->
@@ -33,5 +33,5 @@ class FirebaseDB {
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error getting documents.", exception)
             }
-    }
+    }*/
 }

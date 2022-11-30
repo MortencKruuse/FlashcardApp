@@ -1,9 +1,11 @@
-package com.example.flashcardapp.data
+package com.example.flashcardapp.data.repo
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.flashcardapp.data.Card
+import com.example.flashcardapp.data.Deck
 
 //TODO Schema can be set to true later
 //TODO Don't know which version of db is the current. If it fucks up try incrementing.

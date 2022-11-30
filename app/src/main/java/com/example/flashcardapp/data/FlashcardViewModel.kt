@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.flashcardapp.data.repo.FlashcardDatabase
 
 class FlashcardViewModel(application: Application) : ViewModel() {
     private val repository: FlashcardRepository
