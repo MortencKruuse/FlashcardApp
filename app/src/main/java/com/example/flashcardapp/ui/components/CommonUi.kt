@@ -1,14 +1,18 @@
 package com.example.flashcardapp.ui.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -50,4 +54,23 @@ fun Background(alpha: Float) {
 
 
     }
+}
+
+@Composable
+fun BackgroundBox() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(28.dp)
+            .alpha(0.6f)
+            .clip(
+                CutCornerShape(
+                    topStart = 8.dp,
+                    topEnd = 16.dp,
+                    bottomStart = 16.dp,
+                    bottomEnd = 8.dp
+                )
+            )
+            .background(MaterialTheme.colors.background)
+    )
 }

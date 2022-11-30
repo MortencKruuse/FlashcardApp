@@ -15,8 +15,8 @@ class RepoUnitTest {
     /**
      * Used to avoid remote database access
      */
-    private class DeckHandlerTest : DeckHandler() {
-    }
+    private class DeckHandlerTest : DeckHandler()
+
     @Test
     fun deckHandlerGetDeckTest() {
         assertEquals(dh.getDeck("testDeck"), "testDeck")
@@ -24,7 +24,7 @@ class RepoUnitTest {
     }
     @Test
     fun deckHandlerSearchForDeckTest() {
-        var i = 0;
+        var i = 0
         for  (str in dh.searchForDeck("testDeck")){
             if (i == 0){
                 assertEquals(str, "testDeck")

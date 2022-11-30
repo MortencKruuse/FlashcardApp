@@ -19,46 +19,45 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.flashcardapp.data.Deck
 import com.example.flashcardapp.data.FlashcardViewModel
 import com.example.flashcardapp.data.ViewModelFactory
-import com.example.flashcardapp.ui.mainscreen.MainScreen
+import com.example.flashcardapp.ui.components.Background
+import com.example.flashcardapp.ui.components.BackgroundBox
 
 @Composable
-fun DeckScreen() {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        // A surface container using the 'background' color from the theme
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.background
-        ) {
-            val owner = LocalViewModelStoreOwner.current
+fun DeckScreen(
+    //onNavigateToCard: () -> Unit
+    navController: NavController
+) {
+    Background(1f)
+    BackgroundBox()
 
-            owner?.let {
-                val viewModel: FlashcardViewModel = viewModel(
-                    it,
-                    "FlashcardViewModel",
-                    ViewModelFactory(
-                        LocalContext.current.applicationContext
-                                as Application
-                    )
-                )
-                SetUpDeckScreen(viewModel)
-            }
-        }
+    val owner = LocalViewModelStoreOwner.current
+
+    owner?.let {
+        val viewModel: FlashcardViewModel = viewModel(
+            it,
+            "DeckViewModel",
+            ViewModelFactory(
+                LocalContext.current.applicationContext
+                        as Application
+            )
+        )
+
+        SetUpDeckScreen(viewModel, navController)
     }
 }
 
 @Composable
-fun SetUpDeckScreen(viewModel: FlashcardViewModel) {
+fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController) {
     var topic by remember {
         mutableStateOf("")
     }
     try {
         if (viewModel.allDecks == null) {
-            var deck = Deck(0, "Egg White")
+            var deck = Deck(0, "No topic given")
             viewModel.addDeck(deck)
             viewModel.deleteDeck(deck.deckId)
         }
@@ -67,7 +66,8 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel) {
     }
 
     val allDecks by viewModel.allDecks.observeAsState(listOf())
-    val deckSearchResults by viewModel.deckSearchResults.observeAsState(listOf())
+    val searchResults by viewModel.deckSearchResults.observeAsState(listOf())
+
     Column(
         Modifier
             .fillMaxSize()
@@ -90,7 +90,7 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel) {
                 .fillMaxWidth()
                 .padding(10.dp)
         ) {
-            //val list = if (searching) deckSearchResults else allProducts
+            //val list = if (searching) searchResults else allProducts
 
             item {
                 DeckTitleRow(head1 = "ID", head2 = "Deck Topic")
@@ -99,7 +99,7 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel) {
 
 
             items(list) { deck ->
-                DeckRow(id = deck.deckId, name = deck.deckTopic, modifier = Modifier)
+                DeckRow(deckId = deck.deckId, deckTopic = deck.deckTopic, modifier = Modifier, navController = navController)
             }
         }
     }
@@ -126,23 +126,20 @@ fun DeckTitleRow(head1: String, head2: String) {
     }
 }
 
-val screen: @Composable () -> Unit = { MainScreen() }
 
 @Composable
-fun DeckRow(id: Int, name: String, modifier: Modifier) {
+fun DeckRow(deckId: Int, deckTopic: String, modifier: Modifier, navController: NavController) {
     Row(
         modifier
             .fillMaxWidth()
             .padding(5.dp)
-            .clickable(onClick = {
-                screen
-            }),
+            .clickable { navController.navigate("cardScreen/$deckId/$deckTopic") },
     ) {
         Text(
-            id.toString(), modifier = Modifier
+            deckId.toString(), modifier = Modifier
                 .weight(0.1f)
         )
-        Text(name, modifier = Modifier.weight(0.5f))
+        Text(deckTopic, modifier = Modifier.weight(0.5f))
     }
 }
 
