@@ -1,6 +1,8 @@
 package com.example.flashcardapp.data.repo
 
+import android.annotation.SuppressLint
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -9,10 +11,17 @@ import com.example.flashcardapp.data.Deck
 
 //TODO Schema can be set to true later
 //TODO Don't know which version of db is the current. If it fucks up try incrementing.
-@Database(entities = [Deck::class, Card::class], version = 12, exportSchema = false)
-abstract class FlashcardDatabase : RoomDatabase() {
-    abstract fun dao(): DAO
 
+@Database(
+    version = 1,
+    entities = [Deck::class, Card::class],
+    autoMigrations = [AutoMigration(from = 12, to = 13)],
+    exportSchema = true
+)
+abstract class FlashcardDatabase : RoomDatabase() {
+
+
+    abstract fun dao(): DAO
     companion object {
         @Volatile
         private var INSTANCE: FlashcardDatabase? = null

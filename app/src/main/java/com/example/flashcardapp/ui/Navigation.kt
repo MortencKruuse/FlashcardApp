@@ -50,7 +50,7 @@ fun MyAppNavHost(
                 navArgument("deckTopic") { type = NavType.StringType })
         ) {
             CardScreen(
-                it.arguments?.getInt("deckId"),
+                it.arguments?.getString("deckId"),
                 navController,
                 it.arguments?.getString("deckTopic")
             )
@@ -64,9 +64,9 @@ fun MyAppNavHost(
                 navArgument("cardAnswer") { type = NavType.StringType })
         ) {
             EditCardScreen(
-                it.arguments?.getInt("deckId"),
+                it.arguments?.getString("deckId"),
                 it.arguments?.getString("deckTopic"),
-                it.arguments?.getInt("cardId"),
+                it.arguments?.getString("cardId"),
                 navController,
                 it.arguments?.getString("cardQuestion"),
                 it.arguments?.getString("cardAnswer")

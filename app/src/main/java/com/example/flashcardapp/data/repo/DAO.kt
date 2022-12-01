@@ -30,7 +30,7 @@ interface DAO {
 
     //@Transaction should be transaction
     @Query("SELECT * FROM deck_table")
-    suspend fun getAll(): LiveData<DecksAndCards>
+    suspend fun getAll(): DecksAndCards
 
     //@Transaction should be transaction
     @Query("SELECT * FROM deck_table WHERE deckId = :id")

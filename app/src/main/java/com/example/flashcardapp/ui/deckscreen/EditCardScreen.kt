@@ -122,7 +122,7 @@ fun SetUpEditCardScreen(
         Button(onClick = {
             Toast.makeText(
                 context,
-                viewModel.updateCard("",
+                viewModel.updateCard("0",
                     CardDTO(
                         cardId,
                         question.toString(),

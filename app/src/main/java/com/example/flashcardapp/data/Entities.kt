@@ -4,7 +4,7 @@ import androidx.room.*
 
 @Entity(tableName = "deck_table")
 data class Deck(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey()
     val deckId: String,
     @ColumnInfo(name = "deck_topic")
     val deckTopic: String
@@ -13,12 +13,12 @@ data class Deck(
     foreignKeys = [ForeignKey(
         entity = Deck::class,
         parentColumns = arrayOf("deckId"),
-        childColumns = arrayOf("deck"),
+        childColumns = arrayOf("cardId"),
         onDelete = ForeignKey.CASCADE
     )])
 
 data class Card(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey()
     val cardId: String,
     @ColumnInfo(name = "card_question")
     val question: String,
@@ -28,12 +28,3 @@ data class Card(
     val deckId: String
 )
 
-data class DecksAndCards(
-    @Embedded
-    val deck: Deck,
-    @Relation(
-        parentColumn = "id",
-        entityColumn = "deck"
-    )
-    val cards: List<Card>
-)

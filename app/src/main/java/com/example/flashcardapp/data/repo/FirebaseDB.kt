@@ -1,12 +1,9 @@
 package com.example.flashcardapp.data.repo
 
 import android.content.ContentValues.TAG
-import android.content.Context
 import android.util.Log
-import androidx.room.Room
 import com.example.flashcardapp.data.Card
 import com.example.flashcardapp.data.Deck
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import io.sentry.Sentry
