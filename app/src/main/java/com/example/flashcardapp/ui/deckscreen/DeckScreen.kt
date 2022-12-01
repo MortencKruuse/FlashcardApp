@@ -23,6 +23,7 @@ import androidx.navigation.NavController
 import com.example.flashcardapp.data.Deck
 import com.example.flashcardapp.data.FlashcardViewModel
 import com.example.flashcardapp.data.ViewModelFactory
+import com.example.flashcardapp.ui.DTO.DeckDTO
 import com.example.flashcardapp.ui.components.Background
 import com.example.flashcardapp.ui.components.BackgroundBox
 
@@ -71,7 +72,8 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController)
         }
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
-            viewModel.addDeck(Deck(0, topic))
+            //@TODO UNIQUE ID
+            viewModel.addDeck(DeckDTO("0", topic))
         }, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Submit")
         }
@@ -119,7 +121,7 @@ fun DeckTitleRow(head1: String, head2: String) {
 
 
 @Composable
-fun DeckRow(deckId: Int, deckTopic: String, modifier: Modifier, navController: NavController) {
+fun DeckRow(deckId: String, deckTopic: String, modifier: Modifier, navController: NavController) {
     Row(
         modifier
             .fillMaxWidth()
