@@ -15,7 +15,6 @@ import com.example.flashcardapp.data.Deck
 @Database(
     version = 1,
     entities = [Deck::class, Card::class],
-    autoMigrations = [AutoMigration(from = 12, to = 13)],
     exportSchema = true
 )
 abstract class FlashcardDatabase : RoomDatabase() {

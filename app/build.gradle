@@ -114,7 +114,7 @@ dependencies {
     //Firebase database
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:30.0.0')
-
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation 'com.google.firebase:firebase-analytics-ktx'
     // Declare the dependency for the Cloud Firestore library
