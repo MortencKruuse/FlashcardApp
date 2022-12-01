@@ -39,13 +39,12 @@ fun MyAppNavHost(
         {
             DeckScreen(
                 navController
-                //     onNavigateToCard = { navController.navigate("cardScreen/$id")}
             )
         }
 
-        composable("flashScreen") { FlashScreen() }
+        composable("flashScreen/{deckId}",arguments = listOf(navArgument("deckId") { type = NavType.StringType })) { FlashScreen(it.arguments?.getString("deckId")) }
 
-        composable("selectTopicScreen") { SelectTopicScreen() }
+        composable("selectTopicScreen") { SelectTopicScreen(navController) }
 
         composable(
             "cardScreen/{deckId}/{deckTopic}",

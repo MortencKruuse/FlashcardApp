@@ -88,7 +88,7 @@ fun SetUpEditCardScreen(
 
     val context = LocalContext.current
 
-    Background(alpha = 1f)
+    Background()
     BackgroundBox()
     Column(
         Modifier

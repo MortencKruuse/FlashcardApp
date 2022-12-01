@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
@@ -25,8 +26,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.flashcardapp.R
+import com.example.flashcardapp.ui.theme.MainBackground
 import com.example.flashcardapp.ui.theme.Purple200
 import com.example.flashcardapp.ui.theme.Purple500
+import com.example.flashcardapp.ui.theme.TextColour
 
 
 @Composable
@@ -50,17 +53,8 @@ fun FlashCardDivider(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Background(alpha: Float) {
-    Box(Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = R.drawable.background),
-            contentDescription = "",
-            modifier = Modifier
-                .fillMaxSize()
-                .blur(6.dp)
-                .alpha(alpha),
-            contentScale = ContentScale.Crop
-        )
+fun Background() {
+    Box(Modifier.fillMaxSize().background(MainBackground)) {
 
 
     }
@@ -73,35 +67,38 @@ fun BackgroundBox() {
             .fillMaxSize()
             .padding(14.dp)
             .alpha(0.57f)
-            .clip(
-                CutCornerShape(
-                    topStart = 8.dp,
-                    topEnd = 16.dp,
-                    bottomStart = 16.dp,
-                    bottomEnd = 8.dp
-                )
-            )
             .background(MaterialTheme.colors.background)
     )
 }
 
 @Composable
 fun DeckTitleRow(head1: String, head2: String) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .fillMaxHeight()){
+        Column {
+            Text(
+                head2, color = TextColour,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(6.dp),
+                fontSize = 30.sp,
+                textAlign = TextAlign.Left,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                head1, color = TextColour,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(6.dp),
+                fontSize = 16.sp,
+                textAlign = TextAlign.Left
+            )
+        }
 
-    ) {
-        Text(
-            head2, color = Purple200,
-            modifier = Modifier
-                .weight(0.5f)
-                .padding(3.dp),
-            fontSize = 30.sp,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold
-        )
     }
+
+
 }
 
 @Composable
@@ -119,7 +116,7 @@ fun DemoField(
 
         value = value,
         onValueChange = onValueChange,
-        Modifier.fillMaxWidth(),
+        Modifier.fillMaxWidth().padding(8.dp),
         label = {
             Text(text = label)
         },

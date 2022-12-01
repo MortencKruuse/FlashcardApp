@@ -18,18 +18,18 @@ import androidx.compose.ui.unit.sp
 import com.example.flashcardapp.R
 import com.example.flashcardapp.ui.components.Background
 import com.example.flashcardapp.ui.components.BackgroundBox
+import com.example.flashcardapp.ui.theme.Purple200
 
 var text = mutableStateOf("God Morgen")
 val myText by text
 var showQuestion = mutableStateOf("Question")
 val showQuestionString by showQuestion
-val purple200 = Color(0xFFBB86FC)
 
 
 @Composable
-fun FlashScreen() {
+fun FlashScreen(deckId: String?) {
 
-    Background(1f)
+    Background()
     BackgroundBox()
 
     
@@ -42,7 +42,7 @@ fun FlashScreen() {
             .size(80.dp)
             .clip(RoundedCornerShape(16.dp)))
         
-        Text(text = "You're training x topic")
+        Text(text = "You're training $deckId topic")
 
         Column(
             modifier = Modifier
@@ -53,8 +53,8 @@ fun FlashScreen() {
 
         ) {
             Text(text = showQuestionString,textAlign = TextAlign.Center )
-            CreateBox(question = "God Morgen", answer = "God aften", value = myText, purple200)
-            ChangeCardButtons(purple200)
+            CreateBox(question = "God Morgen", answer = "God aften", value = myText, Purple200)
+            ChangeCardButtons(Purple200)
         }
 
     }

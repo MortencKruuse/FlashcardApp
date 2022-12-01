@@ -41,17 +41,16 @@ import com.example.flashcardapp.ui.components.BackgroundBox
 import com.example.flashcardapp.ui.components.DeckTitleRow
 import com.example.flashcardapp.ui.components.DemoField
 import com.example.flashcardapp.ui.theme.*
-
+var topic = mutableStateOf("")
+var myTopic by topic
 
 @Composable
 fun DeckScreen(
     navController: NavController
 ) {
-    Background(1f)
+    Background()
     BackgroundBox()
-    var topic by remember{
-        mutableStateOf("")
-    }
+
     val owner = LocalViewModelStoreOwner.current
 
     owner?.let {
@@ -64,8 +63,8 @@ fun DeckScreen(
             )
         )
 
-        SetUpDeckScreen(viewModel, navController, topic, onTopicChange = {
-            topic = it
+        SetUpDeckScreen(viewModel, navController, myTopic, onTopicChange = {
+            myTopic = it
         })
     }
 }
@@ -83,30 +82,36 @@ private fun generateID(length : Int) : String{
 
 
 @Composable
-fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController) {
+fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController, topic : String, onTopicChange : (String) -> Unit) {
 
     val allDecks by viewModel.allDecks.observeAsState(listOf())
     val searchResults by viewModel.deckSearchResults.observeAsState(listOf())
 
+
+
     Column(
         Modifier
             .fillMaxSize()
-            .padding(20.dp),
+            .padding(14.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Box(modifier = Modifier.fillMaxWidth().background(ExtraSquares).height(100.dp)){
+            DeckTitleRow(head1 = "Create your own deck or select one", head2 = "Deck Topics")
+        }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
 
         LazyColumn(
             Modifier
+                .padding(14.dp)
                 .fillMaxSize()
                 .weight(1f)
 
         ) {
             //val list = if (searching) searchResults else allProducts
             item {
-                DeckTitleRow(head1 = "ID", head2 = "Deck Topics")
+
 
             }
             val list = allDecks
@@ -124,18 +129,22 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController)
             }
 
         }
-
         DemoField(value = topic, label = "Create your own deck with a topic", placeholder = "Enter your topic", onValueChange = onTopicChange, leadingIcon = {
             Icon(Icons.Default.Topic, contentDescription = "Topic")
         } )
+
+
         Button(
-            border = BorderStroke(1.dp, Purple500),
+            border = BorderStroke(1.dp, ExtraSquares),
             shape = RoundedCornerShape(50),
-            colors = ButtonDefaults.outlinedButtonColors(contentColor = Purple500),
+            colors = ButtonDefaults.outlinedButtonColors(contentColor = ExtraSquares),
             onClick = {
-                viewModel.addDeck(Deck(0, topic))
+                viewModel.addDeck(DeckDTO(generateID(16),topic))
+                resetTextValue()
+
             }, modifier = Modifier
                 .fillMaxWidth()
+                .padding(16.dp)
 
         ) {
             Text(text = "Submit")
@@ -148,21 +157,21 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController)
 fun DeckRow(deckId: String, deckTopic: String, modifier: Modifier, navController: NavController) {
     Box(){
 
-
-
-
         Row(
             modifier
-                .clip(shape = RoundedCornerShape(20))
-                .background(ForestGreenLight)
+                .clip(shape = RoundedCornerShape(25))
+                .background(TextChangeBubbles)
                 .fillMaxWidth()
+                .height(IntrinsicSize.Min)
                 .padding(8.dp)
                 .clickable { navController.navigate("cardScreen/$deckId/$deckTopic") }
         ) {Column{
-            Text(text = "Deck topic" , color = Purple200, fontWeight = FontWeight.Bold)
-            Text(text = deckTopic , color = Color.White)
-            Divider(color = Color.Companion.Black,thickness = 1.dp)
-            Text(text = "Amount of cards in deck 4", color = Color.White )
+            Spacer(modifier = Modifier.height(15.dp))
+            Text(text = "Deck topic" , color = TextColour, fontWeight = FontWeight.Bold)
+            Text(text = deckTopic , color = TextColour)
+            Divider(color = Color.Black,thickness = 1.dp)
+            Text(text = "Amount of cards in deck 4", color = TextColour)
+            Spacer(modifier = Modifier.height(15.dp))
         }
 
         }
@@ -173,6 +182,6 @@ fun DeckRow(deckId: String, deckTopic: String, modifier: Modifier, navController
 
 }
 
-
-
-
+fun resetTextValue(){
+    topic.value = ""
+}

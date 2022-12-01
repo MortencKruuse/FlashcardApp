@@ -101,7 +101,7 @@ fun SetUpCardScreen(
     // Fetching the local context for using the Toast
     val context = LocalContext.current
 
-    Background(alpha = 1f)
+    Background()
     BackgroundBox()
 
 
