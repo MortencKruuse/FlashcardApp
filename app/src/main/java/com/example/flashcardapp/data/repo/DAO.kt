@@ -7,38 +7,47 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.flashcardapp.data.Card
 import com.example.flashcardapp.data.Deck
+import com.example.flashcardapp.data.DecksAndCards
 
 
 @Dao
 interface DAO {
 
     // DECKS
-    //TODO Switch .IGNORE to something more applicable
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addDeck(deck: Deck)
 
     @Query("DELETE FROM deck_table WHERE deckId = :deckId")
-    fun deleteDeck(deckId: Int)
+    fun deleteDeck(deckId: String)
 
     @Query("SELECT * FROM deck_table WHERE deckId == :deckId")
-    fun findDeck(deckId: Int): MutableList<Deck>
+    fun findDeck(deckId: String): MutableList<Deck>
 
     @Query("SELECT * FROM deck_table ORDER BY deckId DESC")
-    fun readAllDataFromDeck(): LiveData<List<Deck>>
+    fun readAllDecks(): LiveData<List<Deck>>
 
+    //___________________CARDS___________________
 
-    // CARDS
+    //@Transaction should be transaction
+    @Query("SELECT * FROM deck_table")
+    suspend fun getAll(): DecksAndCards
+
+    //@Transaction should be transaction
+    @Query("SELECT * FROM deck_table WHERE deckId = :id")
+    suspend fun getAllCardsByDeckId(id: String): DecksAndCards
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addCard(card: Card)
 
-    @Query("DELETE FROM card_table WHERE cardId = :cardId")
-    fun deleteCard(cardId: Int)
+    //Unsure if works (probably does not)
+    @Query("DELETE FROM Card WHERE cardId = :cardId")
+    fun deleteCard(cardId: String)
 
-    @Query("SELECT * FROM card_table WHERE cardId = :cardId")
-    fun findCard(cardId: Int): MutableList<Card>
+    @Query("SELECT * FROM Card WHERE cardId = :cardId")
+    fun findCard(cardId: String): MutableList<Card>
 
-    @Query("SELECT * FROM card_table ORDER BY cardId DESC")
-    fun readAllDataFromCard(): LiveData<List<Card>>
+    @Query("SELECT * FROM Card")
+    fun getAllCards(): LiveData<List<Card>>
 
 
 }

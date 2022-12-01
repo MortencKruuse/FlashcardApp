@@ -1,15 +1,12 @@
 package com.example.flashcardapp.data.repo
 
 import android.content.ContentValues.TAG
-import android.content.Context
 import android.util.Log
-import androidx.room.Room
 import com.example.flashcardapp.data.Card
 import com.example.flashcardapp.data.Deck
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlin.reflect.KParameter
+import io.sentry.Sentry
 
 
 class FirebaseDB {
@@ -17,12 +14,14 @@ class FirebaseDB {
 
     fun addDeckToFirebase(deck: Deck /*temp*/) {
         db.collection("decks")
-            .add(deck)
+            .document(deck.deckId)
+            .set(deck)
             .addOnSuccessListener { deck ->
-                Log.d(TAG, "Deck added with ID: ${deck.id}")
+                Log.d(TAG, "Deck added with ID: $deck")
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error adding deck:${e.message}", e)
+                Sentry.captureException(e)
             }
     }
 
@@ -36,6 +35,8 @@ class FirebaseDB {
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error getting decks: " + e.message, e)
+                Sentry.captureException(e)
+
             }
     }
 
@@ -47,6 +48,8 @@ class FirebaseDB {
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error adding card:${e.message}", e)
+                Sentry.captureException(e)
+
             }
     }
 /*

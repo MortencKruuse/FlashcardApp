@@ -35,6 +35,7 @@ import androidx.navigation.NavController
 import com.example.flashcardapp.data.Deck
 import com.example.flashcardapp.data.FlashcardViewModel
 import com.example.flashcardapp.data.ViewModelFactory
+import com.example.flashcardapp.ui.DTO.DeckDTO
 import com.example.flashcardapp.ui.components.Background
 import com.example.flashcardapp.ui.components.BackgroundBox
 import com.example.flashcardapp.ui.components.DeckTitleRow
@@ -69,17 +70,20 @@ fun DeckScreen(
     }
 }
 
+
+//Source: https://stackoverflow.com/a/54400933
+private fun generateID(length : Int) : String{
+    //Allowed chars
+    val allowedChars = ('A'.. 'Z') + ('a' .. 'z') + (0 .. 9)
+    //Return string from size 1 to length (means smallest is 1)
+    return (1..length)
+        .map { allowedChars.random() }
+        .joinToString("")
+}
+
+
 @Composable
-fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController, topic: String, onTopicChange: (String) -> Unit,) {
-    try {
-        if (viewModel.allDecks == null) {
-            var deck = Deck(0, "No topic given")
-            viewModel.addDeck(deck)
-            viewModel.deleteDeck(deck.deckId)
-        }
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
+fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController) {
 
     val allDecks by viewModel.allDecks.observeAsState(listOf())
     val searchResults by viewModel.deckSearchResults.observeAsState(listOf())
@@ -141,7 +145,7 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController,
 
 
 @Composable
-fun DeckRow(deckId: Int, deckTopic: String, modifier: Modifier, navController: NavController) {
+fun DeckRow(deckId: String, deckTopic: String, modifier: Modifier, navController: NavController) {
     Box(){
 
 

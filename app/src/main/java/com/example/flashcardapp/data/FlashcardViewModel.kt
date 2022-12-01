@@ -4,63 +4,60 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.flashcardapp.data.repo.FlashcardDatabase
+import com.example.flashcardapp.data.Interfaces.ICard
+import com.example.flashcardapp.data.Interfaces.IDeck
+import com.example.flashcardapp.data.domain.FlashcardDomain
 import com.example.flashcardapp.data.helpers.CardValidator
 import com.example.flashcardapp.data.helpers.DeckValidator
 
 class FlashcardViewModel(application: Application) : ViewModel() {
-    private val repository: FlashcardRepository
+    private val domain: FlashcardDomain
     val allDecks: LiveData<List<Deck>>
     val deckSearchResults: MutableLiveData<List<Deck>>
     val allCards: LiveData<List<Card>>
     val cardSearchResults: MutableLiveData<List<Card>>
 
-
     init {
-        val deckDb = FlashcardDatabase.getDatabase(application)
-        val deckDao = deckDb.dao()
-        repository = FlashcardRepository(deckDao)
-
-        allDecks = repository.readAllDeckData
-        deckSearchResults = repository.deckSearchResults
-        allCards = repository.readAllCardData
-        cardSearchResults = repository.cardSearchResults
-
+        domain = FlashcardDomain(application)
+        allDecks = domain.readAllDeckData
+        deckSearchResults = domain.deckSearchResults
+        allCards = domain.readAllCardData
+        cardSearchResults = domain.cardSearchResults
     }
 
-    fun addDeck(deck: Deck): String {
+    fun addDeck(deck: IDeck): String {
         if (DeckValidator().ValidateDeck(deck).length < 1) {
-            repository.addDeck(deck)
+            domain.addDeck(deck)
         }
         return DeckValidator().ValidateDeck(deck)
     }
 
-    fun addCard(card: Card): String {
+    fun addCard(deckId: String, card: ICard): String {
         if (CardValidator().ValidateCard(card).length < 1) {
-            repository.addCard(card)
+            domain.addCard(deckId, card)
         }
         return CardValidator().ValidateCard(card)
     }
 
-    fun findDeck(deck: Deck) {
-        repository.findDeck(deck.deckId)
+    fun findDeck(deckId: String) {
+        domain.findDeck(deckId)
     }
 
-    fun findCard(card: Card) {
-        repository.findCard(card.cardId)
+    fun findCard(card: ICard) {
+        domain.findCard(card.cardId)
     }
 
-    fun deleteDeck(deckId: Int) {
-        repository.deleteDeck(deckId)
+    fun deleteDeck(deckId: String) {
+        domain.deleteDeck(deckId)
     }
 
-    fun deleteCard(cardId: Int) {
-        repository.deleteCard(cardId)
+    fun deleteCard(deckId: String, cardId: String) {
+        domain.deleteCard(deckId, cardId)
     }
 
-    fun updateCard(cardToAdd: Card, cardIdToDelete: Int): String {
+    fun updateCard(deckId: String, cardToAdd: ICard, cardIdToDelete: String): String {
         if (CardValidator().ValidateCard(cardToAdd).length < 1) {
-            repository.updateCard(cardToAdd, cardIdToDelete)
+            domain.updateCard(deckId, cardToAdd, cardIdToDelete)
         }
         return CardValidator().ValidateCard(cardToAdd)
     }

@@ -14,12 +14,14 @@ import com.example.flashcardapp.ui.deckscreen.EditCardScreen
 import com.example.flashcardapp.ui.flashscreen.FlashScreen
 import com.example.flashcardapp.ui.mainscreen.MainScreen
 import com.example.flashcardapp.ui.selecttopicscreen.SelectTopicScreen
+import io.sentry.compose.withSentryObservableEffect
+
 
 
 @Composable
 fun MyAppNavHost(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController = rememberNavController().withSentryObservableEffect(),
     startDestination: String = "mainScreen"
 ) {
     NavHost(
@@ -47,27 +49,27 @@ fun MyAppNavHost(
 
         composable(
             "cardScreen/{deckId}/{deckTopic}",
-            arguments = listOf(navArgument("deckId") { type = NavType.IntType },
+            arguments = listOf(navArgument("deckId") { type = NavType.StringType },
                 navArgument("deckTopic") { type = NavType.StringType })
         ) {
             CardScreen(
-                it.arguments?.getInt("deckId"),
+                it.arguments?.getString("deckId"),
                 navController,
                 it.arguments?.getString("deckTopic")
             )
         }
         composable("editCardScreen/{deckId}/{deckTopic}/{cardId}/{cardQuestion}/{cardAnswer}",
             arguments = listOf(
-                navArgument("deckId") { type = NavType.IntType },
+                navArgument("deckId") { type = NavType.StringType },
                 navArgument("deckTopic") { type = NavType.StringType },
-                navArgument("cardId") { type = NavType.IntType },
+                navArgument("cardId") { type = NavType.StringType },
                 navArgument("cardQuestion") { type = NavType.StringType },
                 navArgument("cardAnswer") { type = NavType.StringType })
         ) {
             EditCardScreen(
-                it.arguments?.getInt("deckId"),
+                it.arguments?.getString("deckId"),
                 it.arguments?.getString("deckTopic"),
-                it.arguments?.getInt("cardId"),
+                it.arguments?.getString("cardId"),
                 navController,
                 it.arguments?.getString("cardQuestion"),
                 it.arguments?.getString("cardAnswer")

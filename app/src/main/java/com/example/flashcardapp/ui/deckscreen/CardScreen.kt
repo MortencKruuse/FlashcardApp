@@ -29,6 +29,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.flashcardapp.data.FlashcardViewModel
 import com.example.flashcardapp.data.ViewModelFactory
+import com.example.flashcardapp.ui.DTO.CardDTO
 import com.example.flashcardapp.ui.components.Background
 import com.example.flashcardapp.ui.components.BackgroundBox
 import com.example.flashcardapp.ui.components.DemoField
@@ -37,7 +38,7 @@ import com.example.flashcardapp.ui.theme.Purple500
 
 
 @Composable
-fun CardScreen(deckId: Int?, navController: NavController, deckTopic: String?) {
+fun CardScreen(deckId: String?, navController: NavController, deckTopic: String?) {
     Surface(
         modifier = Modifier.fillMaxSize(),
     ) {
@@ -68,7 +69,7 @@ fun SetUpCardScreen(
     viewModel: FlashcardViewModel,
     navController: NavController,
     deckTopic: String,
-    deckId: Int
+    deckId: String
 ) {
 
     var question by remember {
@@ -80,24 +81,19 @@ fun SetUpCardScreen(
     var topic = deckTopic.toString()
 
     var deckId = deckId
-    /*
-    var topic by remember {
-        mutableStateOf("")
-    }*/
-    try {
-        if (viewModel.allCards == null) {
-            var card = com.example.flashcardapp.data.Card(
-                0,
+
+    if (viewModel.allCards == null) {
+            var card = CardDTO(
+                "0",
                 "Egg White",
                 "What is an egg white not?",
-                "Yellow."
             )
-            viewModel.addCard(card)
-            viewModel.deleteCard(card.cardId)
+            viewModel.addCard("0",card)
+            viewModel.deleteCard("0",card.cardId)
         }
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
+
+
+
 
     val allCards by viewModel.allCards.observeAsState(listOf())
     val cardSearchResults by viewModel.cardSearchResults.observeAsState(listOf())
@@ -149,10 +145,9 @@ fun SetUpCardScreen(
             colors = ButtonDefaults.outlinedButtonColors(contentColor = Purple200),
             onClick = {
             Toast.makeText(
-                context, viewModel.addCard(
-                    com.example.flashcardapp.data.Card(
-                        0,
-                        "$deckTopic ",
+                context, viewModel.addCard(deckId,
+                    CardDTO(
+                        "0",
                         question,
                         answer
                     )
@@ -210,7 +205,7 @@ fun CardTitleRow(head1: String, head2: String, head3: String) {
 }
 
 @Composable
-fun CardRow(deckId: Int, deckTopic: String, cardId: Int, cardQuestion: String, cardAnswer: String, navController: NavController) {
+fun CardRow(deckId: String, deckTopic: String, cardId: String, cardQuestion: String, cardAnswer: String, navController: NavController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

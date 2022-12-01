@@ -1,9 +1,10 @@
 package com.example.flashcardapp.data.helpers
 
 import com.example.flashcardapp.data.Card
+import com.example.flashcardapp.data.Interfaces.ICard
 
 class CardValidator {
-    fun ValidateCard(card: Card): String {
+    fun ValidateCard(card: ICard): String {
 
         if (card.question.length < 1 && card.answer.length < 1) {
             return "Please type a question and answer before submitting."

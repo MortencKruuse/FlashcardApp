@@ -21,15 +21,16 @@ import androidx.navigation.NavController
 import com.example.flashcardapp.data.Card
 import com.example.flashcardapp.data.FlashcardViewModel
 import com.example.flashcardapp.data.ViewModelFactory
+import com.example.flashcardapp.ui.DTO.CardDTO
 import com.example.flashcardapp.ui.components.Background
 import com.example.flashcardapp.ui.components.BackgroundBox
 
 
 @Composable
 fun EditCardScreen(
-    deckId: Int?,
+    deckId: String?,
     deckTopic: String?,
-    cardId: Int?,
+    cardId: String?,
     navController: NavController,
     cardQuestion: String?,
     cardAnswer: String?
@@ -69,9 +70,9 @@ fun EditCardScreen(
 
 @Composable
 fun SetUpEditCardScreen(
-    deckId: Int,
+    deckId: String,
     deckTopic: String,
-    cardId: Int,
+    cardId: String,
     navController: NavController,
     cardQuestion: String?,
     cardAnswer: String?,
@@ -121,10 +122,9 @@ fun SetUpEditCardScreen(
         Button(onClick = {
             Toast.makeText(
                 context,
-                viewModel.updateCard(
-                    Card(
+                viewModel.updateCard("0",
+                    CardDTO(
                         cardId,
-                        deckTopic,
                         question.toString(),
                         answer.toString()
                     ), cardId
