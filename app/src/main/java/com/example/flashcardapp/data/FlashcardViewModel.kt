@@ -14,13 +14,14 @@ class FlashcardViewModel(application: Application) : ViewModel() {
     private val domain: FlashcardDomain
     val allDecks: LiveData<List<Deck>>
     val deckSearchResults: MutableLiveData<List<Deck>>
-    //val allCards: LiveData<List<Card>>
+    val allCards: LiveData<List<Card>>
     val cardSearchResults: MutableLiveData<List<Card>>
+
     init {
         domain = FlashcardDomain(application)
         allDecks = domain.readAllDeckData
         deckSearchResults = domain.deckSearchResults
-        //allCards = domain.readAllCardData
+        allCards = domain.readAllCardData
         cardSearchResults = domain.cardSearchResults
     }
 
@@ -31,7 +32,7 @@ class FlashcardViewModel(application: Application) : ViewModel() {
         return DeckValidator().ValidateDeck(deck)
     }
 
-    fun addCard(deckId : String, card: ICard): String {
+    fun addCard(deckId: String, card: ICard): String {
         if (CardValidator().ValidateCard(card).length < 1) {
             domain.addCard(deckId, card)
         }
@@ -50,11 +51,11 @@ class FlashcardViewModel(application: Application) : ViewModel() {
         domain.deleteDeck(deckId)
     }
 
-    fun deleteCard(deckId : String, cardId: String) {
+    fun deleteCard(deckId: String, cardId: String) {
         domain.deleteCard(deckId, cardId)
     }
 
-    fun updateCard(deckId : String, cardToAdd: ICard, cardIdToDelete: String): String {
+    fun updateCard(deckId: String, cardToAdd: ICard, cardIdToDelete: String): String {
         if (CardValidator().ValidateCard(cardToAdd).length < 1) {
             domain.updateCard(deckId, cardToAdd, cardIdToDelete)
         }

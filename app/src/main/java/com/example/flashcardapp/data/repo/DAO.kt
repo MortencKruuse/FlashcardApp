@@ -46,4 +46,8 @@ interface DAO {
     @Query("SELECT * FROM Card WHERE cardId = :cardId")
     fun findCard(cardId: String): MutableList<Card>
 
+    @Query("SELECT * FROM Card")
+    fun getAllCards(): LiveData<List<Card>>
+
+
 }

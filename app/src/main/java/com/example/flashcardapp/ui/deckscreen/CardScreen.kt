@@ -73,9 +73,20 @@ fun SetUpCardScreen(
 
     var deckId = deckId
 
+    if (viewModel.allCards == null) {
+            var card = CardDTO(
+                "0",
+                "Egg White",
+                "What is an egg white not?",
+            )
+            viewModel.addCard("0",card)
+            viewModel.deleteCard("0",card.cardId)
+        }
 
-    //@TODO All cards
-    //val allCards by viewModel.allCards.observeAsState(listOf())
+
+
+
+    val allCards by viewModel.allCards.observeAsState(listOf())
     val cardSearchResults by viewModel.cardSearchResults.observeAsState(listOf())
 
     // Fetching the local context for using the Toast
@@ -139,11 +150,11 @@ fun SetUpCardScreen(
             item {
                 CardTitleRow(head1 = "ID", head2 = "Question")
             }
-            /*val list = allCards
+            val list = allCards
 
             items(list) { card ->
                 CardRow(deckId, deckTopic,card.cardId, card.question, card.answer, navController)
-            }*/
+            }
         }
     }
 }
@@ -170,7 +181,7 @@ fun CardTitleRow(head1: String, head2: String) {
 }
 
 @Composable
-fun CardRow(deckId: Int, deckTopic: String, cardId: Int, cardQuestion: String, cardAnswer: String, navController: NavController) {
+fun CardRow(deckId: String, deckTopic: String, cardId: String, cardQuestion: String, cardAnswer: String, navController: NavController) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

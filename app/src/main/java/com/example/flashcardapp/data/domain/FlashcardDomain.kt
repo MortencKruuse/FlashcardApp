@@ -21,7 +21,7 @@ class FlashcardDomain(application : Application) : IFlashcardDomain {
     //?? probably should be functions
     val readAllDeckData: LiveData<List<Deck>> = DAO.readAllDecks()
     val deckSearchResults = MutableLiveData<List<Deck>>()
-    //val readAllCardData: LiveData<List<Card>> = readAllCards()
+    val readAllCardData: LiveData<List<Card>> = DAO.getAllCards()
     val cardSearchResults = MutableLiveData<List<Card>>()
 
     //Scopes
