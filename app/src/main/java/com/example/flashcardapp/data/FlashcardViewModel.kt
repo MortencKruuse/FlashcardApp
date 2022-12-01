@@ -42,7 +42,7 @@ class FlashcardViewModel(application: Application) : ViewModel() {
         domain.findDeck(deckId)
     }
 
-    fun findCard(card: Card) {
+    fun findCard(card: ICard) {
         domain.findCard(card.cardId)
     }
 
