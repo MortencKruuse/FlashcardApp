@@ -13,6 +13,7 @@ import com.example.flashcardapp.ui.deckscreen.DeckScreen
 import com.example.flashcardapp.ui.deckscreen.EditCardScreen
 import com.example.flashcardapp.ui.flashscreen.FlashScreen
 import com.example.flashcardapp.ui.mainscreen.MainScreen
+import com.example.flashcardapp.ui.selecttopicscreen.SelectTopicScreen
 
 
 @Composable
@@ -29,7 +30,7 @@ fun MyAppNavHost(
         composable("mainScreen") {
             MainScreen(
                 onNavigateToDeck = { navController.navigate("deckScreen") },
-                onNavigateToFlash = { navController.navigate("flashScreen") }
+                onNavigateToTopic = { navController.navigate("selectTopicScreen") }
             )
         }
         composable("deckScreen")
@@ -41,6 +42,8 @@ fun MyAppNavHost(
         }
 
         composable("flashScreen") { FlashScreen() }
+
+        composable("selectTopicScreen") { SelectTopicScreen() }
 
         composable(
             "cardScreen/{deckId}/{deckTopic}",

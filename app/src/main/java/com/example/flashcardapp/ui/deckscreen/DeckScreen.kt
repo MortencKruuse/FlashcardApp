@@ -2,20 +2,28 @@ package com.example.flashcardapp.ui.deckscreen
 
 
 import android.app.Application
-import androidx.compose.foundation.background
+import android.graphics.drawable.shapes.Shape
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Topic
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,15 +33,21 @@ import com.example.flashcardapp.data.FlashcardViewModel
 import com.example.flashcardapp.data.ViewModelFactory
 import com.example.flashcardapp.ui.components.Background
 import com.example.flashcardapp.ui.components.BackgroundBox
+import com.example.flashcardapp.ui.components.DeckTitleRow
+import com.example.flashcardapp.ui.components.DemoField
+import com.example.flashcardapp.ui.theme.Purple200
+import com.example.flashcardapp.ui.theme.Purple500
+
 
 @Composable
 fun DeckScreen(
-    //onNavigateToCard: () -> Unit
     navController: NavController
 ) {
     Background(1f)
     BackgroundBox()
-
+    var topic by remember{
+        mutableStateOf("")
+    }
     val owner = LocalViewModelStoreOwner.current
 
     owner?.let {
@@ -46,15 +60,14 @@ fun DeckScreen(
             )
         )
 
-        SetUpDeckScreen(viewModel, navController)
+        SetUpDeckScreen(viewModel, navController, topic, onTopicChange = {
+            topic = it
+        })
     }
 }
 
 @Composable
-fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController) {
-    var topic by remember {
-        mutableStateOf("")
-    }
+fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController, topic: String, onTopicChange: (String) -> Unit,) {
     try {
         if (viewModel.allDecks == null) {
             var deck = Deck(0, "No topic given")
@@ -71,58 +84,54 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController)
     Column(
         Modifier
             .fillMaxSize()
-            .padding(48.dp),
+            .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TextFieldWithIconsDeck("Topic", "Enter your deck topic here")
-        {
-            topic = it
-        }
+
+        DemoField(value = topic, label = "Create your own deck with a topic", placeholder = "Enter your topic", onValueChange = onTopicChange, leadingIcon = {
+            Icon(Icons.Default.Topic, contentDescription = "Topic")
+        } )
         Spacer(modifier = Modifier.height(8.dp))
-        Button(onClick = {
-            viewModel.addDeck(Deck(0, topic))
-        }, modifier = Modifier.fillMaxWidth()) {
-            Text(text = "Submit")
-        }
+
 
         LazyColumn(
             Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(10.dp)
+                .weight(1f)
+
         ) {
             //val list = if (searching) searchResults else allProducts
-
             item {
                 DeckTitleRow(head1 = "ID", head2 = "Deck Topic")
+
             }
             val list = allDecks
 
 
             items(list) { deck ->
-                DeckRow(deckId = deck.deckId, deckTopic = deck.deckTopic, modifier = Modifier, navController = navController)
+                Divider(color = Color.Companion.Transparent,thickness = 8.dp)
+                DeckRow(
+                    deckId = deck.deckId,
+                    deckTopic = deck.deckTopic,
+                    modifier = Modifier,
+                    navController = navController
+                )
             }
-        }
-    }
-}
 
-@Composable
-fun DeckTitleRow(head1: String, head2: String) {
-    Row(
-        modifier = Modifier
-            .background(MaterialTheme.colors.primary)
-            .fillMaxWidth()
-            .padding(5.dp)
-    ) {
-        Text(
-            head1, color = Color.White,
-            modifier = Modifier
-                .weight(0.1f)
-        )
-        Text(
-            head2, color = Color.White,
-            modifier = Modifier
-                .weight(0.5f)
-        )
+        }
+        Button(
+            border = BorderStroke(1.dp, Purple200),
+            shape = RoundedCornerShape(50),
+            colors = ButtonDefaults.outlinedButtonColors(contentColor = Purple200),
+            onClick = {
+                viewModel.addDeck(Deck(0, topic))
+            }, modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
+            Text(text = "Submit")
+        }
     }
 }
 
@@ -132,26 +141,15 @@ fun DeckRow(deckId: Int, deckTopic: String, modifier: Modifier, navController: N
     Row(
         modifier
             .fillMaxWidth()
-            .padding(5.dp)
             .clickable { navController.navigate("cardScreen/$deckId/$deckTopic") },
     ) {
-        Text(
-            deckId.toString(), modifier = Modifier
-                .weight(0.1f)
-        )
-        Text(deckTopic, modifier = Modifier.weight(0.5f))
+
+        Text(deckTopic, modifier = Modifier
+            .weight(0.5f)
+            .padding(4.dp))
     }
 }
 
 
-@Composable
-fun TextFieldWithIconsDeck(label: String, placeholder: String, thingie: (String) -> Unit) {
-    return OutlinedTextField(
-        value = "",
-        leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "emailIcon") },
-        onValueChange = thingie,
-        label = { Text(text = label) },
-        placeholder = { Text(text = placeholder) }
-    )
-}
+
 

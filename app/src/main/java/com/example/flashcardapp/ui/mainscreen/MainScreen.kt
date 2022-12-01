@@ -18,7 +18,7 @@ import com.example.flashcardapp.ui.components.BackgroundBox
 @Composable
 fun MainScreen(
     onNavigateToDeck: () -> Unit,
-    onNavigateToFlash: () -> Unit
+    onNavigateToTopic: () -> Unit
 ) {
     Background(1f)
     BackgroundBox()
@@ -29,17 +29,17 @@ fun MainScreen(
             .semantics { contentDescription = "Overview Screen" }
 
     ) {
-        MainMenu(onNavigateToDeck, onNavigateToFlash)
+        MainMenu(onNavigateToDeck, onNavigateToTopic)
     }
 }
 
 
 @Composable
-fun MainMenu(onNavigateToDeck: () -> Unit, onNavigateToFlash: () -> Unit) {
+fun MainMenu(onNavigateToDeck: () -> Unit, onNavigateToTopic: () -> Unit) {
     Button(onClick = onNavigateToDeck) {
         Text(text = "Go to deck screen")
     }
-    Button(onClick = onNavigateToFlash) {
+    Button(onClick = onNavigateToTopic) {
 
     }
 }

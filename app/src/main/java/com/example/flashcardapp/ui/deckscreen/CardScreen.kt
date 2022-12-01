@@ -2,18 +2,24 @@ package com.example.flashcardapp.ui.deckscreen
 
 import android.app.Application
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.QuestionAnswer
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
@@ -25,6 +31,9 @@ import com.example.flashcardapp.data.FlashcardViewModel
 import com.example.flashcardapp.data.ViewModelFactory
 import com.example.flashcardapp.ui.components.Background
 import com.example.flashcardapp.ui.components.BackgroundBox
+import com.example.flashcardapp.ui.components.DemoField
+import com.example.flashcardapp.ui.theme.Purple200
+import com.example.flashcardapp.ui.theme.Purple500
 
 
 @Composable
@@ -122,15 +131,23 @@ fun SetUpCardScreen(
         }
 
 
-        TextFieldWithIconsCard("question", "question your e-mail") {
+        DemoField(question,"Question", "Enter your question", onValueChange = {
             question = it
-        }
+        }, leadingIcon = {
+            Icon(Icons.Default.QuestionAnswer, contentDescription = "Question")
+        })
         Spacer(modifier = Modifier.height(8.dp))
-        TextFieldWithIconsCard("answer", "Enter your answer") {
-            answer = it
-        }
+        DemoField(answer,"Answer" ,"Enter your answer", onValueChange = {
+                answer = it
+        },
+        leadingIcon = {
+            Icon(Icons.Default.Check,"Answer")
+        })
         Spacer(modifier = Modifier.height(8.dp))
-        Button(onClick = {
+        Button(border = BorderStroke(1.dp, Purple200),
+            shape = RoundedCornerShape(50),
+            colors = ButtonDefaults.outlinedButtonColors(contentColor = Purple200),
+            onClick = {
             Toast.makeText(
                 context, viewModel.addCard(
                     com.example.flashcardapp.data.Card(
@@ -141,7 +158,8 @@ fun SetUpCardScreen(
                     )
                 ), Toast.LENGTH_LONG
             ).show()
-        }, modifier = Modifier.fillMaxWidth()) {
+        }, modifier = Modifier.fillMaxWidth()
+                .padding(8.dp)) {
             Text(text = "Submit")
         }
 
@@ -153,7 +171,7 @@ fun SetUpCardScreen(
             //val list = if (searching) searchResults else allProducts
 
             item {
-                CardTitleRow(head1 = "ID", head2 = "Question")
+                CardTitleRow(head1 = "ID", head2 = "Question", head3 = "Answer")
             }
             val list = allCards
 
@@ -165,20 +183,26 @@ fun SetUpCardScreen(
 }
 
 @Composable
-fun CardTitleRow(head1: String, head2: String) {
+fun CardTitleRow(head1: String, head2: String, head3: String) {
     Row(
         modifier = Modifier
-            .background(MaterialTheme.colors.primary)
             .fillMaxWidth()
-            .padding(5.dp)
+            .border(BorderStroke(1.dp, Purple500))
+            .clip(RoundedCornerShape(50))
+
     ) {
         Text(
-            head1, color = Color.White,
+            head1, color = Purple200,
             modifier = Modifier
                 .weight(0.1f)
         )
         Text(
-            head2, color = Color.White,
+            head2, color = Purple200,
+            modifier = Modifier
+                .weight(0.5f)
+        )
+        Text(
+            head3, color = Purple200,
             modifier = Modifier
                 .weight(0.5f)
         )
@@ -190,23 +214,14 @@ fun CardRow(deckId: Int, deckTopic: String, cardId: Int, cardQuestion: String, c
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(5.dp)
+            .border(BorderStroke(1.dp, Purple500))
             .clickable { navController.navigate("editCardScreen/$deckId/$deckTopic/$cardId/$cardQuestion/$cardAnswer") }
     ) {
         Text(cardId.toString(), modifier = Modifier.weight(0.1f))
         Text(cardQuestion, modifier = Modifier.weight(0.5f))
+        Text(cardAnswer, modifier = Modifier.weight(0.4f))
     }
 }
 
 
-@Composable
-fun TextFieldWithIconsCard(label: String, placeholder: String, thingie: (String) -> Unit) {
-    return OutlinedTextField(
-        value = "",
-        leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "emailIcon") },
-        onValueChange = thingie,
-        label = { Text(text = label) },
-        placeholder = { Text(text = placeholder) },
-    )
-}
 
