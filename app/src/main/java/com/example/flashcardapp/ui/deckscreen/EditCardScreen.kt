@@ -183,7 +183,7 @@ fun EditCardRow(question: String, answer: String) {
             .fillMaxWidth()
             .padding(5.dp)
     ) {
-        Text(question.toString(), modifier = Modifier.weight(0.1f))
+        Text(question, modifier = Modifier.weight(0.1f))
         Text(answer, modifier = Modifier.weight(0.1f))
     }
 }
