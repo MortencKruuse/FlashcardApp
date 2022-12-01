@@ -1,5 +1,6 @@
 package com.example.flashcardapp.ui.components
 
+import android.webkit.WebSettings.TextSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,8 +18,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.flashcardapp.R
 import com.example.flashcardapp.ui.theme.Purple200
 import com.example.flashcardapp.ui.theme.Purple500
@@ -85,14 +90,16 @@ fun DeckTitleRow(head1: String, head2: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .border(BorderStroke(1.dp, Purple500))
 
     ) {
         Text(
             head2, color = Purple200,
             modifier = Modifier
                 .weight(0.5f)
-                .padding(3.dp)
+                .padding(3.dp),
+            fontSize = 30.sp,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold
         )
     }
 }
