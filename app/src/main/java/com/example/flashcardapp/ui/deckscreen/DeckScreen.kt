@@ -55,15 +55,6 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController)
     var topic by remember {
         mutableStateOf("")
     }
-    try {
-        if (viewModel.allDecks == null) {
-            var deck = Deck(0, "No topic given")
-            viewModel.addDeck(deck)
-            viewModel.deleteDeck(deck.deckId)
-        }
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
 
     val allDecks by viewModel.allDecks.observeAsState(listOf())
     val searchResults by viewModel.deckSearchResults.observeAsState(listOf())

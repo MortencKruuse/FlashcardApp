@@ -1,22 +1,32 @@
 package com.example.flashcardapp.data
 
-import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "card_table")
+@Entity(tableName = "deck_table")
+data class Deck(
+    @PrimaryKey(autoGenerate = true)
+    val deckId: String,
+    @ColumnInfo(name = "deck_topic")
+    val deckTopic: String
+)
+@Entity(
+    foreignKeys = [ForeignKey(
+        entity = Deck::class,
+        parentColumns = arrayOf("deckId"),
+        childColumns = arrayOf("deck"),
+        onDelete = ForeignKey.CASCADE
+    )])
+
 data class Card(
-    @NonNull
     @PrimaryKey(autoGenerate = true)
     val cardId: Int,
-    @NonNull
-    @ColumnInfo(name = "card_topic")
-    val cardTopic: String,
-    @NonNull
     @ColumnInfo(name = "card_question")
     val question: String,
-    @NonNull
     @ColumnInfo(name = "card_answer")
-    val answer: String
+    val answer: String,
+    @ColumnInfo(index = true)
+    val deck: Deck
 )

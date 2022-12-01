@@ -1,18 +1,14 @@
 package com.example.flashcardapp.data
 
-import androidx.annotation.NonNull
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 
-@Entity(tableName = "deck_table")
-data class Deck(
-    @NonNull
-    @PrimaryKey(autoGenerate = true)
-    val deckId: Int,
-    @NonNull
-    @ColumnInfo(name = "deck_topic")
-    val deckTopic: String
 
+data class DecksAndCards(
+    @Embedded
+    val deck: Deck,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "deck"
+    )
+    val albums: List<Card>
 )
-
