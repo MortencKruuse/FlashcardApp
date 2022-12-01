@@ -56,6 +56,7 @@ fun DeckScreen(
 private fun generateID(length : Int) : String{
     //Allowed chars
     val allowedChars = ('A'.. 'Z') + ('a' .. 'z') + (0 .. 9)
+    //Return string from size 1 to length (means smallest is 1)
     return (1..length)
         .map { allowedChars.random() }
         .joinToString("")
@@ -140,7 +141,7 @@ fun DeckRow(deckId: String, deckTopic: String, modifier: Modifier, navController
             .clickable { navController.navigate("cardScreen/$deckId/$deckTopic") },
     ) {
         Text(
-            deckId.toString(), modifier = Modifier
+            deckId, modifier = Modifier
                 .weight(0.1f)
         )
         Text(deckTopic, modifier = Modifier.weight(0.5f))

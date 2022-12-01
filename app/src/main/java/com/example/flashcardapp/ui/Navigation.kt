@@ -46,7 +46,7 @@ fun MyAppNavHost(
 
         composable(
             "cardScreen/{deckId}/{deckTopic}",
-            arguments = listOf(navArgument("deckId") { type = NavType.IntType },
+            arguments = listOf(navArgument("deckId") { type = NavType.StringType },
                 navArgument("deckTopic") { type = NavType.StringType })
         ) {
             CardScreen(
@@ -57,9 +57,9 @@ fun MyAppNavHost(
         }
         composable("editCardScreen/{deckId}/{deckTopic}/{cardId}/{cardQuestion}/{cardAnswer}",
             arguments = listOf(
-                navArgument("deckId") { type = NavType.IntType },
+                navArgument("deckId") { type = NavType.StringType },
                 navArgument("deckTopic") { type = NavType.StringType },
-                navArgument("cardId") { type = NavType.IntType },
+                navArgument("cardId") { type = NavType.StringType },
                 navArgument("cardQuestion") { type = NavType.StringType },
                 navArgument("cardAnswer") { type = NavType.StringType })
         ) {
