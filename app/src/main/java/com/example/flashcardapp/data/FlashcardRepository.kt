@@ -15,10 +15,14 @@ class FlashcardRepository(private val DAO: DAO) {
     val cardSearchResults = MutableLiveData<List<Card>>()
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    private var db = FirebaseDB()
 
     fun addDeck(deck: Deck) {
         coroutineScope.launch(Dispatchers.IO) {
             DAO.addDeck(deck)
+        }
+        coroutineScope.launch(Dispatchers.IO) {
+            db.addDeckToFirebase(deck)
         }
     }
 

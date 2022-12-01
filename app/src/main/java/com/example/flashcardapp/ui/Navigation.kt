@@ -13,12 +13,14 @@ import com.example.flashcardapp.ui.deckscreen.DeckScreen
 import com.example.flashcardapp.ui.deckscreen.EditCardScreen
 import com.example.flashcardapp.ui.flashscreen.FlashScreen
 import com.example.flashcardapp.ui.mainscreen.MainScreen
+import io.sentry.compose.withSentryObservableEffect
+
 
 
 @Composable
 fun MyAppNavHost(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController = rememberNavController().withSentryObservableEffect(),
     startDestination: String = "mainScreen"
 ) {
     NavHost(

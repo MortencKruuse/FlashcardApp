@@ -123,6 +123,11 @@ dependencies {
     // Add the dependencies for any other desired Firebase products
     // https://firebase.google.com/docs/android/setup#available-libraries
 
+    //Sentry dependency
+    implementation 'io.sentry:sentry-android:6.8.0'
+    implementation 'io.sentry:sentry-compose-android:6.8.0'
+
+
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
         kotlinOptions {
             freeCompilerArgs += ["-Xjvm-default=all",]

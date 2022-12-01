@@ -9,7 +9,7 @@ import com.example.flashcardapp.data.Deck
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlin.reflect.KParameter
+import io.sentry.Sentry
 
 
 class FirebaseDB {
@@ -23,6 +23,7 @@ class FirebaseDB {
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error adding deck:${e.message}", e)
+                Sentry.captureException(e)
             }
     }
 
@@ -36,6 +37,8 @@ class FirebaseDB {
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error getting decks: " + e.message, e)
+                Sentry.captureException(e)
+
             }
     }
 
@@ -47,6 +50,8 @@ class FirebaseDB {
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error adding card:${e.message}", e)
+                Sentry.captureException(e)
+
             }
     }
 /*
