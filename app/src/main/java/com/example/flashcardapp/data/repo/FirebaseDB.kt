@@ -14,9 +14,10 @@ class FirebaseDB {
 
     fun addDeckToFirebase(deck: Deck /*temp*/) {
         db.collection("decks")
-            .add(deck)
+            .document(deck.deckId)
+            .set(deck)
             .addOnSuccessListener { deck ->
-                Log.d(TAG, "Deck added with ID: ${deck.id}")
+                Log.d(TAG, "Deck added with ID: $deck")
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error adding deck:${e.message}", e)

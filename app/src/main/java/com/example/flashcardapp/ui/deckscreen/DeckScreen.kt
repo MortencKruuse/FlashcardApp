@@ -51,6 +51,17 @@ fun DeckScreen(
     }
 }
 
+
+//Source: https://stackoverflow.com/a/54400933
+private fun generateID(length : Int) : String{
+    //Allowed chars
+    val allowedChars = ('A'.. 'Z') + ('a' .. 'z') + (0 .. 9)
+    return (1..length)
+        .map { allowedChars.random() }
+        .joinToString("")
+}
+
+
 @Composable
 fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController) {
     var topic by remember {
@@ -73,7 +84,7 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController)
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
             //@TODO UNIQUE ID
-            viewModel.addDeck(DeckDTO("0", topic))
+            viewModel.addDeck(DeckDTO(generateID(16), topic))
         }, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Submit")
         }
