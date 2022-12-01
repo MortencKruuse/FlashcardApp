@@ -1,9 +1,6 @@
 package com.example.flashcardapp.data
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 @Entity(tableName = "deck_table")
 data class Deck(
@@ -22,11 +19,21 @@ data class Deck(
 
 data class Card(
     @PrimaryKey(autoGenerate = true)
-    val cardId: Int,
+    val cardId: String,
     @ColumnInfo(name = "card_question")
     val question: String,
     @ColumnInfo(name = "card_answer")
     val answer: String,
     @ColumnInfo(index = true)
-    val deck: Deck
+    val deckId: String
+)
+
+data class DecksAndCards(
+    @Embedded
+    val deck: Deck,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "deck"
+    )
+    val cards: List<Card>
 )

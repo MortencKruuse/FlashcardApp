@@ -5,7 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.flashcardapp.data.Card
 import com.example.flashcardapp.data.Deck
-import com.example.flashcardapp.data.repo.DAO
+import com.example.flashcardapp.data.Interfaces.ICard
+import com.example.flashcardapp.data.Interfaces.IDeck
 import com.example.flashcardapp.data.repo.FirebaseDB
 import com.example.flashcardapp.data.repo.FlashcardDatabase
 import kotlinx.coroutines.*
@@ -18,29 +19,43 @@ class FlashcardDomain(application : Application) : IFlashcardDomain {
     private val DAO = deckDb.dao()
 
     //?? probably should be functions
-    val readAllDeckData: LiveData<List<Deck>> = DAO.readAllDataFromDeck()
+    val readAllDeckData: LiveData<List<Deck>> = DAO.readAllDecks()
     val deckSearchResults = MutableLiveData<List<Deck>>()
-    val readAllCardData: LiveData<List<Card>> = DAO.readAllDataFromCard()
+    //val readAllCardData: LiveData<List<Card>> = readAllCards()
     val cardSearchResults = MutableLiveData<List<Card>>()
 
     //Scopes
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
-    override fun addDeck(deck: Deck) {
+
+    //Bad name
+    /*fun readAllCards() : LiveData<List<Card>>{
+        var cards : LiveData<List<Card>>
         coroutineScope.launch(Dispatchers.IO) {
-            DAO.addDeck(deck)
+            DAO.getAll()
+        }
+
+
+        return cards
+    }*/
+
+    override fun addDeck(deck: IDeck) {
+        val deckDAO = Deck(deck.deckId,deck.deckTopic)
+        coroutineScope.launch(Dispatchers.IO) {
+            DAO.addDeck(deckDAO)
         }
         coroutineScope.launch(Dispatchers.IO) {
-            db.addDeckToFirebase(deck)
+            db.addDeckToFirebase(deckDAO)
         }
     }
 
-    override fun addCard(card: Card) {
+    override fun addCard(deckId : String, card: ICard) {
+        val cardDAO = Card(card.cardId,card.question,card.answer,deckId)
         coroutineScope.launch(Dispatchers.IO) {
-            DAO.addCard(card)
+            DAO.addCard(cardDAO)
         }
         coroutineScope.launch(Dispatchers.IO) {
-            db.addCardToFirebase(card)
+            db.addCardToFirebase(cardDAO)
         }
     }
 
@@ -50,7 +65,7 @@ class FlashcardDomain(application : Application) : IFlashcardDomain {
         }
     }
 
-    override fun deleteCard(cardId: String) {
+    override fun deleteCard(deckId : String, cardId: String) {
         coroutineScope.launch(Dispatchers.IO) {
             DAO.deleteCard(cardId)
         }
@@ -78,10 +93,11 @@ class FlashcardDomain(application : Application) : IFlashcardDomain {
             return@async DAO.findCard(cardId)
         }
 
-    fun updateCard(cardToAdd: Card, cardIdToDelete : String){
+    fun updateCard(deckId : String, cardToAdd: ICard, cardIdToDelete : String){
         coroutineScope.launch(Dispatchers.IO) {
             DAO.deleteCard(cardIdToDelete)
-            DAO.addCard(cardToAdd)
+            val cardDAO = Card(cardToAdd.cardId,cardToAdd.question,cardToAdd.answer,deckId)
+            DAO.addCard(cardDAO)
         }
     }
 }

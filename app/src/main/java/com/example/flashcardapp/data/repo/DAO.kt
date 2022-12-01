@@ -24,13 +24,13 @@ interface DAO {
     fun findDeck(deckId: String): MutableList<Deck>
 
     @Query("SELECT * FROM deck_table ORDER BY deckId DESC")
-    fun readAllDataFromDeck(): LiveData<List<Deck>>
+    fun readAllDecks(): LiveData<List<Deck>>
 
     //___________________CARDS___________________
 
     //@Transaction should be transaction
     @Query("SELECT * FROM deck_table")
-    suspend fun getAll(): List<DecksAndCards>
+    suspend fun getAll(): LiveData<DecksAndCards>
 
     //@Transaction should be transaction
     @Query("SELECT * FROM deck_table WHERE deckId = :id")
@@ -39,7 +39,7 @@ interface DAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addCard(card: Card)
 
-    //Unsure if works
+    //Unsure if works (probably does not)
     @Query("DELETE FROM Card WHERE cardId = :cardId")
     fun deleteCard(cardId: String)
 

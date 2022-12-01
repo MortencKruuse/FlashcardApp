@@ -23,12 +23,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.flashcardapp.data.FlashcardViewModel
 import com.example.flashcardapp.data.ViewModelFactory
+import com.example.flashcardapp.ui.DTO.CardDTO
 import com.example.flashcardapp.ui.components.Background
 import com.example.flashcardapp.ui.components.BackgroundBox
 
 
 @Composable
-fun CardScreen(deckId: Int?, navController: NavController, deckTopic: String?) {
+fun CardScreen(deckId: String?, navController: NavController, deckTopic: String?) {
     Surface(
         modifier = Modifier.fillMaxSize(),
     ) {
@@ -59,7 +60,7 @@ fun SetUpCardScreen(
     viewModel: FlashcardViewModel,
     navController: NavController,
     deckTopic: String,
-    deckId: Int
+    deckId: String
 ) {
 
     var question by remember {
@@ -71,26 +72,10 @@ fun SetUpCardScreen(
     var topic = deckTopic.toString()
 
     var deckId = deckId
-    /*
-    var topic by remember {
-        mutableStateOf("")
-    }*/
-    try {
-        if (viewModel.allCards == null) {
-            var card = com.example.flashcardapp.data.Card(
-                0,
-                "Egg White",
-                "What is an egg white not?",
-                "Yellow."
-            )
-            viewModel.addCard(card)
-            viewModel.deleteCard(card.cardId)
-        }
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
 
-    val allCards by viewModel.allCards.observeAsState(listOf())
+
+    //@TODO All cards
+    //val allCards by viewModel.allCards.observeAsState(listOf())
     val cardSearchResults by viewModel.cardSearchResults.observeAsState(listOf())
 
     // Fetching the local context for using the Toast
@@ -132,10 +117,9 @@ fun SetUpCardScreen(
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
             Toast.makeText(
-                context, viewModel.addCard(
-                    com.example.flashcardapp.data.Card(
-                        0,
-                        "$deckTopic ",
+                context, viewModel.addCard(deckId,
+                    CardDTO(
+                        "0",
                         question,
                         answer
                     )
@@ -155,11 +139,11 @@ fun SetUpCardScreen(
             item {
                 CardTitleRow(head1 = "ID", head2 = "Question")
             }
-            val list = allCards
+            /*val list = allCards
 
             items(list) { card ->
                 CardRow(deckId, deckTopic,card.cardId, card.question, card.answer, navController)
-            }
+            }*/
         }
     }
 }
