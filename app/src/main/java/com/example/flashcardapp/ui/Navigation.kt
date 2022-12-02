@@ -13,6 +13,7 @@ import com.example.flashcardapp.ui.deckscreen.DeckScreen
 import com.example.flashcardapp.ui.deckscreen.EditCardScreen
 import com.example.flashcardapp.ui.flashscreen.FlashScreen
 import com.example.flashcardapp.ui.mainscreen.MainScreen
+import com.example.flashcardapp.ui.selecttopicscreen.SelectTopicScreen
 import io.sentry.compose.withSentryObservableEffect
 
 
@@ -31,18 +32,19 @@ fun MyAppNavHost(
         composable("mainScreen") {
             MainScreen(
                 onNavigateToDeck = { navController.navigate("deckScreen") },
-                onNavigateToFlash = { navController.navigate("flashScreen") }
+                onNavigateToTopic = { navController.navigate("selectTopicScreen") }
             )
         }
         composable("deckScreen")
         {
             DeckScreen(
                 navController
-                //     onNavigateToCard = { navController.navigate("cardScreen/$id")}
             )
         }
 
-        composable("flashScreen") { FlashScreen() }
+        composable("flashScreen/{deckId}",arguments = listOf(navArgument("deckId") { type = NavType.StringType })) { FlashScreen(it.arguments?.getString("deckId")) }
+
+        composable("selectTopicScreen") { SelectTopicScreen(navController) }
 
         composable(
             "cardScreen/{deckId}/{deckTopic}",
@@ -55,21 +57,14 @@ fun MyAppNavHost(
                 it.arguments?.getString("deckTopic")
             )
         }
-        composable("editCardScreen/{deckId}/{deckTopic}/{cardId}/{cardQuestion}/{cardAnswer}",
+        composable("editCardScreen/{deckId}",
             arguments = listOf(
-                navArgument("deckId") { type = NavType.StringType },
-                navArgument("deckTopic") { type = NavType.StringType },
-                navArgument("cardId") { type = NavType.StringType },
-                navArgument("cardQuestion") { type = NavType.StringType },
-                navArgument("cardAnswer") { type = NavType.StringType })
+                navArgument("deckId") { type = NavType.StringType }
+                )
         ) {
             EditCardScreen(
                 it.arguments?.getString("deckId"),
-                it.arguments?.getString("deckTopic"),
-                it.arguments?.getString("cardId"),
-                navController,
-                it.arguments?.getString("cardQuestion"),
-                it.arguments?.getString("cardAnswer")
+
             )
         }
     }

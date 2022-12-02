@@ -28,12 +28,8 @@ import com.example.flashcardapp.ui.components.BackgroundBox
 
 @Composable
 fun EditCardScreen(
-    deckId: String?,
-    deckTopic: String?,
-    cardId: String?,
-    navController: NavController,
-    cardQuestion: String?,
-    cardAnswer: String?
+    deckId: String?
+
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -56,11 +52,6 @@ fun EditCardScreen(
                 )
                 SetUpEditCardScreen(
                     deckId!!,
-                    deckTopic!!,
-                    cardId!!,
-                    navController,
-                    cardQuestion,
-                    cardAnswer,
                     viewModel
                 )
             }
@@ -71,24 +62,13 @@ fun EditCardScreen(
 @Composable
 fun SetUpEditCardScreen(
     deckId: String,
-    deckTopic: String,
-    cardId: String,
-    navController: NavController,
-    cardQuestion: String?,
-    cardAnswer: String?,
     viewModel: FlashcardViewModel
 ) {
-    var question by remember {
-        mutableStateOf(cardQuestion)
-    }
 
-    var answer by remember {
-        mutableStateOf(cardAnswer)
-    }
 
     val context = LocalContext.current
 
-    Background(alpha = 1f)
+    Background()
     BackgroundBox()
     Column(
         Modifier
@@ -108,28 +88,17 @@ fun SetUpEditCardScreen(
                     .padding(2.dp), horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    "DeckId: " + deckId.toString() + "|" + "On Topic: " + deckTopic,
+                    "DeckId: " + deckId.toString() + "|" + "On Topic: ",
                     textAlign = TextAlign.Center
                 )
             }
         }
 
 
-        TextFieldWithIconsEditCard("question", cardQuestion.toString()) { question = it }
-        Spacer(modifier = Modifier.height(8.dp))
-        TextFieldWithIconsEditCard("answer", cardAnswer.toString()) { answer = it }
+
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
-            Toast.makeText(
-                context,
-                viewModel.updateCard("0",
-                    CardDTO(
-                        cardId,
-                        question.toString(),
-                        answer.toString()
-                    ), cardId
-                ), Toast.LENGTH_LONG
-            ).show()
+
         }, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Apply changes")
         }
@@ -183,7 +152,7 @@ fun EditCardRow(question: String, answer: String) {
             .fillMaxWidth()
             .padding(5.dp)
     ) {
-        Text(question.toString(), modifier = Modifier.weight(0.1f))
+        Text(question, modifier = Modifier.weight(0.1f))
         Text(answer, modifier = Modifier.weight(0.1f))
     }
 }
