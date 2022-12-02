@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Flashcard app</string>
+    <string name="frontpage_deckscreen">Add og edit decks</string>
+    <string name="frontpage_topicscreen">Pick a deck to practice</string>
+    <string name="frontpage_texttitle">Welcome to flashcard app</string>
+    <string name="frontpage_textsubtitle">You can either go to add decks to the collection, or practice with the ones currently available</string>
 </resources>

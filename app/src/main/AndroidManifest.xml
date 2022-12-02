@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,6 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FlashcardApp"
         tools:targetApi="31">
+
+        <!--Sentry to monitor crashes and performance-->
+        <meta-data android:name="io.sentry.dsn" android:value="https://3002de9cf2f14b82a23fa731a000a3dc@o508334.ingest.sentry.io/4504249808519168" />
+        <!-- Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+           We recommend adjusting this value in production. -->
+        <meta-data android:name="io.sentry.traces.sample-rate" android:value="1.0" />
+        <!-- Enable user interaction tracing to capture transactions for various UI events (such as clicks or scrolls). -->
+        <meta-data android:name="io.sentry.traces.user-interaction.enable" android:value="true" />
+
         <activity
             android:name=".ui.FlashCardActivity"
             android:exported="true"

@@ -13,3 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+/.idea/deploymentTargetDropDown.xml
+/app/schemas/com.example.flashcardapp.data.repo.FlashcardDatabase/1.json

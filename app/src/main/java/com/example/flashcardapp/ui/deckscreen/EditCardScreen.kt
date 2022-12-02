@@ -1,5 +1,7 @@
 package com.example.flashcardapp.ui.deckscreen
 
+import android.app.Application
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,30 +12,64 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import com.example.flashcardapp.data.Card
+import com.example.flashcardapp.data.FlashcardViewModel
+import com.example.flashcardapp.data.ViewModelFactory
+import com.example.flashcardapp.ui.DTO.CardDTO
+import com.example.flashcardapp.ui.components.Background
+import com.example.flashcardapp.ui.components.BackgroundBox
 
 
-@Preview
 @Composable
-fun EditCardScreen() {
-    var cardID by remember {
-        mutableStateOf("")
-    }
+fun EditCardScreen(
+    deckId: String?
 
-    var question by remember {
-        mutableStateOf("")
-    }
+) {
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        // A surface container using the 'background' color from the theme
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colors.background
+        ) {
+            val owner = LocalViewModelStoreOwner.current
 
-    var answer by remember {
-        mutableStateOf("")
+            owner?.let {
+                val viewModel: FlashcardViewModel = viewModel(
+                    it,
+                    "FlashcardViewModel",
+                    ViewModelFactory(
+                        LocalContext.current.applicationContext
+                                as Application
+                    )
+                )
+                SetUpEditCardScreen(
+                    deckId!!,
+                    viewModel
+                )
+            }
+        }
     }
+}
 
-    var topic by remember {
-        mutableStateOf("")
-    }
+@Composable
+fun SetUpEditCardScreen(
+    deckId: String,
+    viewModel: FlashcardViewModel
+) {
 
+
+    val context = LocalContext.current
+
+    Background()
+    BackgroundBox()
     Column(
         Modifier
             .fillMaxSize()
@@ -51,20 +87,18 @@ fun EditCardScreen() {
                     .fillMaxWidth()
                     .padding(2.dp), horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
-                //TODO change to take input from viewModel
-                //topic = it
-                Text("Topic", textAlign = TextAlign.Center)
+                Text(
+                    "DeckId: " + deckId.toString() + "|" + "On Topic: ",
+                    textAlign = TextAlign.Center
+                )
             }
         }
 
 
-        TextFieldWithIconsEditCard("question", "question your e-mail") { question = it }
-        Spacer(modifier = Modifier.height(8.dp))
-        TextFieldWithIconsEditCard("answer", "Enter your answer") { answer = it }
+
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = {
-            /*TODO*/
+
         }, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Apply changes")
         }
@@ -74,7 +108,7 @@ fun EditCardScreen() {
                 .fillMaxWidth()
                 .padding(10.dp)
         ) {
-            //val list = if (searching) deckSearchResults else allProducts
+            //val list = if (searching) searchResults else allProducts
 
             item {
                 EditCardTitleRow(head1 = "Question", head2 = "Answer")
@@ -82,8 +116,8 @@ fun EditCardScreen() {
 
             items(1) { card ->
                 EditCardRow(
-                    id = "Who doesn't like egg whites?",
-                    name = "People without a sense of taste."
+                    question = question.toString(),
+                    answer = answer.toString()
                 )
             }
         }
@@ -112,14 +146,14 @@ fun EditCardTitleRow(head1: String, head2: String) {
 }
 
 @Composable
-fun EditCardRow(id: String, name: String) {
+fun EditCardRow(question: String, answer: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(5.dp)
     ) {
-        Text(id.toString(), modifier = Modifier.weight(0.1f))
-        Text(name, modifier = Modifier.weight(0.1f))
+        Text(question, modifier = Modifier.weight(0.1f))
+        Text(answer, modifier = Modifier.weight(0.1f))
     }
 }
 

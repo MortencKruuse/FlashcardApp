@@ -1,51 +1,64 @@
 package com.example.flashcardapp.data
 
 import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+
 import androidx.lifecycle.ViewModel
+import com.example.flashcardapp.data.Interfaces.ICard
+import com.example.flashcardapp.data.Interfaces.IDeck
+import com.example.flashcardapp.domain.FlashcardDomain
+import com.example.flashcardapp.domain.helpers.CardValidator
+import com.example.flashcardapp.domain.helpers.DeckValidator
+import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.liveData
 
 class FlashcardViewModel(application: Application) : ViewModel() {
-    private val repository: FlashcardRepository
-    val allDecks: LiveData<List<Deck>>
-    val deckSearchResults: MutableLiveData<List<Deck>>
-    val allCards: LiveData<List<Card>>
-    val cardSearchResults: MutableLiveData<List<Card>>
+    private val domain: FlashcardDomain
 
 
     init {
-        val deckDb = FlashcardDatabase.getDatabase(application)
-        val deckDao = deckDb.dao()
-        repository = FlashcardRepository(deckDao)
-
-        allDecks = repository.readAllDeckData
-        deckSearchResults = repository.deckSearchResults
-        allCards = repository.readAllCardData
-        cardSearchResults = repository.cardSearchResults
-
+        domain = FlashcardDomain(application)
     }
 
-    fun addCard(card: Card) {
-        repository.addCard(card)
+    fun addDeck(deck: IDeck): String {
+        if (DeckValidator().ValidateDeck(deck).isEmpty()) {
+            domain.addDeck(deck)
+        }
+        return DeckValidator().ValidateDeck(deck)
     }
 
-    fun addDeck(deck: Deck) {
-        repository.addDeck(deck)
+    fun addCard(deckId: String, card: ICard): String {
+        if (CardValidator().ValidateCard(card).isEmpty()) {
+            domain.addCard(deckId, card)
+        }
+        return CardValidator().ValidateCard(card)
     }
 
-    fun findDeck(deck: Deck) {
-        repository.findDeck(deck.deckId)
+    fun getAllDecks() = liveData(Dispatchers.IO) {
+        domain.getAllDecks().collect() { response ->
+            emit(response)
+        }
     }
 
-    fun findCard(card: Card){
-        repository.findCard(card.cardId)
+    fun findDeck(deckId: String) {
+        domain.findDeck(deckId)
     }
 
-    fun deleteDeck(deckId: Int) {
-        repository.deleteDeck(deckId)
+    fun findCard(card: ICard) {
+        domain.findCard(card.cardId)
     }
 
-    fun deleteCard(cardId: Int) {
-        repository.deleteCard(cardId)
+    fun deleteDeck(deckId: String) {
+        domain.deleteDeck(deckId)
+    }
+
+    fun deleteCard(deckId: String, cardId: String) {
+        domain.deleteCard(deckId, cardId)
+    }
+
+    fun updateCard(deckId: String, cardToAdd: ICard, cardIdToDelete: String): String {
+        if (CardValidator().ValidateCard(cardToAdd).isEmpty()) {
+            domain.updateCard(deckId, cardToAdd, cardIdToDelete)
+        }
+        return CardValidator().ValidateCard(cardToAdd)
     }
 }
