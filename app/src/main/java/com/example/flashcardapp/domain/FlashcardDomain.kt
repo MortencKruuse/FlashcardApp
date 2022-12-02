@@ -1,21 +1,15 @@
 package com.example.flashcardapp.domain
 
 import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.flashcardapp.data.Card
 import com.example.flashcardapp.data.Deck
 import com.example.flashcardapp.data.Interfaces.ICard
 import com.example.flashcardapp.data.Interfaces.IDeck
-import com.example.flashcardapp.data.entities.DBCard
-import com.example.flashcardapp.data.entities.DBDeck
 import com.example.flashcardapp.data.repo.FirebaseDB
 import com.example.flashcardapp.data.repo.FlashcardDatabase
-import com.example.flashcardapp.ui.DTO.CardDTO
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.flow
 
 
 class FlashcardDomain(application : Application) : IFlashcardDomain {
