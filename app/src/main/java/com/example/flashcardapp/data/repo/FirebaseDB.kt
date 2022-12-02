@@ -2,15 +2,11 @@ package com.example.flashcardapp.data.repo
 
 import android.content.ContentValues.TAG
 import android.util.Log
-import com.example.flashcardapp.data.Card
-import com.example.flashcardapp.data.Deck
 import com.example.flashcardapp.data.Interfaces.ICard
 import com.example.flashcardapp.data.Interfaces.IDeck
-import com.example.flashcardapp.data.Response
-import com.example.flashcardapp.data.SingleResponse
-import com.example.flashcardapp.data.entities.CardResponse
 import com.example.flashcardapp.data.entities.DBCard
 import com.example.flashcardapp.data.entities.DBDeck
+import com.example.flashcardapp.ui.DTO.CardDTO
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import io.sentry.Sentry
@@ -59,13 +55,13 @@ class FirebaseDB {
     }
 
     fun getDeck(deckId : String) = flow {
-        val response = SingleResponse()
+        var deck : DBDeck? = null
         try {
             db.collection("decks")
                 .document(deckId)
                 .get()
                 .addOnSuccessListener { result ->
-                    response.deck = result.toObject(DBDeck::class.java)
+                    deck = result.toObject(DBDeck::class.java)
                 }
                 .addOnFailureListener { e ->
                     Log.w(TAG, "Error getting decks: " + e.message, e)
@@ -74,10 +70,9 @@ class FirebaseDB {
                 }
         }
         catch (e: Exception) {
-            response.exception = e
             Sentry.captureException(e)
         }
-        emit(response)
+        emit(deck)
     }
 
 
@@ -110,23 +105,23 @@ class FirebaseDB {
             }
     }
 
-    fun getCards(deckId : String) : CardResponse {
-        val response = CardResponse()
+    fun getCards(deckId : String) = flow {
+        var cards : List<DBCard>? = null
         db.collection("decks")
             .document(deckId)
             .collection("cards")
             .get()
             .addOnSuccessListener { result ->
-                response.cards = result.mapNotNull { snapShot ->
+                cards = result.mapNotNull { snapShot ->
                     snapShot.toObject(DBCard::class.java)
 
                 }
-                Log.d(TAG,"I AM HERE" +  response.cards.toString())
+                Log.d(TAG,"I AM HERE" +  cards.toString())
 
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error getting cards: " + e.message, e)
             }
-        return response
+        emit(cards)
     }
 }
