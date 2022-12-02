@@ -1,4 +1,4 @@
-package com.example.flashcardapp.data.domain
+package com.example.flashcardapp.domain
 
 import com.example.flashcardapp.data.Interfaces.ICard
 import com.example.flashcardapp.data.Interfaces.IDeck

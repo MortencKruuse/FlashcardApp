@@ -4,7 +4,13 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import com.example.flashcardapp.data.Card
 import com.example.flashcardapp.data.Deck
+import com.example.flashcardapp.data.Interfaces.ICard
+import com.example.flashcardapp.data.Interfaces.IDeck
+import com.example.flashcardapp.data.Response
+import com.example.flashcardapp.data.SingleResponse
+import com.example.flashcardapp.data.entities.DBDeck
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import io.sentry.Sentry
 
@@ -13,11 +19,12 @@ class FirebaseDB {
     val db = Firebase.firestore
 
     fun addDeckToFirebase(deck: Deck /*temp*/) {
+        getDecks()
         db.collection("decks")
             .document(deck.deckId)
             .set(deck)
-            .addOnSuccessListener { deck ->
-                Log.d(TAG, "Deck added with ID: $deck")
+            .addOnSuccessListener { result ->
+                Log.d(TAG, "Deck added with ID: $result")
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error adding deck:${e.message}", e)
@@ -25,12 +32,16 @@ class FirebaseDB {
             }
     }
 
-    fun getDecks() {
+
+    fun getDecks() : Response {
+        val response = Response()
+        try {
         db.collection("decks")
             .get()
             .addOnSuccessListener { result ->
-                for (deck in result) {
-                    Log.d(TAG, "${deck.id} => ${deck.data}")
+                response.decks = result.mapNotNull { snapShot ->
+                    Log.d(TAG,result.toString())
+                    snapShot.toObject(DBDeck::class.java)
                 }
             }
             .addOnFailureListener { e ->
@@ -38,13 +49,59 @@ class FirebaseDB {
                 Sentry.captureException(e)
 
             }
+        }
+        catch (e: Exception) {
+            response.exception = e
+            Sentry.captureException(e)
+        }
+
+        return response
+    }
+    fun getDeck(deckId : String) : SingleResponse {
+        val response = SingleResponse()
+        try {
+            db.collection("decks")
+                .document(deckId)
+                .get()
+                .addOnSuccessListener { result ->
+                    response.deck = result.toObject(DBDeck::class.java)
+                }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error getting decks: " + e.message, e)
+                    Sentry.captureException(e)
+
+                }
+        }
+        catch (e: Exception) {
+            response.exception = e
+            Sentry.captureException(e)
+        }
+
+        return response
     }
 
-    fun addCardToFirebase(card: Card /*temp*/) {
-        db.collection("cards")
-            .add(card)
+
+    fun deleteDeck(deckId : String) {
+        db.collection("decks")
+            .document(deckId)
+            .delete()
+            .addOnSuccessListener { result ->
+                Log.d(TAG, "Deleted deck: $result")
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error deleting deck: " + e.message, e)
+                Sentry.captureException(e)
+            }
+    }
+
+    fun addCardToFirebase(deckId : String, cardDAO: Card /*temp*/) {
+        db.collection("decks")
+            .document(deckId)
+            .collection("cards")
+            .document(cardDAO.cardId)
+            .set(cardDAO)
             .addOnSuccessListener { card ->
-                Log.d(TAG, "Card added with ID: ${card.id}")
+                Log.d(TAG, "Card added with ID: ${card}")
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error adding card:${e.message}", e)
@@ -52,8 +109,8 @@ class FirebaseDB {
 
             }
     }
-/*
-    fun getCards() : MutableList<Card> {
+
+    /*fun getCards() : MutableList<Card> {
         var returnVal : MutableList<Card>
         db.collection("cards")
             .get()

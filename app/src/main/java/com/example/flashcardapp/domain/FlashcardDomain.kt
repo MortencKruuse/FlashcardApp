@@ -1,4 +1,4 @@
-package com.example.flashcardapp.data.domain
+package com.example.flashcardapp.domain
 
 import android.app.Application
 import androidx.lifecycle.LiveData
@@ -27,18 +27,6 @@ class FlashcardDomain(application : Application) : IFlashcardDomain {
     //Scopes
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
-
-    //Bad name
-    /*fun readAllCards() : LiveData<List<Card>>{
-        var cards : LiveData<List<Card>>
-        coroutineScope.launch(Dispatchers.IO) {
-            DAO.getAll()
-        }
-
-
-        return cards
-    }*/
-
     override fun addDeck(deck: IDeck) {
         val deckDAO = Deck(deck.deckId,deck.deckTopic)
         coroutineScope.launch(Dispatchers.IO) {
@@ -55,7 +43,7 @@ class FlashcardDomain(application : Application) : IFlashcardDomain {
             DAO.addCard(cardDAO)
         }
         coroutineScope.launch(Dispatchers.IO) {
-            db.addCardToFirebase(cardDAO)
+            db.addCardToFirebase(deckId, cardDAO)
         }
     }
 
@@ -63,17 +51,26 @@ class FlashcardDomain(application : Application) : IFlashcardDomain {
         coroutineScope.launch(Dispatchers.IO) {
             DAO.deleteDeck(deckId)
         }
+        coroutineScope.launch(Dispatchers.IO) {
+            db.deleteDeck(deckId)
+        }
     }
 
     override fun deleteCard(deckId : String, cardId: String) {
         coroutineScope.launch(Dispatchers.IO) {
             DAO.deleteCard(cardId)
         }
+        coroutineScope.launch(Dispatchers.IO) {
+            db.deleteDeck(deckId)
+        }
     }
 
     override fun findDeck(id: String) {
         coroutineScope.launch(Dispatchers.Main) {
             deckSearchResults.value = asyncFindDeck(id).await()
+            if (deckSearchResults.value.isNullOrEmpty()){
+                //deckSearchResults.value = db.findDeck(id)
+            }
         }
     }
 
