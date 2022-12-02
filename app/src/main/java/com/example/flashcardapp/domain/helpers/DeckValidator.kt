@@ -3,14 +3,14 @@ package com.example.flashcardapp.domain.helpers
 import com.example.flashcardapp.data.Interfaces.IDeck
 
 class DeckValidator {
-    fun ValidateDeck(deck: IDeck): String {
+    fun validateDeck(deck: IDeck): String {
+        val validCharacters =  "[!-~]"
 
-        if (deck.deckTopic.length < 1) {
-            return "Please type a topic before submitting a deck."
-        }
-        //TODO if(viewModel.allDecks.contains(deck))
-        else if (false) {
-            return "That deck already exists!"
-        } else return ""
+        return if (deck.deckTopic.isEmpty()) {
+            "Please type a topic before submitting a deck."
+        } else if (!deck.deckTopic.contains(validCharacters)) {
+            "Please only use a valid characters ($validCharacters) in your topic"
+        } else ""
     }
+
 }

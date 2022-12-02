@@ -20,17 +20,17 @@ class FlashcardViewModel(application: Application) : ViewModel() {
     }
 
     fun addDeck(deck: IDeck): String {
-        if (DeckValidator().ValidateDeck(deck).isEmpty()) {
+        if (DeckValidator().validateDeck(deck).isEmpty()) {
             domain.addDeck(deck)
         }
-        return DeckValidator().ValidateDeck(deck)
+        return DeckValidator().validateDeck(deck)
     }
 
     fun addCard(deckId: String, card: ICard): String {
-        if (CardValidator().ValidateCard(card).isEmpty()) {
+        if (CardValidator().validateCard(card).isEmpty()) {
             domain.addCard(deckId, card)
         }
-        return CardValidator().ValidateCard(card)
+        return CardValidator().validateCard(card)
     }
 
     fun getAllDecks() = liveData(Dispatchers.IO) {
@@ -56,9 +56,9 @@ class FlashcardViewModel(application: Application) : ViewModel() {
     }
 
     fun updateCard(deckId: String, cardToAdd: ICard, cardIdToDelete: String): String {
-        if (CardValidator().ValidateCard(cardToAdd).isEmpty()) {
+        if (CardValidator().validateCard(cardToAdd).isEmpty()) {
             domain.updateCard(deckId, cardToAdd, cardIdToDelete)
         }
-        return CardValidator().ValidateCard(cardToAdd)
+        return CardValidator().validateCard(cardToAdd)
     }
 }
