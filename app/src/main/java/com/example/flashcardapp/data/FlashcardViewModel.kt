@@ -37,6 +37,7 @@ class FlashcardViewModel(application: Application) : ViewModel() {
 
     fun getAllDecks() = liveData(Dispatchers.IO) {
         domain.getAllDecks().collect() { response ->
+            //@TODO DELETE
             Log.e(TAG,"HEJSA" + response.toString())
             emit(response)
         }

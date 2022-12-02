@@ -31,7 +31,7 @@ class FlashcardDomain(application : Application) : IFlashcardDomain {
     val cardSearchResults = MutableLiveData<List<ICard>>()*/
 
     //Scopes
-    private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     override fun addDeck(deck: IDeck) {
         val deckDAO = Deck(deck.deckId,deck.deckTopic)
@@ -67,27 +67,24 @@ class FlashcardDomain(application : Application) : IFlashcardDomain {
             db.deleteDeck(deckId)
         }
     }
-    override fun findDeck(id: String) {
-        coroutineScope.launch(Dispatchers.Main) {
-            //deckSearchResults.value = asyncFindDeck(id).await()
-            //if (deckSearchResults.value.isNullOrEmpty() && db.getDeck(id).deck != null){
-                //deckSearchResults.value = listOf(db.getDeck(id).deck)
-            //}
+    override fun findDeck(id: String) = channelFlow {
+        coroutineScope.launch(Dispatchers.IO) {
+            send(db.getDeck(id))
         }
     }
 
-    fun getAllDecks() = channelFlow {
-        coroutineScope.launch(Dispatchers.Main) {
-            db.getDecks().collect { response ->
-                send(response)
-            }
 
+
+     fun getAllDecks() = channelFlow {
+        coroutineScope.launch(Dispatchers.IO) {
+            send(db.getDecks())
         }
         awaitClose()
     }
     override fun findCard(cardId: String) {
-        coroutineScope.launch(Dispatchers.Main) {
+        coroutineScope.launch(Dispatchers.IO) {
             //cardSearchResults.value = DAO.findCard(cardId)
+
         }
     }
     private fun asyncFindDeck(deckId: String): Deferred<List<Deck>?> =

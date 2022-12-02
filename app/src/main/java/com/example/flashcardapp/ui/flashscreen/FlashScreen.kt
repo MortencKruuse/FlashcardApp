@@ -40,7 +40,6 @@ fun FlashScreen(deckId: String?) {
     Background()
     BackgroundBox()
 
-    deck =
 
 
     Column(

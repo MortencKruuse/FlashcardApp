@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.flow
 class FirebaseDB {
     val db = Firebase.firestore
 
-    fun addDeckToFirebase(deck: IDeck /*temp*/) {
+    suspend fun addDeckToFirebase(deck: IDeck /*temp*/) {
         getDecks()
         db.collection("decks")
             .document(deck.deckId)
@@ -33,7 +33,7 @@ class FirebaseDB {
     }
 
 
-    fun getDecks() = channelFlow {
+    suspend fun getDecks() : List<IDeck> {
         var decks = listOf<DBDeck>()
         try {
         db.collection("decks")
@@ -55,12 +55,12 @@ class FirebaseDB {
             Sentry.captureException(e)
         }
         //TODO Remove delay
-        delay(1000)
-        send(decks)
+        //delay(1000)
+        return decks
 
     }
 
-    fun getDeck(deckId : String) = flow {
+    suspend fun getDeck(deckId : String) : IDeck{
         var deck = DBDeck()
         try {
             db.collection("decks")
@@ -78,11 +78,11 @@ class FirebaseDB {
         catch (e: Exception) {
             Sentry.captureException(e)
         }
-        emit(deck)
+        return deck
     }
 
 
-    fun deleteDeck(deckId : String) {
+    suspend fun deleteDeck(deckId : String) {
         db.collection("decks")
             .document(deckId)
             .delete()
@@ -95,7 +95,7 @@ class FirebaseDB {
             }
     }
 
-    fun addCardToFirebase(deckId : String, card: ICard /*temp*/) {
+    suspend fun addCardToFirebase(deckId : String, card: ICard /*temp*/) {
         db.collection("decks")
             .document(deckId)
             .collection("cards")
@@ -111,7 +111,7 @@ class FirebaseDB {
             }
     }
 
-    fun getCards(deckId : String) = flow {
+    suspend fun getCards(deckId : String) = flow {
         var cards = listOf<DBCard>()
         db.collection("decks")
             .document(deckId)
