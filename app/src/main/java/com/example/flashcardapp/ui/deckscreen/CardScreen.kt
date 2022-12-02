@@ -156,9 +156,9 @@ fun SetUpCardScreen(
             shape = RoundedCornerShape(50),
             colors = ButtonDefaults.outlinedButtonColors(contentColor = ExtraSquares),
             onClick = {
-                viewModel.addCard(CardDTO(generateID(16),question,answer, generateID(16)))
+                viewModel.addCard("2312321",CardDTO(generateID(16),question,answer, generateID(16)))
 
-                resetTextValue()
+                resetTextValueCard()
 
             }, modifier = Modifier
                 .fillMaxWidth()
