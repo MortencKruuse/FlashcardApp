@@ -32,7 +32,7 @@ class FirebaseDB {
 
 
     fun getDecks() = flow {
-        var decks : List<DBDeck>? = null
+        var decks = listOf<DBDeck>()
         try {
         db.collection("decks")
             .get()
@@ -50,18 +50,17 @@ class FirebaseDB {
         catch (e: Exception) {
             Sentry.captureException(e)
         }
-
         emit(decks)
     }
 
     fun getDeck(deckId : String) = flow {
-        var deck : DBDeck? = null
+        var deck = DBDeck()
         try {
             db.collection("decks")
                 .document(deckId)
                 .get()
                 .addOnSuccessListener { result ->
-                    deck = result.toObject(DBDeck::class.java)
+                    deck = result.toObject(DBDeck::class.java)!!
                 }
                 .addOnFailureListener { e ->
                     Log.w(TAG, "Error getting decks: " + e.message, e)
@@ -106,7 +105,7 @@ class FirebaseDB {
     }
 
     fun getCards(deckId : String) = flow {
-        var cards : List<DBCard>? = null
+        var cards = listOf<DBCard>()
         db.collection("decks")
             .document(deckId)
             .collection("cards")

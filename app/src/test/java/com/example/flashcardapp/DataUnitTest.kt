@@ -1,7 +1,6 @@
 package com.example.flashcardapp
 
-import com.example.flashcardapp.repo.DeckHandler
-import com.example.flashcardapp.repo.exceptions.RepoException
+import com.example.flashcardapp.data.repo.FirebaseDB
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -11,11 +10,11 @@ import org.junit.Test
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class RepoUnitTest {
-    private val dh = DeckHandlerTest()
+    private val dh = FirebaseDB()
     /**
      * Used to avoid remote database access
      */
-    private class DeckHandlerTest : DeckHandler()
+    //private class DeckHandlerTest : FirebaseDB()
 
     @Test
     fun deckHandlerGetDeckTest() {
