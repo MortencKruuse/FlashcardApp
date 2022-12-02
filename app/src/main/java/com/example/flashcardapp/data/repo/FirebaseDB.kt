@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.flow
 class FirebaseDB {
     val db = Firebase.firestore
 
-    suspend fun addDeckToFirebase(deck: IDeck /*temp*/) {
+    fun addDeckToFirebase(deck: IDeck /*temp*/) {
         getDecks()
         db.collection("decks")
             .document(deck.deckId)
@@ -33,7 +33,7 @@ class FirebaseDB {
     }
 
 
-    suspend fun getDecks() : List<IDeck> {
+    fun getDecks() : List<IDeck> {
         var decks = listOf<DBDeck>()
         try {
         db.collection("decks")
@@ -60,7 +60,7 @@ class FirebaseDB {
 
     }
 
-    suspend fun getDeck(deckId : String) : IDeck{
+    fun getDeck(deckId : String) : IDeck{
         var deck = DBDeck()
         try {
             db.collection("decks")
@@ -82,7 +82,7 @@ class FirebaseDB {
     }
 
 
-    suspend fun deleteDeck(deckId : String) {
+    fun deleteDeck(deckId : String) {
         db.collection("decks")
             .document(deckId)
             .delete()
@@ -95,7 +95,7 @@ class FirebaseDB {
             }
     }
 
-    suspend fun addCardToFirebase(deckId : String, card: ICard /*temp*/) {
+    fun addCardToFirebase(deckId : String, card: ICard /*temp*/) {
         db.collection("decks")
             .document(deckId)
             .collection("cards")

@@ -67,7 +67,7 @@ class FlashcardDomain(application : Application) : IFlashcardDomain {
             db.deleteDeck(deckId)
         }
     }
-    override fun findDeck(id: String) = channelFlow {
+    fun findDeck(id: String) = channelFlow {
         coroutineScope.launch(Dispatchers.IO) {
             send(db.getDeck(id))
         }

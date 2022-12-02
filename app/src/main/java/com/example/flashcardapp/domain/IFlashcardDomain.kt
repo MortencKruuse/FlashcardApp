@@ -13,8 +13,6 @@ interface IFlashcardDomain {
 
     fun deleteCard(deckId :String, cardId: String)
 
-    fun findDeck(id: String)
-
     fun findCard(cardId: String)
 
 }
