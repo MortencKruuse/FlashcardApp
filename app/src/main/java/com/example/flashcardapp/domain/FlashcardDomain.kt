@@ -9,6 +9,7 @@ import com.example.flashcardapp.data.Interfaces.ICard
 import com.example.flashcardapp.data.Interfaces.IDeck
 import com.example.flashcardapp.data.repo.FirebaseDB
 import com.example.flashcardapp.data.repo.FlashcardDatabase
+import com.example.flashcardapp.ui.DTO.CardDTO
 import kotlinx.coroutines.*
 
 class FlashcardDomain(application : Application) : IFlashcardDomain {
@@ -22,7 +23,7 @@ class FlashcardDomain(application : Application) : IFlashcardDomain {
     val readAllDeckData: LiveData<List<Deck>> = DAO.readAllDecks()
     val deckSearchResults = MutableLiveData<List<Deck>>()
     val readAllCardData: LiveData<List<Card>> = DAO.getAllCards()
-    val cardSearchResults = MutableLiveData<List<Card>>()
+    val cardSearchResults = MutableLiveData<List<ICard>>()
 
     //Scopes
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
@@ -76,7 +77,11 @@ class FlashcardDomain(application : Application) : IFlashcardDomain {
 
     override fun findCard(cardId: String) {
         coroutineScope.launch(Dispatchers.Main) {
-            cardSearchResults.value = asyncFindCard(cardId).await()
+            cardSearchResults.value = null
+            //cardSearchResults.value = asyncFindCard(cardId).await()
+            if (cardSearchResults.value == null){
+                cardSearchResults.value =  db.getCards(cardId).cards
+            }
         }
     }
 
@@ -97,4 +102,6 @@ class FlashcardDomain(application : Application) : IFlashcardDomain {
             DAO.addCard(cardDAO)
         }
     }
+
+
 }

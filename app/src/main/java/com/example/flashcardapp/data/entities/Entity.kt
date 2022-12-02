@@ -1,6 +1,7 @@
 package com.example.flashcardapp.data
 
 import androidx.room.*
+import com.example.flashcardapp.data.Interfaces.ICard
 
 @Entity(tableName = "deck_table")
 data class Deck(
@@ -17,7 +18,7 @@ data class Deck(
         onDelete = ForeignKey.CASCADE
     )])
 
-data class Card(
+data class Card (
     @PrimaryKey()
     val cardId: String,
     @ColumnInfo(name = "card_question")
