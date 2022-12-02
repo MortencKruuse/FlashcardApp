@@ -8,6 +8,8 @@ import com.example.flashcardapp.data.Interfaces.ICard
 import com.example.flashcardapp.data.Interfaces.IDeck
 import com.example.flashcardapp.data.Response
 import com.example.flashcardapp.data.SingleResponse
+import com.example.flashcardapp.data.entities.CardResponse
+import com.example.flashcardapp.data.entities.DBCard
 import com.example.flashcardapp.data.entities.DBDeck
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
@@ -40,7 +42,6 @@ class FirebaseDB {
             .get()
             .addOnSuccessListener { result ->
                 response.decks = result.mapNotNull { snapShot ->
-                    Log.d(TAG,result.toString())
                     snapShot.toObject(DBDeck::class.java)
                 }
             }
@@ -49,6 +50,7 @@ class FirebaseDB {
                 Sentry.captureException(e)
 
             }
+
         }
         catch (e: Exception) {
             response.exception = e
@@ -110,18 +112,23 @@ class FirebaseDB {
             }
     }
 
-    /*fun getCards() : MutableList<Card> {
-        var returnVal : MutableList<Card>
-        db.collection("cards")
+    fun getCards(deckId : String) : CardResponse {
+        val response = CardResponse()
+        db.collection("decks")
+            .document(deckId)
+            .collection("cards")
             .get()
             .addOnSuccessListener { result ->
-                for (card in result) {
-                    Log.d(TAG, "${card.id} => ${card.data}")
+                response.cards = result.mapNotNull { snapShot ->
+                    snapShot.toObject(DBCard::class.java)
+
                 }
+                Log.d(TAG,"I AM HERE" +  response.cards.toString())
 
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error getting cards: " + e.message, e)
             }
-    }*/
+        return response
+    }
 }

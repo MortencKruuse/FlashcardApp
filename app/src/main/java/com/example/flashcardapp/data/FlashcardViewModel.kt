@@ -15,7 +15,7 @@ class FlashcardViewModel(application: Application) : ViewModel() {
     val allDecks: LiveData<List<Deck>>
     val deckSearchResults: MutableLiveData<List<Deck>>
     val allCards: LiveData<List<Card>>
-    val cardSearchResults: MutableLiveData<List<Card>>
+    val cardSearchResults: MutableLiveData<List<ICard>>
 
     init {
         domain = FlashcardDomain(application)
