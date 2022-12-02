@@ -4,4 +4,5 @@ interface ICard {
     var cardId : String
     var question : String
     var answer : String
+    var deckId : String
 }
