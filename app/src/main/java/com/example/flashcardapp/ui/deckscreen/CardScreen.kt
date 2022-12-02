@@ -45,6 +45,7 @@ var answer = mutableStateOf("")
 var myQuestion by question
 
 var myAnswer by answer
+
 @Composable
 fun CardScreen(deckId: String?, navController: NavController, deckTopic: String?) {
     Surface(
@@ -87,6 +88,8 @@ fun SetUpCardScreen(
     answer : String, onAnswerChange : (String) -> Unit
 ) {
 
+    val cards by viewModel.getAllCards().observeAsState(initial = emptyList())
+
 
     var topic = deckTopic.toString()
 
@@ -109,7 +112,10 @@ fun SetUpCardScreen(
             .padding(14.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(modifier = Modifier.fillMaxWidth().background(ExtraSquares).height(100.dp)){
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .background(ExtraSquares)
+            .height(100.dp)){
             DeckTitleRow(head1 = "Create your own card or edit one", head2 = "Cards")
         }
 
@@ -126,11 +132,15 @@ fun SetUpCardScreen(
             item {
 
             }
-           // val list = allCards
 
-         //   items(list) { card ->
-         //       CardRow(deckId, deckTopic,card.cardId, card.question, card.answer, navController)
-        //    }
+           items(cards) { card ->
+                CardRow(
+                    cardQuestion = card.question,
+                    cardAnswer = card.answer,
+                    navController = navController
+                )
+               Spacer(modifier = Modifier.height(8.dp))
+           }
         }
         DemoField(question,"Question", "Enter your question", onValueChange = onQuestionChange , leadingIcon = {
             Icon(Icons.Default.QuestionAnswer, contentDescription = "Question")
@@ -146,6 +156,7 @@ fun SetUpCardScreen(
             shape = RoundedCornerShape(50),
             colors = ButtonDefaults.outlinedButtonColors(contentColor = ExtraSquares),
             onClick = {
+                viewModel.addCard(CardDTO(generateID(16),question,answer, generateID(16)))
 
                 resetTextValue()
 
@@ -161,9 +172,18 @@ fun SetUpCardScreen(
     }
 }
 
+//Source: https://stackoverflow.com/a/54400933
+private fun generateID(length : Int) : String{
+    //Allowed chars
+    val allowedChars = ('A'.. 'Z') + ('a' .. 'z') + (0 .. 9)
+    //Return string from size 1 to length (means smallest is 1)
+    return (1..length)
+        .map { allowedChars.random() }
+        .joinToString("")
+}
 
 @Composable
-fun CardRow(deckId: String, deckTopic: String, cardId: String, cardQuestion: String, cardAnswer: String, navController: NavController) {
+fun CardRow(  cardQuestion: String, cardAnswer: String, navController: NavController) {
     Box(){
 
         Row(
@@ -173,13 +193,13 @@ fun CardRow(deckId: String, deckTopic: String, cardId: String, cardQuestion: Str
                 .fillMaxWidth()
                 .height(IntrinsicSize.Min)
                 .padding(8.dp)
-                .clickable { navController.navigate("editCardScreen/$deckId") }
         ) {Column{
             Spacer(modifier = Modifier.height(15.dp))
-            Text(text = "Deck topic" , color = TextColour, fontWeight = FontWeight.Bold)
-            Text(text = deckTopic , color = TextColour)
+            Text(text = "Question" , color = TextColour, fontWeight = FontWeight.Bold)
+            Text(text = cardQuestion , color = TextColour)
             Divider(color = Color.Black,thickness = 1.dp)
-            Text(text = "Amount of cards in deck 4", color = TextColour)
+            Text(text = "Answer" , color = TextColour, fontWeight = FontWeight.Bold)
+            Text(text = cardAnswer , color = TextColour)
             Spacer(modifier = Modifier.height(15.dp))
         }
 

@@ -38,8 +38,8 @@ class FlashcardViewModel(application: Application) : ViewModel() {
         }
     }
 
-    fun getAllCards(deckId: String) = liveData(Dispatchers.IO) {
-        domain.getAllCards(deckId).collect() { response ->
+    fun getAllCards() = liveData(Dispatchers.IO) {
+        domain.getAllCards().collect() { response ->
             emit(response)
         }
     }

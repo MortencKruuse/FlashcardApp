@@ -29,19 +29,32 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.flashcardapp.R
+import com.example.flashcardapp.data.Card
 import com.example.flashcardapp.data.Deck
 import com.example.flashcardapp.data.FlashcardViewModel
 import com.example.flashcardapp.data.ViewModelFactory
+import com.example.flashcardapp.ui.DTO.CardDTO
 import com.example.flashcardapp.ui.DTO.DeckDTO
 import com.example.flashcardapp.ui.components.Background
 import com.example.flashcardapp.ui.components.BackgroundBox
+import com.example.flashcardapp.ui.deckscreen.myQuestion
+import com.example.flashcardapp.ui.deckscreen.question
 import com.example.flashcardapp.ui.theme.ExtraSquares
 import com.example.flashcardapp.ui.theme.TextColour
 
-var text = mutableStateOf("God Morgen")
+var text = mutableStateOf("Hvordan bager man en kage")
 val myText by text
 var showQuestion = mutableStateOf("Question")
 val showQuestionString by showQuestion
+
+var index = mutableStateOf(0)
+val myIndex by index
+val cards : List<CardDTO> = (
+        listOf(CardDTO("1","Hvordan bager man en kage","Du følger opskriften","1"),
+            CardDTO("2","What is state flow","A state-holder observable flow that emits the current and new state updates to its collectors","2")
+        )
+
+        )
 
 
 @Composable
@@ -60,17 +73,6 @@ fun FlashScreen(deckId: String?) {
                         as Application
             )
         )
-
-        val decks by viewModel.getAllDecks().observe(this,{
-            it
-        })
-
-
-
-
-
-
-
 
 
 
@@ -97,7 +99,7 @@ fun FlashScreen(deckId: String?) {
 
             ) {
 
-                CreateBox(question = "s", answer = "God aften", value = myText)
+                CreateBox(question = cards.get(myIndex).question, answer = cards.get(myIndex).answer, value = myText)
                 Spacer(modifier = Modifier.height(8.dp))
                 ChangeCardButtons()
             }
@@ -117,7 +119,14 @@ fun checkAnswer(question: String, answer: String) {
 }
 
 fun incrementDeck() {
-    text.value = "Farvel"
+    if (index.value == 0){
+        index.value = 1
+        text.value = cards.get(1).question
+    }
+    else {
+        index.value = 0
+        text.value = cards.get(0).question
+    }
 }
 
 
@@ -196,7 +205,7 @@ fun ChangeCardButtons() {
             .weight(1f)
             .wrapContentWidth(Alignment.Start),
             shape = RoundedCornerShape(50),
-            onClick = { /*TODO*/ }) {
+            onClick = { incrementDeck() }) {
             Text(text = "Prev card")
         }
 
@@ -205,7 +214,7 @@ fun ChangeCardButtons() {
             .weight(1f)
             .wrapContentWidth(Alignment.End),
             shape = RoundedCornerShape(50),
-            onClick = { /*TODO*/ }) {
+            onClick = { incrementDeck() }) {
 
             Text(text = "Next card")
 
