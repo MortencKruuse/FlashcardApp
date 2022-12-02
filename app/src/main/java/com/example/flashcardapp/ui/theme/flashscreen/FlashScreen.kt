@@ -1,4 +1,4 @@
-package com.example.flashcardapp.ui.flashscreen
+package com.example.flashcardapp.ui.theme.flashscreen
 
 import android.app.Application
 import androidx.compose.animation.animateColorAsState

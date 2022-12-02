@@ -12,7 +12,7 @@ import com.example.flashcardapp.data.FlashcardViewModel
 import com.example.flashcardapp.ui.deckscreen.CardScreen
 import com.example.flashcardapp.ui.deckscreen.DeckScreen
 import com.example.flashcardapp.ui.deckscreen.EditCardScreen
-import com.example.flashcardapp.ui.flashscreen.FlashScreen
+import com.example.flashcardapp.ui.theme.flashscreen.FlashScreen
 import com.example.flashcardapp.ui.mainscreen.MainScreen
 import com.example.flashcardapp.ui.selecttopicscreen.SelectTopicScreen
 import io.sentry.compose.withSentryObservableEffect
