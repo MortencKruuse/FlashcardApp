@@ -4,15 +4,12 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import com.example.flashcardapp.data.Card
 import com.example.flashcardapp.data.Deck
-import com.example.flashcardapp.data.Interfaces.ICard
-import com.example.flashcardapp.data.Interfaces.IDeck
 import com.example.flashcardapp.data.Response
 import com.example.flashcardapp.data.SingleResponse
 import com.example.flashcardapp.data.entities.CardResponse
 import com.example.flashcardapp.data.entities.DBCard
 import com.example.flashcardapp.data.entities.DBDeck
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import io.sentry.Sentry
 
@@ -48,7 +45,6 @@ class FirebaseDB {
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error getting decks: " + e.message, e)
                 Sentry.captureException(e)
-
             }
 
         }

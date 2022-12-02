@@ -8,6 +8,10 @@ import androidx.room.Query
 import com.example.flashcardapp.data.Card
 import com.example.flashcardapp.data.Deck
 import com.example.flashcardapp.data.DecksAndCards
+import com.example.flashcardapp.data.Interfaces.ICard
+import com.example.flashcardapp.data.Interfaces.IDeck
+import com.example.flashcardapp.data.entities.DBCard
+import com.example.flashcardapp.data.entities.DBDeck
 
 
 @Dao
