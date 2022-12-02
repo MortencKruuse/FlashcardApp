@@ -19,17 +19,17 @@ class FirebaseDB {
     val db = Firebase.firestore
 
     fun addDeckToFirebase(deck: Deck /*temp*/) {
+        getDecks()
         db.collection("decks")
             .document(deck.deckId)
             .set(deck)
-            .addOnSuccessListener { deck ->
-                Log.d(TAG, "Deck added with ID: $deck")
+            .addOnSuccessListener { result ->
+                Log.d(TAG, "Deck added with ID: $result")
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error adding deck:${e.message}", e)
                 Sentry.captureException(e)
             }
-        getDecks()
     }
 
 

@@ -1,11 +1,11 @@
-plugins {
+ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     // Add the Google services Gradle plugin
-    id 'com.google.gms.google-services'
+     id 'com.google.gms.google-services'
+ }
 
-}
 
 android {
     compileSdk 31
