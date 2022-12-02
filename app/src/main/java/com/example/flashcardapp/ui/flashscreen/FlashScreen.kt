@@ -1,6 +1,8 @@
 package com.example.flashcardapp.ui.flashscreen
 
 import android.app.Application
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -27,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.flashcardapp.R
+import com.example.flashcardapp.data.Deck
 import com.example.flashcardapp.data.FlashcardViewModel
 import com.example.flashcardapp.data.ViewModelFactory
 import com.example.flashcardapp.ui.DTO.DeckDTO
@@ -58,7 +61,13 @@ fun FlashScreen(deckId: String?) {
             )
         )
 
-        val decks by viewModel.getAllDecks().observeAsState(initial = emptyList())
+        val decks by viewModel.getAllDecks().observe(this,{
+            it
+        })
+
+
+
+
 
 
 
@@ -88,7 +97,7 @@ fun FlashScreen(deckId: String?) {
 
             ) {
 
-                CreateBox(question = decks.card.toString(), answer = "God aften", value = myText)
+                CreateBox(question = "s", answer = "God aften", value = myText)
                 Spacer(modifier = Modifier.height(8.dp))
                 ChangeCardButtons()
             }
