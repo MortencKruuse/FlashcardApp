@@ -21,6 +21,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
@@ -57,7 +58,8 @@ fun FlashScreen(deckId: String?) {
             )
         )
 
-        val cards  = viewModel.
+        val decks by viewModel.getAllDecks().observeAsState(initial = emptyList())
+        val cards by viewModel.getAllCards(deckId.toString()).observeAsState()
 
 
 
@@ -87,7 +89,7 @@ fun FlashScreen(deckId: String?) {
 
             ) {
 
-                CreateBox(question = deck.toString(), answer = "God aften", value = myText)
+                CreateBox(question = cards.get(0).toString(), answer = "God aften", value = myText)
                 Spacer(modifier = Modifier.height(8.dp))
                 ChangeCardButtons()
             }

@@ -1,17 +1,14 @@
 package com.example.flashcardapp.data
 
 import android.app.Application
-import android.content.ContentValues.TAG
-import android.util.Log
-
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import com.example.flashcardapp.data.Interfaces.ICard
 import com.example.flashcardapp.data.Interfaces.IDeck
 import com.example.flashcardapp.domain.FlashcardDomain
 import com.example.flashcardapp.domain.helpers.CardValidator
 import com.example.flashcardapp.domain.helpers.DeckValidator
 import kotlinx.coroutines.Dispatchers
-import androidx.lifecycle.liveData
 
 class FlashcardViewModel(application: Application) : ViewModel() {
     private val domain: FlashcardDomain
@@ -37,7 +34,12 @@ class FlashcardViewModel(application: Application) : ViewModel() {
 
     fun getAllDecks() = liveData(Dispatchers.IO) {
         domain.getAllDecks().collect() { response ->
-            Log.e(TAG,"HEJSA" + response.toString())
+            emit(response)
+        }
+    }
+
+    fun getAllCards(deckId: String) = liveData(Dispatchers.IO) {
+        domain.getAllCards(deckId).collect() { response ->
             emit(response)
         }
     }
@@ -64,4 +66,6 @@ class FlashcardViewModel(application: Application) : ViewModel() {
         }
         return CardValidator().validateCard(cardToAdd)
     }
+
+
 }

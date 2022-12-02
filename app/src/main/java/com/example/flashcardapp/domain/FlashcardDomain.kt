@@ -78,6 +78,7 @@ class FlashcardDomain(application : Application) : IFlashcardDomain {
             send(db.getCards(deckId))
             //
         }
+        awaitClose()
     }
 
      fun getAllDecks() = channelFlow {
