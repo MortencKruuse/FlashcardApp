@@ -4,10 +4,9 @@ import com.example.flashcardapp.data.Interfaces.ICard
 
 class DBCard : ICard {
     override var cardId: String = ""
-
     override var question: String = ""
-
     override var answer: String = ""
+    override var deckId: String = ""
 
     override fun toString() : String{
         var str : String = ""

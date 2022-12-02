@@ -69,7 +69,6 @@ class FirebaseDB {
                 .addOnFailureListener { e ->
                     Log.w(TAG, "Error getting decks: " + e.message, e)
                     Sentry.captureException(e)
-
                 }
         }
         catch (e: Exception) {
@@ -92,7 +91,8 @@ class FirebaseDB {
             }
     }
 
-    fun addCardToFirebase(deckId : String, card: ICard /*temp*/) {
+    suspend fun addCardToFirebase(deckId : String, card: ICard /*temp*/) {
+        getCards()
         db.collection("decks")
             .document(deckId)
             .collection("cards")
@@ -116,6 +116,7 @@ class FirebaseDB {
                 cards = result.mapNotNull { snapShot ->
                     snapShot.toObject(DBCard::class.java)
                 }
+                Log.e(TAG,cards[0].toString())
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error getting cards: " + e.message, e)
