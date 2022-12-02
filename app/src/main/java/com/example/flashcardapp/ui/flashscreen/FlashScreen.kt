@@ -1,32 +1,37 @@
 package com.example.flashcardapp.ui.flashscreen
 
+import android.app.Application
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.flashcardapp.R
+import com.example.flashcardapp.data.FlashcardViewModel
+import com.example.flashcardapp.data.ViewModelFactory
+import com.example.flashcardapp.ui.DTO.DeckDTO
 import com.example.flashcardapp.ui.components.Background
 import com.example.flashcardapp.ui.components.BackgroundBox
 import com.example.flashcardapp.ui.theme.ExtraSquares
-import com.example.flashcardapp.ui.theme.Purple200
 import com.example.flashcardapp.ui.theme.TextColour
 
 var text = mutableStateOf("God Morgen")
@@ -40,35 +45,54 @@ fun FlashScreen(deckId: String?) {
     Background()
     BackgroundBox()
 
+    val owner = LocalViewModelStoreOwner.current
 
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(48.dp), horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.applogohdpi), contentDescription = "App logo",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(140.dp)
-                .clip(RoundedCornerShape(16.dp))
+    owner?.let {
+        val viewModel: FlashcardViewModel = viewModel(
+            it,
+            "DeckViewModel",
+            ViewModelFactory(
+                LocalContext.current.applicationContext
+                        as Application
+            )
         )
+
+        val cards  = viewModel.
+
+
+
+
+
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .clip(RoundedCornerShape(16.dp)),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-
+                .padding(48.dp), horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Image(
+                painter = painterResource(id = R.drawable.applogohdpi),
+                contentDescription = "App logo",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(140.dp)
+                    .clip(RoundedCornerShape(16.dp))
+            )
 
-            CreateBox(question = "God Morgen", answer = "God aften", value = myText)
-            Spacer(modifier = Modifier.height(8.dp))
-            ChangeCardButtons()
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(16.dp)),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+
+            ) {
+
+                CreateBox(question = deck.toString(), answer = "God aften", value = myText)
+                Spacer(modifier = Modifier.height(8.dp))
+                ChangeCardButtons()
+            }
+
         }
-
     }
 }
 
@@ -113,15 +137,22 @@ fun CreateBox(question: String, answer: String, value: String) {
 
     Box(modifier = Modifier
         .fillMaxWidth()
-        .clickable { checkAnswer(question, answer)
-        rotated = !rotated}
+        .clickable {
+            checkAnswer(question, answer)
+            rotated = !rotated
+        }
         .fillMaxSize(0.7f)
         .clip(RoundedCornerShape(10))
         .background(color = ExtraSquares)
-        .graphicsLayer { rotationY = rotation
-        cameraDistance = 8 * density},contentAlignment = Alignment.TopCenter){
-        Text(text = showQuestionString, modifier = Modifier.graphicsLayer  { alpha = if (rotated) animateBack else animateFront
-            rotationY = rotation }, textAlign = TextAlign.Center, color = TextColour)
+        .graphicsLayer {
+            rotationY = rotation
+            cameraDistance = 8 * density
+        }, contentAlignment = Alignment.TopCenter
+    ) {
+        Text(text = showQuestionString, modifier = Modifier.graphicsLayer {
+            alpha = if (rotated) animateBack else animateFront
+            rotationY = rotation
+        }, textAlign = TextAlign.Center, color = TextColour)
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
@@ -129,15 +160,18 @@ fun CreateBox(question: String, answer: String, value: String) {
 
 
             Text(
-                text = value, Modifier.padding(16.dp).graphicsLayer { alpha = if (rotated) animateBack else animateFront
-                                                                    rotationY = rotation},
+                text = value,
+                Modifier
+                    .padding(16.dp)
+                    .graphicsLayer {
+                        alpha = if (rotated) animateBack else animateFront
+                        rotationY = rotation
+                    },
                 textAlign = TextAlign.Center,
                 style = typography.h4, fontSize = 25.sp, color = TextColour
             )
         }
     }
-
-
 
 
 }
@@ -146,7 +180,7 @@ fun CreateBox(question: String, answer: String, value: String) {
 fun ChangeCardButtons() {
     Row(
         modifier = Modifier
-    
+
     ) {
         Button(modifier = Modifier
             .weight(1f)
@@ -159,8 +193,7 @@ fun ChangeCardButtons() {
 
         Button(modifier = Modifier
             .weight(1f)
-            .wrapContentWidth(Alignment.End)
-            ,
+            .wrapContentWidth(Alignment.End),
             shape = RoundedCornerShape(50),
             onClick = { /*TODO*/ }) {
 

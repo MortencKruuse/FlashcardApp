@@ -1,6 +1,7 @@
 package com.example.flashcardapp.data.repo
 
 import android.content.ContentValues.TAG
+import android.nfc.Tag
 import android.util.Log
 import com.example.flashcardapp.data.Interfaces.ICard
 import com.example.flashcardapp.data.Interfaces.IDeck
@@ -18,7 +19,7 @@ import kotlinx.coroutines.flow.flow
 class FirebaseDB {
     val db = Firebase.firestore
 
-    fun addDeckToFirebase(deck: IDeck /*temp*/) {
+    suspend fun addDeckToFirebase(deck: IDeck /*temp*/) {
         getDecks()
         db.collection("decks")
             .document(deck.deckId)
@@ -33,7 +34,7 @@ class FirebaseDB {
     }
 
 
-    fun getDecks() : List<IDeck> {
+    suspend fun getDecks() : List<IDeck> {
         var decks = listOf<DBDeck>()
         try {
         db.collection("decks")
@@ -55,19 +56,22 @@ class FirebaseDB {
             Sentry.captureException(e)
         }
         //TODO Remove delay
-        //delay(1000)
+        delay(1000)
         return decks
 
     }
 
-    fun getDeck(deckId : String) : IDeck{
+    suspend fun getDeck(deckId : String) : IDeck{
         var deck = DBDeck()
         try {
             db.collection("decks")
                 .document(deckId)
                 .get()
                 .addOnSuccessListener { result ->
+
                     deck = result.toObject(DBDeck::class.java)!!
+                    Log.e(TAG,"HEARERASFDASFASFASFASF " + deck.toString())
+
                 }
                 .addOnFailureListener { e ->
                     Log.w(TAG, "Error getting decks: " + e.message, e)
@@ -111,7 +115,7 @@ class FirebaseDB {
             }
     }
 
-    suspend fun getCards(deckId : String) = flow {
+    suspend fun getCards(deckId : String) = channelFlow{
         var cards = listOf<DBCard>()
         db.collection("decks")
             .document(deckId)
@@ -128,6 +132,7 @@ class FirebaseDB {
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error getting cards: " + e.message, e)
             }
-        emit(cards)
+        delay(1000)
+        send(cards)
     }
 }
