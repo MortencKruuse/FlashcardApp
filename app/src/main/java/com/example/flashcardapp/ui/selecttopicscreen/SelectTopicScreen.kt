@@ -99,11 +99,7 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController,
                 .weight(1f)
 
         ) {
-            //val list = if (searching) searchResults else allProducts
-            item {
 
-
-            }
 
 
             items(decks) { deck ->
@@ -139,8 +135,6 @@ fun DeckRow(deckId: String, deckTopic: String, modifier: Modifier, navController
             Spacer(modifier = Modifier.height(15.dp))
             Text(text = "Deck topic" , color = TextColour, fontWeight = FontWeight.Bold)
             Text(text = deckTopic , color = TextColour)
-            Divider(color = Color.Black,thickness = 1.dp)
-            Text(text = "Amount of cards in deck 4", color = TextColour)
             Spacer(modifier = Modifier.height(15.dp))
         }
 
