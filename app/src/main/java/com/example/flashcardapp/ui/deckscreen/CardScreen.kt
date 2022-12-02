@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
@@ -30,13 +31,20 @@ import androidx.navigation.NavController
 import com.example.flashcardapp.data.FlashcardViewModel
 import com.example.flashcardapp.data.ViewModelFactory
 import com.example.flashcardapp.ui.DTO.CardDTO
+import com.example.flashcardapp.ui.DTO.DeckDTO
 import com.example.flashcardapp.ui.components.Background
 import com.example.flashcardapp.ui.components.BackgroundBox
+import com.example.flashcardapp.ui.components.DeckTitleRow
 import com.example.flashcardapp.ui.components.DemoField
-import com.example.flashcardapp.ui.theme.Purple200
-import com.example.flashcardapp.ui.theme.Purple500
+import com.example.flashcardapp.ui.theme.*
 
+var question = mutableStateOf("")
 
+var answer = mutableStateOf("")
+
+var myQuestion by question
+
+var myAnswer by answer
 @Composable
 fun CardScreen(deckId: String?, navController: NavController, deckTopic: String?) {
     Surface(
@@ -58,7 +66,12 @@ fun CardScreen(deckId: String?, navController: NavController, deckTopic: String?
                                 as Application
                     )
                 )
-                SetUpCardScreen(viewModel, navController, deckTopic!!, deckId!!)
+                SetUpCardScreen(viewModel, navController, deckTopic!!, deckId!!, myQuestion, onQuestionChange = {
+                    myQuestion = it
+                },
+                    myAnswer, onAnswerChange = {
+                        myAnswer = it
+                    } )
             }
         }
     }
@@ -69,15 +82,12 @@ fun SetUpCardScreen(
     viewModel: FlashcardViewModel,
     navController: NavController,
     deckTopic: String,
-    deckId: String
+    deckId: String,
+    question : String, onQuestionChange : (String) -> Unit,
+    answer : String, onAnswerChange : (String) -> Unit
 ) {
 
-    var question by remember {
-        mutableStateOf("")
-    }
-    var answer by remember {
-        mutableStateOf("")
-    }
+
     var topic = deckTopic.toString()
 
     var deckId = deckId
@@ -108,65 +118,25 @@ fun SetUpCardScreen(
     Column(
         Modifier
             .fillMaxSize()
-            .padding(48.dp),
+            .padding(14.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(2.dp), horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(2.dp), horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text("DeckID: $deckTopic", textAlign = TextAlign.Center)
-            }
+        Box(modifier = Modifier.fillMaxWidth().background(ExtraSquares).height(100.dp)){
+            DeckTitleRow(head1 = "Create your own card or edit one", head2 = "Cards")
         }
 
-
-        DemoField(question,"Question", "Enter your question", onValueChange = {
-            question = it
-        }, leadingIcon = {
-            Icon(Icons.Default.QuestionAnswer, contentDescription = "Question")
-        })
-        Spacer(modifier = Modifier.height(8.dp))
-        DemoField(answer,"Answer" ,"Enter your answer", onValueChange = {
-                answer = it
-        },
-        leadingIcon = {
-            Icon(Icons.Default.Check,"Answer")
-        })
-        Spacer(modifier = Modifier.height(8.dp))
-        Button(border = BorderStroke(1.dp, Purple200),
-            shape = RoundedCornerShape(50),
-            colors = ButtonDefaults.outlinedButtonColors(contentColor = Purple200),
-            onClick = {
-            Toast.makeText(
-                context, viewModel.addCard(deckId,
-                    CardDTO(
-                        "0",
-                        question,
-                        answer
-                    )
-                ), Toast.LENGTH_LONG
-            ).show()
-        }, modifier = Modifier.fillMaxWidth()
-                .padding(8.dp)) {
-            Text(text = "Submit")
-        }
+        Spacer(modifier = Modifier.height(16.dp))
 
         LazyColumn(
             Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
+                .padding(14.dp)
+                .fillMaxSize()
+                .weight(1f)
         ) {
             //val list = if (searching) searchResults else allProducts
 
             item {
-                CardTitleRow(head1 = "ID", head2 = "Question", head3 = "Answer")
+
             }
             val list = allCards
 
@@ -174,48 +144,67 @@ fun SetUpCardScreen(
                 CardRow(deckId, deckTopic,card.cardId, card.question, card.answer, navController)
             }
         }
+        DemoField(question,"Question", "Enter your question", onValueChange = onQuestionChange , leadingIcon = {
+            Icon(Icons.Default.QuestionAnswer, contentDescription = "Question")
+        })
+        Spacer(modifier = Modifier.height(4.dp))
+        DemoField(answer,"Answer" ,"Enter your answer", onValueChange = onAnswerChange,
+        leadingIcon = {
+            Icon(Icons.Default.Check,"Answer")
+        })
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(
+            border = BorderStroke(1.dp, ExtraSquares),
+            shape = RoundedCornerShape(50),
+            colors = ButtonDefaults.outlinedButtonColors(contentColor = ExtraSquares),
+            onClick = {
+
+                resetTextValue()
+
+            }, modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+
+        ) {
+            Text(text = "Submit")
+        }
+
+
     }
 }
 
-@Composable
-fun CardTitleRow(head1: String, head2: String, head3: String) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .border(BorderStroke(1.dp, Purple500))
-            .clip(RoundedCornerShape(50))
-
-    ) {
-        Text(
-            head1, color = Purple200,
-            modifier = Modifier
-                .weight(0.1f)
-        )
-        Text(
-            head2, color = Purple200,
-            modifier = Modifier
-                .weight(0.5f)
-        )
-        Text(
-            head3, color = Purple200,
-            modifier = Modifier
-                .weight(0.5f)
-        )
-    }
-}
 
 @Composable
 fun CardRow(deckId: String, deckTopic: String, cardId: String, cardQuestion: String, cardAnswer: String, navController: NavController) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .border(BorderStroke(1.dp, Purple500))
-            .clickable { navController.navigate("editCardScreen/$deckId/$deckTopic/$cardId/$cardQuestion/$cardAnswer") }
-    ) {
-        Text(cardId.toString(), modifier = Modifier.weight(0.1f))
-        Text(cardQuestion, modifier = Modifier.weight(0.5f))
-        Text(cardAnswer, modifier = Modifier.weight(0.4f))
+    Box(){
+
+        Row(
+            modifier = Modifier
+                .clip(shape = RoundedCornerShape(25))
+                .background(TextChangeBubbles)
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min)
+                .padding(8.dp)
+                .clickable { navController.navigate("editCardScreen/$deckId") }
+        ) {Column{
+            Spacer(modifier = Modifier.height(15.dp))
+            Text(text = "Deck topic" , color = TextColour, fontWeight = FontWeight.Bold)
+            Text(text = deckTopic , color = TextColour)
+            Divider(color = Color.Black,thickness = 1.dp)
+            Text(text = "Amount of cards in deck 4", color = TextColour)
+            Spacer(modifier = Modifier.height(15.dp))
+        }
+
+        }
+
+
+
     }
+}
+
+fun resetTextValueCard(){
+    question.value = ""
+    answer.value = ""
 }
 
 
