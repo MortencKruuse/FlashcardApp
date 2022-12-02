@@ -7,11 +7,11 @@ interface IFlashcardDomain {
 
     fun addDeck(deck: IDeck)
 
-    fun addCard(deckId : String, card: ICard)
+    fun addCard(deckId: String, card: ICard)
 
     fun deleteDeck(deckId: String)
 
-    fun deleteCard(deckId :String, cardId: String)
+    fun deleteCard(deckId: String, cardId: String)
 
     fun findCard(cardId: String)
 

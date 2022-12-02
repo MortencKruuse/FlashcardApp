@@ -10,15 +10,17 @@ data class Deck(
     @ColumnInfo(name = "deck_topic")
     val deckTopic: String
 )
+
 @Entity(
     foreignKeys = [ForeignKey(
         entity = Deck::class,
         parentColumns = arrayOf("deckId"),
         childColumns = arrayOf("cardId"),
         onDelete = ForeignKey.CASCADE
-    )])
+    )]
+)
 
-data class Card (
+data class Card(
     @PrimaryKey()
     val cardId: String,
     @ColumnInfo(name = "card_question")

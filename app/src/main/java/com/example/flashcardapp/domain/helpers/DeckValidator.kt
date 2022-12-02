@@ -4,7 +4,7 @@ import com.example.flashcardapp.data.Interfaces.IDeck
 
 class DeckValidator {
     fun validateDeck(deck: IDeck): String {
-        val validCharacters =  "[!-~]"
+        val validCharacters = "[!-~]"
 
         return if (deck.deckTopic.isEmpty()) {
             "Please type a topic before submitting a deck."

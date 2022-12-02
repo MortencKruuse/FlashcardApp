@@ -21,6 +21,7 @@ abstract class FlashcardDatabase : RoomDatabase() {
 
 
     abstract fun dao(): DAO
+
     companion object {
         @Volatile
         private var INSTANCE: FlashcardDatabase? = null

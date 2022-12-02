@@ -42,7 +42,7 @@ import com.example.flashcardapp.ui.theme.TextColour
 @Composable
 fun SelectTopicScreen(
     navController: NavController
-){
+) {
 
     Background()
     BackgroundBox()
@@ -67,14 +67,16 @@ fun SelectTopicScreen(
             })
     }
 
-        }
-
-
-
+}
 
 
 @Composable
-fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController, topic : String, onTopicChange : (String) -> Unit) {
+fun SetUpDeckScreen(
+    viewModel: FlashcardViewModel,
+    navController: NavController,
+    topic: String,
+    onTopicChange: (String) -> Unit
+) {
 
 
     val decks by viewModel.getAllDecks().observeAsState(initial = emptyList())
@@ -85,7 +87,10 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController,
             .padding(14.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(modifier = Modifier.fillMaxWidth().background(ExtraSquares).height(100.dp)){
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .background(ExtraSquares)
+            .height(100.dp)) {
             DeckTitleRow(head1 = "", head2 = "Deck Topics")
         }
 
@@ -99,7 +104,6 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController,
                 .weight(1f)
 
         ) {
-
 
 
             items(decks) { deck ->
@@ -121,7 +125,7 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController,
 
 @Composable
 fun DeckRow(deckId: String, deckTopic: String, modifier: Modifier, navController: NavController) {
-    Box(){
+    Box {
 
         Row(
             modifier
@@ -131,15 +135,15 @@ fun DeckRow(deckId: String, deckTopic: String, modifier: Modifier, navController
                 .height(IntrinsicSize.Min)
                 .padding(8.dp)
                 .clickable { navController.navigate("flashScreen/$deckId") }
-        ) {Column{
-            Spacer(modifier = Modifier.height(15.dp))
-            Text(text = "Deck topic" , color = TextColour, fontWeight = FontWeight.Bold)
-            Text(text = deckTopic , color = TextColour)
-            Spacer(modifier = Modifier.height(15.dp))
-        }
+        ) {
+            Column {
+                Spacer(modifier = Modifier.height(15.dp))
+                Text(text = "Deck topic", color = TextColour, fontWeight = FontWeight.Bold)
+                Text(text = deckTopic, color = TextColour)
+                Spacer(modifier = Modifier.height(15.dp))
+            }
 
         }
-
 
 
     }

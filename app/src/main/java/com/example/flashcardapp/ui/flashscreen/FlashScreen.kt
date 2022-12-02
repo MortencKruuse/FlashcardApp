@@ -49,9 +49,15 @@ val showQuestionString by showQuestion
 
 var index = mutableStateOf(0)
 val myIndex by index
-val cards : List<CardDTO> = (
-        listOf(CardDTO("1","Hvordan bager man en kage","Du følger opskriften","1"),
-            CardDTO("2","What is state flow","A state-holder observable flow that emits the current and new state updates to its collectors","2")
+val cards: List<CardDTO> = (
+        listOf(
+            CardDTO("1", "Hvordan bager man en kage", "Du følger opskriften", "1"),
+            CardDTO(
+                "2",
+                "What is state flow",
+                "A state-holder observable flow that emits the current and new state updates to its collectors",
+                "2"
+            )
         )
 
         )
@@ -99,7 +105,11 @@ fun FlashScreen(deckId: String?) {
 
             ) {
 
-                CreateBox(question = cards.get(myIndex).question, answer = cards.get(myIndex).answer, value = myText)
+                CreateBox(
+                    question = cards.get(myIndex).question,
+                    answer = cards.get(myIndex).answer,
+                    value = myText
+                )
                 Spacer(modifier = Modifier.height(8.dp))
                 ChangeCardButtons()
             }
@@ -119,11 +129,10 @@ fun checkAnswer(question: String, answer: String) {
 }
 
 fun incrementDeck() {
-    if (index.value == 0){
+    if (index.value == 0) {
         index.value = 1
         text.value = cards.get(1).question
-    }
-    else {
+    } else {
         index.value = 0
         text.value = cards.get(0).question
     }

@@ -67,12 +67,18 @@ fun CardScreen(deckId: String?, navController: NavController, deckTopic: String?
                                 as Application
                     )
                 )
-                SetUpCardScreen(viewModel, navController, deckTopic!!, deckId!!, myQuestion, onQuestionChange = {
-                    myQuestion = it
-                },
-                    myAnswer, onAnswerChange = {
+                SetUpCardScreen(viewModel,
+                    navController,
+                    deckTopic!!,
+                    deckId!!,
+                    myQuestion,
+                    onQuestionChange = {
+                        myQuestion = it
+                    },
+                    myAnswer,
+                    onAnswerChange = {
                         myAnswer = it
-                    } )
+                    })
             }
         }
     }
@@ -84,8 +90,8 @@ fun SetUpCardScreen(
     navController: NavController,
     deckTopic: String,
     deckId: String,
-    question : String, onQuestionChange : (String) -> Unit,
-    answer : String, onAnswerChange : (String) -> Unit
+    question: String, onQuestionChange: (String) -> Unit,
+    answer: String, onAnswerChange: (String) -> Unit
 ) {
 
     val cards by viewModel.getAllCards().observeAsState(initial = emptyList())
@@ -94,9 +100,6 @@ fun SetUpCardScreen(
     var topic = deckTopic.toString()
 
     var deckId = deckId
-
-
-
 
 
     // Fetching the local context for using the Toast
@@ -112,10 +115,12 @@ fun SetUpCardScreen(
             .padding(14.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .background(ExtraSquares)
-            .height(100.dp)){
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(ExtraSquares)
+                .height(100.dp)
+        ) {
             DeckTitleRow(head1 = "Create your own card or edit one", head2 = "Cards")
         }
 
@@ -133,30 +138,38 @@ fun SetUpCardScreen(
 
             }
 
-           items(cards) { card ->
+            items(cards) { card ->
                 CardRow(
                     cardQuestion = card.question,
                     cardAnswer = card.answer,
                     navController = navController
                 )
-               Spacer(modifier = Modifier.height(8.dp))
-           }
+                Spacer(modifier = Modifier.height(8.dp))
+            }
         }
-        DemoField(question,"Question", "Enter your question", onValueChange = onQuestionChange , leadingIcon = {
-            Icon(Icons.Default.QuestionAnswer, contentDescription = "Question")
-        })
+        DemoField(
+            question,
+            "Question",
+            "Enter your question",
+            onValueChange = onQuestionChange,
+            leadingIcon = {
+                Icon(Icons.Default.QuestionAnswer, contentDescription = "Question")
+            })
         Spacer(modifier = Modifier.height(4.dp))
-        DemoField(answer,"Answer" ,"Enter your answer", onValueChange = onAnswerChange,
-        leadingIcon = {
-            Icon(Icons.Default.Check,"Answer")
-        })
+        DemoField(answer, "Answer", "Enter your answer", onValueChange = onAnswerChange,
+            leadingIcon = {
+                Icon(Icons.Default.Check, "Answer")
+            })
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             border = BorderStroke(1.dp, ExtraSquares),
             shape = RoundedCornerShape(50),
             colors = ButtonDefaults.outlinedButtonColors(contentColor = ExtraSquares),
             onClick = {
-                viewModel.addCard("2312321",CardDTO(generateID(16),question,answer, generateID(16)))
+                viewModel.addCard(
+                    "2312321",
+                    CardDTO(generateID(16), question, answer, generateID(16))
+                )
 
                 resetTextValueCard()
 
@@ -173,9 +186,9 @@ fun SetUpCardScreen(
 }
 
 //Source: https://stackoverflow.com/a/54400933
-private fun generateID(length : Int) : String{
+private fun generateID(length: Int): String {
     //Allowed chars
-    val allowedChars = ('A'.. 'Z') + ('a' .. 'z') + (0 .. 9)
+    val allowedChars = ('A'..'Z') + ('a'..'z') + (0..9)
     //Return string from size 1 to length (means smallest is 1)
     return (1..length)
         .map { allowedChars.random() }
@@ -183,8 +196,8 @@ private fun generateID(length : Int) : String{
 }
 
 @Composable
-fun CardRow(  cardQuestion: String, cardAnswer: String, navController: NavController) {
-    Box(){
+fun CardRow(cardQuestion: String, cardAnswer: String, navController: NavController) {
+    Box {
 
         Row(
             modifier = Modifier
@@ -193,24 +206,24 @@ fun CardRow(  cardQuestion: String, cardAnswer: String, navController: NavContro
                 .fillMaxWidth()
                 .height(IntrinsicSize.Min)
                 .padding(8.dp)
-        ) {Column{
-            Spacer(modifier = Modifier.height(15.dp))
-            Text(text = "Question" , color = TextColour, fontWeight = FontWeight.Bold)
-            Text(text = cardQuestion , color = TextColour)
-            Divider(color = Color.Black,thickness = 1.dp)
-            Text(text = "Answer" , color = TextColour, fontWeight = FontWeight.Bold)
-            Text(text = cardAnswer , color = TextColour)
-            Spacer(modifier = Modifier.height(15.dp))
-        }
+        ) {
+            Column {
+                Spacer(modifier = Modifier.height(15.dp))
+                Text(text = "Question", color = TextColour, fontWeight = FontWeight.Bold)
+                Text(text = cardQuestion, color = TextColour)
+                Divider(color = Color.Black, thickness = 1.dp)
+                Text(text = "Answer", color = TextColour, fontWeight = FontWeight.Bold)
+                Text(text = cardAnswer, color = TextColour)
+                Spacer(modifier = Modifier.height(15.dp))
+            }
 
         }
-
 
 
     }
 }
 
-fun resetTextValueCard(){
+fun resetTextValueCard() {
     question.value = ""
     answer.value = ""
 }

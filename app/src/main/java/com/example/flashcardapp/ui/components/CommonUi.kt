@@ -54,7 +54,10 @@ fun FlashCardDivider(modifier: Modifier = Modifier) {
 
 @Composable
 fun Background() {
-    Box(Modifier.fillMaxSize().background(MainBackground)) {
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(MainBackground)) {
 
 
     }
@@ -73,9 +76,11 @@ fun BackgroundBox() {
 
 @Composable
 fun DeckTitleRow(head1: String, head2: String) {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .fillMaxHeight()){
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+    ) {
         Column {
             Text(
                 head2, color = TextColour,
@@ -116,7 +121,9 @@ fun DemoField(
 
         value = value,
         onValueChange = onValueChange,
-        Modifier.fillMaxWidth().padding(8.dp),
+        Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
         label = {
             Text(text = label)
         },

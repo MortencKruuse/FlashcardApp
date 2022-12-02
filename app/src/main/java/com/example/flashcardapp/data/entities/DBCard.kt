@@ -8,8 +8,8 @@ class DBCard : ICard {
     override var answer: String = ""
     override var deckId: String = ""
 
-    override fun toString() : String{
-        var str : String = ""
+    override fun toString(): String {
+        var str: String = ""
         str += "cardId=$cardId"
         str += "\nquestion=$question"
         str += "\nanswer=$answer"

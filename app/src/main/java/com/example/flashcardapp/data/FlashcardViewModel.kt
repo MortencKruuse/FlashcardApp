@@ -33,13 +33,13 @@ class FlashcardViewModel(application: Application) : ViewModel() {
     }
 
     fun getAllDecks() = liveData(Dispatchers.IO) {
-        domain.getAllDecks().collect() { response ->
+        domain.getAllDecks().collect { response ->
             emit(response)
         }
     }
 
     fun getAllCards() = liveData(Dispatchers.IO) {
-        domain.getAllCards().collect() { response ->
+        domain.getAllCards().collect { response ->
             emit(response)
         }
     }

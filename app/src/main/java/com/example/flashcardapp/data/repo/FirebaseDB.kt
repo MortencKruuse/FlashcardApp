@@ -33,31 +33,29 @@ class FirebaseDB {
     }
 
 
-    suspend fun getDecks() : List<IDeck> {
+    suspend fun getDecks(): List<IDeck> {
         var decks = listOf<DBDeck>()
         try {
-        db.collection("decks")
-            .get()
-            .addOnSuccessListener { result ->
-               decks = result.mapNotNull { snapShot ->
-                    snapShot.toObject(DBDeck::class.java)
+            db.collection("decks")
+                .get()
+                .addOnSuccessListener { result ->
+                    decks = result.mapNotNull { snapShot ->
+                        snapShot.toObject(DBDeck::class.java)
+                    }
                 }
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error getting decks: " + e.message, e)
-                Sentry.captureException(e)
-            }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error getting decks: " + e.message, e)
+                    Sentry.captureException(e)
+                }
 
-        }
-
-        catch (e: Exception) {
+        } catch (e: Exception) {
             Sentry.captureException(e)
         }
         delay(1000)
         return decks
     }
 
-    fun getDeck(deckId : String) : IDeck{
+    fun getDeck(deckId: String): IDeck {
         var deck = DBDeck()
         try {
             db.collection("decks")
@@ -70,15 +68,14 @@ class FirebaseDB {
                     Log.w(TAG, "Error getting decks: " + e.message, e)
                     Sentry.captureException(e)
                 }
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             Sentry.captureException(e)
         }
         return deck
     }
 
 
-    fun deleteDeck(deckId : String) {
+    fun deleteDeck(deckId: String) {
         db.collection("decks")
             .document(deckId)
             .delete()
@@ -91,7 +88,7 @@ class FirebaseDB {
             }
     }
 
-    suspend fun addCardToFirebase(deckId : String, card: ICard /*temp*/) {
+    suspend fun addCardToFirebase(deckId: String, card: ICard /*temp*/) {
         getCards()
         db.collection("decks")
             .document(deckId)
@@ -108,7 +105,7 @@ class FirebaseDB {
             }
     }
 
-    suspend fun getCards() : List<ICard> {
+    suspend fun getCards(): List<ICard> {
         var cards = listOf<DBCard>()
         db.collection("cards")
             .get()
@@ -116,7 +113,7 @@ class FirebaseDB {
                 cards = result.mapNotNull { snapShot ->
                     snapShot.toObject(DBCard::class.java)
                 }
-                Log.e(TAG,cards[0].toString())
+                Log.e(TAG, cards[0].toString())
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error getting cards: " + e.message, e)

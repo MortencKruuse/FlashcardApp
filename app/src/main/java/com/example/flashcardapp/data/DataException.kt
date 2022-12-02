@@ -1,4 +1,3 @@
 package com.example.flashcardapp.data
 
-class DataException : Exception() {
-}
+class DataException : Exception()

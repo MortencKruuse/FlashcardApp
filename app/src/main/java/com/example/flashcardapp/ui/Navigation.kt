@@ -18,7 +18,6 @@ import com.example.flashcardapp.ui.selecttopicscreen.SelectTopicScreen
 import io.sentry.compose.withSentryObservableEffect
 
 
-
 @Composable
 fun MyAppNavHost(
     viewModel: FlashcardViewModel,
@@ -45,7 +44,10 @@ fun MyAppNavHost(
             )
         }
 
-        composable("flashScreen/{deckId}",arguments = listOf(navArgument("deckId") { type = NavType.StringType })) { FlashScreen(it.arguments?.getString("deckId")) }
+        composable(
+            "flashScreen/{deckId}",
+            arguments = listOf(navArgument("deckId") { type = NavType.StringType })
+        ) { FlashScreen(it.arguments?.getString("deckId")) }
 
         composable("selectTopicScreen") { SelectTopicScreen(navController) }
 
@@ -63,12 +65,12 @@ fun MyAppNavHost(
         composable("editCardScreen/{deckId}",
             arguments = listOf(
                 navArgument("deckId") { type = NavType.StringType }
-                )
+            )
         ) {
             EditCardScreen(
                 it.arguments?.getString("deckId"),
 
-            )
+                )
         }
     }
 }

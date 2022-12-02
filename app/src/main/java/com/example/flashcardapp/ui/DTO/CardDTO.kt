@@ -7,6 +7,4 @@ class CardDTO(
     override var question: String,
     override var answer: String,
     override var deckId: String
-) : ICard {
-
-}
+) : ICard

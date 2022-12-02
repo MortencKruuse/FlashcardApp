@@ -48,21 +48,32 @@ fun MainScreen(
 @Composable
 fun MainMenu(onNavigateToDeck: () -> Unit, onNavigateToTopic: () -> Unit) {
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(10.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-        Image(painter = painterResource(id = R.drawable.applogohdpi), contentDescription = "App logo",
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp), horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.applogohdpi), contentDescription = "App logo",
             contentScale = ContentScale.Fit,
             modifier = Modifier
-                .clip(RoundedCornerShape(16.dp)))
-        Text(text = stringResource(id = R.string.frontpage_texttitle), fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                .clip(RoundedCornerShape(16.dp))
+        )
+        Text(
+            text = stringResource(id = R.string.frontpage_texttitle),
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold
+        )
 
-        Text(text = stringResource(id = R.string.frontpage_textsubtitle), textAlign = TextAlign.Center)
+        Text(
+            text = stringResource(id = R.string.frontpage_textsubtitle),
+            textAlign = TextAlign.Center
+        )
         Spacer(modifier = Modifier.height(48.dp))
         Button(onClick = onNavigateToDeck, modifier = Modifier.fillMaxWidth(0.6f)) {
             Text(text = stringResource(id = R.string.frontpage_deckscreen))
         }
-        Button(onClick = onNavigateToTopic,modifier = Modifier.fillMaxWidth(0.6f)) {
+        Button(onClick = onNavigateToTopic, modifier = Modifier.fillMaxWidth(0.6f)) {
             Text(text = stringResource(id = R.string.frontpage_topicscreen))
 
         }

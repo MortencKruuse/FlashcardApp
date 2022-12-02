@@ -13,7 +13,7 @@ class DBDeck : IDeck {
         var str = ""
         str += "deckId=$deckId\n"
         str += "deckTopic=$deckTopic\n"
-        for (ICard in cards){
+        for (ICard in cards) {
             str += cards.toString()
         }
         return str
