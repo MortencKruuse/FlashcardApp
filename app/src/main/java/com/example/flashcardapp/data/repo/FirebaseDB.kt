@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.flow
 class FirebaseDB {
     val db = Firebase.firestore
 
-    fun addDeckToFirebase(deck: IDeck /*temp*/) {
+    suspend fun addDeckToFirebase(deck: IDeck /*temp*/) {
         getDecks()
         db.collection("decks")
             .document(deck.deckId)
@@ -33,7 +33,7 @@ class FirebaseDB {
     }
 
 
-    fun getDecks() : List<IDeck> {
+    suspend fun getDecks() : List<IDeck> {
         var decks = listOf<DBDeck>()
         try {
         db.collection("decks")
@@ -53,6 +53,8 @@ class FirebaseDB {
         catch (e: Exception) {
             Sentry.captureException(e)
         }
+        delay(1000)
+
         try {
 
             for (deck in decks) {
@@ -74,7 +76,11 @@ class FirebaseDB {
             Sentry.captureException(e)
         }
         //TODO Remove delay
-        //delay(1000)
+        delay(1000)
+        for (deck in decks){
+
+            Log.e(TAG, deck.toString())
+        }
         return decks
 
 
