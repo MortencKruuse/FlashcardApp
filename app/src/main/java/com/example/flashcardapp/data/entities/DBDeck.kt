@@ -13,7 +13,9 @@ class DBDeck : IDeck {
         var str = ""
         str += "deckId=$deckId\n"
         str += "deckTopic=$deckTopic\n"
-        str += "cards=$"
+        for (ICard in cards){
+            str += cards.toString()
+        }
         return str
     }
 }

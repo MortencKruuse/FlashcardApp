@@ -1,7 +1,6 @@
 package com.example.flashcardapp.data.repo
 
 import android.content.ContentValues.TAG
-import android.nfc.Tag
 import android.util.Log
 import com.example.flashcardapp.data.Interfaces.ICard
 import com.example.flashcardapp.data.Interfaces.IDeck
@@ -54,6 +53,8 @@ class FirebaseDB {
         catch (e: Exception) {
             Sentry.captureException(e)
         }
+        delay(1000)
+
         try {
 
             for (deck in decks) {
@@ -64,9 +65,7 @@ class FirebaseDB {
                     .addOnSuccessListener { result ->
                         deck.cards = result.mapNotNull { snapShot ->
                             snapShot.toObject(DBCard::class.java)
-
                         }
-                        Log.e(TAG,"Fuck af" + deck.toString())
                     }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error getting cards: " + e.message, e)
@@ -78,22 +77,23 @@ class FirebaseDB {
         }
         //TODO Remove delay
         delay(1000)
+        for (deck in decks){
+
+            Log.e(TAG, deck.toString())
+        }
         return decks
 
 
     }
 
-    suspend fun getDeck(deckId : String) : IDeck{
+    fun getDeck(deckId : String) : IDeck{
         var deck = DBDeck()
         try {
             db.collection("decks")
                 .document(deckId)
                 .get()
                 .addOnSuccessListener { result ->
-
                     deck = result.toObject(DBDeck::class.java)!!
-                    Log.e(TAG,"HEARERASFDASFASFASFASF " + deck.toString())
-
                 }
                 .addOnFailureListener { e ->
                     Log.w(TAG, "Error getting decks: " + e.message, e)
@@ -137,7 +137,7 @@ class FirebaseDB {
             }
     }
 
-    suspend fun getCards(deckId : String) = channelFlow{
+    suspend fun getCards(deckId : String) = flow {
         var cards = listOf<DBCard>()
         db.collection("decks")
             .document(deckId)
@@ -152,7 +152,6 @@ class FirebaseDB {
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error getting cards: " + e.message, e)
             }
-        delay(1000)
-        send(cards)
+        emit(cards)
     }
 }
