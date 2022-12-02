@@ -26,14 +26,14 @@ class FlashcardViewModel(application: Application) : ViewModel() {
     }
 
     fun addDeck(deck: IDeck): String {
-        if (DeckValidator().ValidateDeck(deck).length < 1) {
+        if (DeckValidator().ValidateDeck(deck).isEmpty()) {
             domain.addDeck(deck)
         }
         return DeckValidator().ValidateDeck(deck)
     }
 
     fun addCard(deckId: String, card: ICard): String {
-        if (CardValidator().ValidateCard(card).length < 1) {
+        if (CardValidator().ValidateCard(card).isEmpty()) {
             domain.addCard(deckId, card)
         }
         return CardValidator().ValidateCard(card)
@@ -56,7 +56,7 @@ class FlashcardViewModel(application: Application) : ViewModel() {
     }
 
     fun updateCard(deckId: String, cardToAdd: ICard, cardIdToDelete: String): String {
-        if (CardValidator().ValidateCard(cardToAdd).length < 1) {
+        if (CardValidator().ValidateCard(cardToAdd).isEmpty()) {
             domain.updateCard(deckId, cardToAdd, cardIdToDelete)
         }
         return CardValidator().ValidateCard(cardToAdd)

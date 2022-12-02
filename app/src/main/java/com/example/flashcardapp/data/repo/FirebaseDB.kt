@@ -7,6 +7,7 @@ import com.example.flashcardapp.data.Deck
 import com.example.flashcardapp.data.Interfaces.ICard
 import com.example.flashcardapp.data.Interfaces.IDeck
 import com.example.flashcardapp.data.Response
+import com.example.flashcardapp.data.SingleResponse
 import com.example.flashcardapp.data.entities.DBDeck
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
@@ -28,9 +29,7 @@ class FirebaseDB {
                 Log.w(TAG, "Error adding deck:${e.message}", e)
                 Sentry.captureException(e)
             }
-
         getDecks()
-
     }
 
 
@@ -40,7 +39,8 @@ class FirebaseDB {
         db.collection("decks")
             .get()
             .addOnSuccessListener { result ->
-                response.decks = result.mapNotNull { snapShot->
+                response.decks = result.mapNotNull { snapShot ->
+                    Log.d(TAG,result.toString())
                     snapShot.toObject(DBDeck::class.java)
                 }
             }
@@ -49,6 +49,28 @@ class FirebaseDB {
                 Sentry.captureException(e)
 
             }
+        }
+        catch (e: Exception) {
+            response.exception = e
+            Sentry.captureException(e)
+        }
+
+        return response
+    }
+    fun getDeck(deckId : String) : SingleResponse {
+        val response = SingleResponse()
+        try {
+            db.collection("decks")
+                .document(deckId)
+                .get()
+                .addOnSuccessListener { result ->
+                    response.deck = result.toObject(DBDeck::class.java)
+                }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error getting decks: " + e.message, e)
+                    Sentry.captureException(e)
+
+                }
         }
         catch (e: Exception) {
             response.exception = e
@@ -72,8 +94,6 @@ class FirebaseDB {
             }
     }
 
-
-
     fun addCardToFirebase(deckId : String, cardDAO: Card /*temp*/) {
         db.collection("decks")
             .document(deckId)
@@ -89,8 +109,8 @@ class FirebaseDB {
 
             }
     }
-/*
-    fun getCards() : MutableList<Card> {
+
+    /*fun getCards() : MutableList<Card> {
         var returnVal : MutableList<Card>
         db.collection("cards")
             .get()
