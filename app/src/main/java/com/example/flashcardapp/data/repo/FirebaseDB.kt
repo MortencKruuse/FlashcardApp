@@ -54,36 +54,7 @@ class FirebaseDB {
             Sentry.captureException(e)
         }
         delay(1000)
-
-        try {
-
-            for (deck in decks) {
-                db.collection("decks")
-                    .document(deck.deckId)
-                    .collection("cards")
-                    .get()
-                    .addOnSuccessListener { result ->
-                        deck.cards = result.mapNotNull { snapShot ->
-                            snapShot.toObject(DBCard::class.java)
-                        }
-                    }
-                    .addOnFailureListener { e ->
-                        Log.w(TAG, "Error getting cards: " + e.message, e)
-                    }
-            }
-        }
-        catch (e: Exception) {
-            Sentry.captureException(e)
-        }
-        //TODO Remove delay
-        delay(1000)
-        for (deck in decks){
-
-            Log.e(TAG, deck.toString())
-        }
         return decks
-
-
     }
 
     fun getDeck(deckId : String) : IDeck{
@@ -137,21 +108,19 @@ class FirebaseDB {
             }
     }
 
-    suspend fun getCards(deckId : String) = flow {
+    suspend fun getCards() : List<ICard> {
         var cards = listOf<DBCard>()
-        db.collection("decks")
-            .document(deckId)
-            .collection("cards")
+        db.collection("cards")
             .get()
             .addOnSuccessListener { result ->
                 cards = result.mapNotNull { snapShot ->
                     snapShot.toObject(DBCard::class.java)
                 }
-                Log.d(TAG,"I AM HERE" +  cards.toString())
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error getting cards: " + e.message, e)
             }
-        emit(cards)
+        delay(1000)
+        return cards
     }
 }
