@@ -46,27 +46,16 @@ var myTopic by topic
 
 @Composable
 fun DeckScreen(
+    viewModel: FlashcardViewModel,
     navController: NavController
 ) {
     Background()
     BackgroundBox()
 
-    val owner = LocalViewModelStoreOwner.current
-
-    owner?.let {
-        val viewModel: FlashcardViewModel = viewModel(
-            it,
-            "DeckViewModel",
-            ViewModelFactory(
-                LocalContext.current.applicationContext
-                        as Application
-            )
-        )
-
         SetUpDeckScreen(viewModel, navController, myTopic, onTopicChange = {
             myTopic = it
         })
-    }
+
 }
 
 
@@ -84,8 +73,7 @@ private fun generateID(length : Int) : String{
 @Composable
 fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController, topic : String, onTopicChange : (String) -> Unit) {
 
-    val allDecks by viewModel.allDecks.observeAsState(listOf())
-    val searchResults by viewModel.deckSearchResults.observeAsState(listOf())
+    val decks by viewModel.getAllDecks().observeAsState(initial = emptyList())
 
 
 
@@ -114,10 +102,10 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController,
 
 
             }
-            val list = allDecks
 
 
-            items(list) { deck ->
+
+            items(decks) { deck ->
 
                 DeckRow(
                     deckId = deck.deckId,

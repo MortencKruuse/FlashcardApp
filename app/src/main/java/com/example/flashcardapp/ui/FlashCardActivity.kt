@@ -47,8 +47,7 @@ class FlashCardActivity : ComponentActivity() {
                                 )
                             )
 
-                            ScreenSetup(viewModel)
-                            MyAppNavHost()
+                            MyAppNavHost(viewModel)
                         }
                     }
                 }
@@ -56,27 +55,3 @@ class FlashCardActivity : ComponentActivity() {
         }
     }
 }
-
-@Composable
-fun ScreenSetup(viewModel: FlashcardViewModel) {
-
-    val allDecks by viewModel.allDecks.observeAsState(listOf())
-    val searchResults by viewModel.deckSearchResults.observeAsState(listOf())
-
-
-    MainSetup(
-        allDecks = allDecks,
-        searchResults = searchResults,
-        viewModel = viewModel
-    )
-}
-
-@Composable
-fun MainSetup(
-    allDecks: List<Deck>,
-    searchResults: List<Deck>,
-    viewModel: FlashcardViewModel
-) {
-
-}
-

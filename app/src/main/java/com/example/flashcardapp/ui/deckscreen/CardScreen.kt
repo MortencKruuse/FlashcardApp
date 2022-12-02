@@ -92,21 +92,9 @@ fun SetUpCardScreen(
 
     var deckId = deckId
 
-    if (viewModel.allCards == null) {
-            var card = CardDTO(
-                "0",
-                "Egg White",
-                "What is an egg white not?",
-            )
-            viewModel.addCard("0",card)
-            viewModel.deleteCard("0",card.cardId)
-        }
 
 
 
-
-    val allCards by viewModel.allCards.observeAsState(listOf())
-    val cardSearchResults by viewModel.cardSearchResults.observeAsState(listOf())
 
     // Fetching the local context for using the Toast
     val context = LocalContext.current
@@ -138,11 +126,11 @@ fun SetUpCardScreen(
             item {
 
             }
-            val list = allCards
+           // val list = allCards
 
-            items(list) { card ->
-                CardRow(deckId, deckTopic,card.cardId, card.question, card.answer, navController)
-            }
+         //   items(list) { card ->
+         //       CardRow(deckId, deckTopic,card.cardId, card.question, card.answer, navController)
+        //    }
         }
         DemoField(question,"Question", "Enter your question", onValueChange = onQuestionChange , leadingIcon = {
             Icon(Icons.Default.QuestionAnswer, contentDescription = "Question")

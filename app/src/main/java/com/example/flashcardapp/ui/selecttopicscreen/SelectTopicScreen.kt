@@ -76,10 +76,8 @@ fun SelectTopicScreen(
 @Composable
 fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController, topic : String, onTopicChange : (String) -> Unit) {
 
-    val allDecks by viewModel.allDecks.observeAsState(listOf())
-    val searchResults by viewModel.deckSearchResults.observeAsState(listOf())
 
-
+    val decks by viewModel.getAllDecks().observeAsState(initial = emptyList())
 
     Column(
         Modifier
@@ -106,10 +104,9 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController,
 
 
             }
-            val list = allDecks
 
 
-            items(list) { deck ->
+            items(decks) { deck ->
 
                 DeckRow(
                     deckId = deck.deckId,
