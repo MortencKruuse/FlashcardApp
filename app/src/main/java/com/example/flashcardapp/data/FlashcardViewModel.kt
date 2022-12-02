@@ -1,8 +1,7 @@
 package com.example.flashcardapp.data
 
 import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+
 import androidx.lifecycle.ViewModel
 import com.example.flashcardapp.data.Interfaces.ICard
 import com.example.flashcardapp.data.Interfaces.IDeck
@@ -14,17 +13,10 @@ import androidx.lifecycle.liveData
 
 class FlashcardViewModel(application: Application) : ViewModel() {
     private val domain: FlashcardDomain
-    //val allDecks: <LiveData<List<IDeck>>>
-    //val deckSearchResults: MutableLiveData<List<IDeck>>
-    //val allCards: LiveData<List<ICard>>
-    //val cardSearchResults: MutableLiveData<List<ICard>>
+
 
     init {
         domain = FlashcardDomain(application)
-        //allDecks = domain.getAllDecks()
-        //deckSearchResults = domain.deckSearchResults
-        //allCards = domain.readAllCardData
-        //cardSearchResults = domain.cardSearchResults
     }
 
     fun addDeck(deck: IDeck): String {

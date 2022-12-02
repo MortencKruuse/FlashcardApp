@@ -36,12 +36,12 @@ class FirebaseDB {
 
 
     fun getDecks() = flow {
-        val response = Response()
+        var decks : List<DBDeck>? = null
         try {
         db.collection("decks")
             .get()
             .addOnSuccessListener { result ->
-                response.decks = result.mapNotNull { snapShot ->
+               decks = result.mapNotNull { snapShot ->
                     snapShot.toObject(DBDeck::class.java)
                 }
             }
@@ -52,13 +52,13 @@ class FirebaseDB {
 
         }
         catch (e: Exception) {
-            response.exception = e
             Sentry.captureException(e)
         }
 
-        emit(response)
+        emit(decks)
     }
-    fun getDeck(deckId : String) : SingleResponse {
+
+    fun getDeck(deckId : String) = flow {
         val response = SingleResponse()
         try {
             db.collection("decks")
@@ -77,8 +77,7 @@ class FirebaseDB {
             response.exception = e
             Sentry.captureException(e)
         }
-
-        return response
+        emit(response)
     }
 
 
