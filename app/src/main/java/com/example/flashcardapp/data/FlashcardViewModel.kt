@@ -9,20 +9,22 @@ import com.example.flashcardapp.data.Interfaces.IDeck
 import com.example.flashcardapp.domain.FlashcardDomain
 import com.example.flashcardapp.domain.helpers.CardValidator
 import com.example.flashcardapp.domain.helpers.DeckValidator
+import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.liveData
 
 class FlashcardViewModel(application: Application) : ViewModel() {
     private val domain: FlashcardDomain
-    val allDecks: LiveData<List<Deck>>
-    val deckSearchResults: MutableLiveData<List<Deck>>
-    val allCards: LiveData<List<Card>>
-    val cardSearchResults: MutableLiveData<List<ICard>>
+    //val allDecks: <LiveData<List<IDeck>>>
+    //val deckSearchResults: MutableLiveData<List<IDeck>>
+    //val allCards: LiveData<List<ICard>>
+    //val cardSearchResults: MutableLiveData<List<ICard>>
 
     init {
         domain = FlashcardDomain(application)
-        allDecks = domain.readAllDeckData
-        deckSearchResults = domain.deckSearchResults
-        allCards = domain.readAllCardData
-        cardSearchResults = domain.cardSearchResults
+        //allDecks = domain.getAllDecks()
+        //deckSearchResults = domain.deckSearchResults
+        //allCards = domain.readAllCardData
+        //cardSearchResults = domain.cardSearchResults
     }
 
     fun addDeck(deck: IDeck): String {
@@ -37,6 +39,12 @@ class FlashcardViewModel(application: Application) : ViewModel() {
             domain.addCard(deckId, card)
         }
         return CardValidator().ValidateCard(card)
+    }
+
+    fun getAllDecks() = liveData(Dispatchers.IO) {
+        domain.getAllDecks().collect() { response ->
+            emit(response)
+        }
     }
 
     fun findDeck(deckId: String) {

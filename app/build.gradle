@@ -125,6 +125,11 @@ dependencies {
     implementation 'io.sentry:sentry-compose-android:6.8.0'
 
 
+    //Live data
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
+
+
+
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
         kotlinOptions {
             freeCompilerArgs += ["-Xjvm-default=all",]

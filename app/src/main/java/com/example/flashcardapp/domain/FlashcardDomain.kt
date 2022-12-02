@@ -13,19 +13,20 @@ import com.example.flashcardapp.data.repo.FirebaseDB
 import com.example.flashcardapp.data.repo.FlashcardDatabase
 import com.example.flashcardapp.ui.DTO.CardDTO
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.flow
+
 
 class FlashcardDomain(application : Application) : IFlashcardDomain {
     //Firebase
     private var db = FirebaseDB()
     //Local Room database
-    private val deckDb = FlashcardDatabase.getDatabase(application)
-    private val DAO = deckDb.dao()
+    private val DAO =  FlashcardDatabase.getDatabase(application).dao()
 
     //?? probably should be functions
-    val readAllDeckData: LiveData<List<Deck>> = DAO.readAllDecks()
-    val deckSearchResults = MutableLiveData<List<Deck>>()
-    val readAllCardData: LiveData<List<Card>> = DAO.getAllCards()
-    val cardSearchResults = MutableLiveData<List<Card>>()
+    /*val readAllDeckData: MutableLiveData<List<IDeck>>()  //= DAO.readAllDecks()
+    val deckSearchResults = MutableLiveData<List<IDeck>>()
+    val readAllCardData: LiveData<List<ICard>> //= DAO.getAllCards()
+    val cardSearchResults = MutableLiveData<List<ICard>>()*/
 
     //Scopes
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
@@ -36,7 +37,7 @@ class FlashcardDomain(application : Application) : IFlashcardDomain {
             DAO.addDeck(deckDAO)
         }
         coroutineScope.launch(Dispatchers.IO) {
-            db.addDeckToFirebase(deckDAO)
+            db.addDeckToFirebase(deck)
         }
     }
     override fun addCard(deckId : String, card: ICard) {
@@ -45,7 +46,7 @@ class FlashcardDomain(application : Application) : IFlashcardDomain {
             DAO.addCard(cardDAO)
         }
         coroutineScope.launch(Dispatchers.IO) {
-            db.addCardToFirebase(deckId, cardDAO)
+            db.addCardToFirebase(deckId, card)
         }
     }
     override fun deleteDeck(deckId: String) {
@@ -66,15 +67,23 @@ class FlashcardDomain(application : Application) : IFlashcardDomain {
     }
     override fun findDeck(id: String) {
         coroutineScope.launch(Dispatchers.Main) {
-            deckSearchResults.value = asyncFindDeck(id).await()
-            if (deckSearchResults.value.isNullOrEmpty()){
-                //deckSearchResults.value = db.findDeck(id)
+            //deckSearchResults.value = asyncFindDeck(id).await()
+            //if (deckSearchResults.value.isNullOrEmpty() && db.getDeck(id).deck != null){
+                //deckSearchResults.value = listOf(db.getDeck(id).deck)
+            //}
+        }
+    }
+
+    fun getAllDecks() = flow {
+        coroutineScope.launch(Dispatchers.Main) {
+            db.getDecks().collect { response ->
+                emit(response)
             }
         }
     }
     override fun findCard(cardId: String) {
         coroutineScope.launch(Dispatchers.Main) {
-            cardSearchResults.value = DAO.findCard(cardId)
+            //cardSearchResults.value = DAO.findCard(cardId)
         }
     }
     private fun asyncFindDeck(deckId: String): Deferred<List<Deck>?> =

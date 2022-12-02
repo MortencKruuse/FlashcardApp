@@ -4,6 +4,8 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import com.example.flashcardapp.data.Card
 import com.example.flashcardapp.data.Deck
+import com.example.flashcardapp.data.Interfaces.ICard
+import com.example.flashcardapp.data.Interfaces.IDeck
 import com.example.flashcardapp.data.Response
 import com.example.flashcardapp.data.SingleResponse
 import com.example.flashcardapp.data.entities.CardResponse
@@ -12,12 +14,13 @@ import com.example.flashcardapp.data.entities.DBDeck
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import io.sentry.Sentry
+import kotlinx.coroutines.flow.flow
 
 
 class FirebaseDB {
     val db = Firebase.firestore
 
-    fun addDeckToFirebase(deck: Deck /*temp*/) {
+    fun addDeckToFirebase(deck: IDeck /*temp*/) {
         getDecks()
         db.collection("decks")
             .document(deck.deckId)
@@ -32,7 +35,7 @@ class FirebaseDB {
     }
 
 
-    fun getDecks() : Response {
+    fun getDecks() = flow {
         val response = Response()
         try {
         db.collection("decks")
@@ -53,7 +56,7 @@ class FirebaseDB {
             Sentry.captureException(e)
         }
 
-        return response
+        emit(response)
     }
     fun getDeck(deckId : String) : SingleResponse {
         val response = SingleResponse()
@@ -92,14 +95,14 @@ class FirebaseDB {
             }
     }
 
-    fun addCardToFirebase(deckId : String, cardDAO: Card /*temp*/) {
+    fun addCardToFirebase(deckId : String, card: ICard /*temp*/) {
         db.collection("decks")
             .document(deckId)
             .collection("cards")
-            .document(cardDAO.cardId)
-            .set(cardDAO)
+            .document(card.cardId)
+            .set(card)
             .addOnSuccessListener { card ->
-                Log.d(TAG, "Card added with ID: ${card}")
+                Log.d(TAG, "Card added with ID: $card")
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error adding card:${e.message}", e)
