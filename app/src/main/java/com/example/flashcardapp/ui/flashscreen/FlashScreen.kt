@@ -37,9 +37,10 @@ val showQuestionString by showQuestion
 
 @Composable
 fun FlashScreen(deckId: String?) {
-
     Background()
     BackgroundBox()
+
+    deck =
 
 
     Column(

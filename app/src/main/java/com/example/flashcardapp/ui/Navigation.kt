@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.flashcardapp.data.FlashcardViewModel
 import com.example.flashcardapp.ui.deckscreen.CardScreen
 import com.example.flashcardapp.ui.deckscreen.DeckScreen
 import com.example.flashcardapp.ui.deckscreen.EditCardScreen
@@ -20,6 +21,7 @@ import io.sentry.compose.withSentryObservableEffect
 
 @Composable
 fun MyAppNavHost(
+    viewModel: FlashcardViewModel,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController().withSentryObservableEffect(),
     startDestination: String = "mainScreen"
@@ -38,6 +40,7 @@ fun MyAppNavHost(
         composable("deckScreen")
         {
             DeckScreen(
+                viewModel,
                 navController
             )
         }

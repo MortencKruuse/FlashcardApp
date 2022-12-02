@@ -13,6 +13,8 @@ import com.example.flashcardapp.data.repo.FirebaseDB
 import com.example.flashcardapp.data.repo.FlashcardDatabase
 import com.example.flashcardapp.ui.DTO.CardDTO
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flow
 
 
@@ -74,12 +76,14 @@ class FlashcardDomain(application : Application) : IFlashcardDomain {
         }
     }
 
-    fun getAllDecks() = flow {
+    fun getAllDecks() = channelFlow {
         coroutineScope.launch(Dispatchers.Main) {
             db.getDecks().collect { response ->
-                emit(response)
+                send(response)
             }
+
         }
+        awaitClose()
     }
     override fun findCard(cardId: String) {
         coroutineScope.launch(Dispatchers.Main) {

@@ -1,6 +1,8 @@
 package com.example.flashcardapp.data
 
 import android.app.Application
+import android.content.ContentValues.TAG
+import android.util.Log
 
 import androidx.lifecycle.ViewModel
 import com.example.flashcardapp.data.Interfaces.ICard
@@ -35,6 +37,7 @@ class FlashcardViewModel(application: Application) : ViewModel() {
 
     fun getAllDecks() = liveData(Dispatchers.IO) {
         domain.getAllDecks().collect() { response ->
+            Log.e(TAG,"HEJSA" + response.toString())
             emit(response)
         }
     }

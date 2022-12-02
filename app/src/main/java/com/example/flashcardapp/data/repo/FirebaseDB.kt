@@ -10,6 +10,8 @@ import com.example.flashcardapp.ui.DTO.CardDTO
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import io.sentry.Sentry
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flow
 
 
@@ -31,7 +33,7 @@ class FirebaseDB {
     }
 
 
-    fun getDecks() = flow {
+    fun getDecks() = channelFlow {
         var decks = listOf<DBDeck>()
         try {
         db.collection("decks")
@@ -40,6 +42,7 @@ class FirebaseDB {
                decks = result.mapNotNull { snapShot ->
                     snapShot.toObject(DBDeck::class.java)
                 }
+
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error getting decks: " + e.message, e)
@@ -47,10 +50,14 @@ class FirebaseDB {
             }
 
         }
+
         catch (e: Exception) {
             Sentry.captureException(e)
         }
-        emit(decks)
+        //TODO Remove delay
+        delay(1000)
+        send(decks)
+
     }
 
     fun getDeck(deckId : String) = flow {

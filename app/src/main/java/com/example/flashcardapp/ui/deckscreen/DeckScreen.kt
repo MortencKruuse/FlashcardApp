@@ -2,7 +2,9 @@ package com.example.flashcardapp.ui.deckscreen
 
 
 import android.app.Application
+import android.content.ContentValues.TAG
 import android.graphics.drawable.shapes.Shape
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -46,27 +48,16 @@ var myTopic by topic
 
 @Composable
 fun DeckScreen(
+    viewModel: FlashcardViewModel,
     navController: NavController
 ) {
     Background()
     BackgroundBox()
 
-    val owner = LocalViewModelStoreOwner.current
-
-    owner?.let {
-        val viewModel: FlashcardViewModel = viewModel(
-            it,
-            "DeckViewModel",
-            ViewModelFactory(
-                LocalContext.current.applicationContext
-                        as Application
-            )
-        )
-
         SetUpDeckScreen(viewModel, navController, myTopic, onTopicChange = {
             myTopic = it
         })
-    }
+
 }
 
 
@@ -84,9 +75,9 @@ private fun generateID(length : Int) : String{
 @Composable
 fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController, topic : String, onTopicChange : (String) -> Unit) {
 
-    val allDecks by viewModel.allDecks.observeAsState(listOf())
-    val searchResults by viewModel.deckSearchResults.observeAsState(listOf())
+    val decks by viewModel.getAllDecks().observeAsState(initial = emptyList())
 
+    Log.e(TAG,"HEJ MED DIG"+decks.toString())
 
 
     Column(
@@ -109,15 +100,10 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController,
                 .weight(1f)
 
         ) {
-            //val list = if (searching) searchResults else allProducts
-            item {
 
 
-            }
-            val list = allDecks
 
-
-            items(list) { deck ->
+            items(decks) { deck ->
 
                 DeckRow(
                     deckId = deck.deckId,
@@ -135,7 +121,7 @@ fun SetUpDeckScreen(viewModel: FlashcardViewModel, navController: NavController,
 
 
         Button(
-            border = BorderStroke(1.dp, ExtraSquares),
+                    border = BorderStroke(1.dp, ExtraSquares),
             shape = RoundedCornerShape(50),
             colors = ButtonDefaults.outlinedButtonColors(contentColor = ExtraSquares),
             onClick = {
@@ -169,8 +155,6 @@ fun DeckRow(deckId: String, deckTopic: String, modifier: Modifier, navController
             Spacer(modifier = Modifier.height(15.dp))
             Text(text = "Deck topic" , color = TextColour, fontWeight = FontWeight.Bold)
             Text(text = deckTopic , color = TextColour)
-            Divider(color = Color.Black,thickness = 1.dp)
-            Text(text = "Amount of cards in deck 4", color = TextColour)
             Spacer(modifier = Modifier.height(15.dp))
         }
 
