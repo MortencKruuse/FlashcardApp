@@ -1,10 +1,8 @@
 package com.example.flashcardapp.ui.deckscreen
 
 import android.app.Application
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,7 +11,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.QuestionAnswer
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -23,15 +20,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.flashcardapp.data.FlashcardViewModel
-import com.example.flashcardapp.data.ViewModelFactory
+import com.example.flashcardapp.viewModel.FlashcardViewModel
+import com.example.flashcardapp.viewModel.ViewModelFactory
 import com.example.flashcardapp.ui.DTO.CardDTO
-import com.example.flashcardapp.ui.DTO.DeckDTO
 import com.example.flashcardapp.ui.components.Background
 import com.example.flashcardapp.ui.components.BackgroundBox
 import com.example.flashcardapp.ui.components.DeckTitleRow

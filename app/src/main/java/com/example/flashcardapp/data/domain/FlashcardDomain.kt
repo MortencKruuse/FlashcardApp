@@ -1,4 +1,4 @@
-package com.example.flashcardapp.domain
+package com.example.flashcardapp.data.domain
 
 import android.app.Application
 import androidx.lifecycle.LiveData

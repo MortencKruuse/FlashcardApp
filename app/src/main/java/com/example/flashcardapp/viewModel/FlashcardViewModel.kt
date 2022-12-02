@@ -1,14 +1,16 @@
-package com.example.flashcardapp.data
+package com.example.flashcardapp.viewModel
 
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.flashcardapp.data.Card
+import com.example.flashcardapp.data.Deck
 import com.example.flashcardapp.data.Interfaces.ICard
 import com.example.flashcardapp.data.Interfaces.IDeck
-import com.example.flashcardapp.domain.FlashcardDomain
-import com.example.flashcardapp.domain.helpers.CardValidator
-import com.example.flashcardapp.domain.helpers.DeckValidator
+import com.example.flashcardapp.data.domain.FlashcardDomain
+import com.example.flashcardapp.data.domain.helpers.CardValidator
+import com.example.flashcardapp.data.domain.helpers.DeckValidator
 
 class FlashcardViewModel(application: Application) : ViewModel() {
     private val domain: FlashcardDomain

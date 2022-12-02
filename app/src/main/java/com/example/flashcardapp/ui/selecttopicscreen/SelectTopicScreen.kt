@@ -1,7 +1,6 @@
 package com.example.flashcardapp.ui.selecttopicscreen
 
 import android.app.Application
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -9,8 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Topic
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -24,17 +21,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.flashcardapp.data.Deck
-import com.example.flashcardapp.data.FlashcardViewModel
-import com.example.flashcardapp.data.ViewModelFactory
-import com.example.flashcardapp.ui.DTO.DeckDTO
+import com.example.flashcardapp.viewModel.FlashcardViewModel
+import com.example.flashcardapp.viewModel.ViewModelFactory
 import com.example.flashcardapp.ui.components.Background
 import com.example.flashcardapp.ui.components.BackgroundBox
 import com.example.flashcardapp.ui.components.DeckTitleRow
-import com.example.flashcardapp.ui.components.DemoField
 
 import com.example.flashcardapp.ui.deckscreen.myTopic
-import com.example.flashcardapp.ui.deckscreen.resetTextValue
 import com.example.flashcardapp.ui.theme.ExtraSquares
 import com.example.flashcardapp.ui.theme.TextChangeBubbles
 import com.example.flashcardapp.ui.theme.TextColour

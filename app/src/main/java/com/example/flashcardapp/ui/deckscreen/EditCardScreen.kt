@@ -1,7 +1,6 @@
 package com.example.flashcardapp.ui.deckscreen
 
 import android.app.Application
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,11 +16,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import com.example.flashcardapp.data.Card
-import com.example.flashcardapp.data.FlashcardViewModel
-import com.example.flashcardapp.data.ViewModelFactory
-import com.example.flashcardapp.ui.DTO.CardDTO
+import com.example.flashcardapp.viewModel.FlashcardViewModel
+import com.example.flashcardapp.viewModel.ViewModelFactory
 import com.example.flashcardapp.ui.components.Background
 import com.example.flashcardapp.ui.components.BackgroundBox
 

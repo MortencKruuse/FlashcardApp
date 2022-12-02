@@ -15,8 +15,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.flashcardapp.data.Deck
-import com.example.flashcardapp.data.FlashcardViewModel
-import com.example.flashcardapp.data.ViewModelFactory
+import com.example.flashcardapp.viewModel.FlashcardViewModel
+import com.example.flashcardapp.viewModel.ViewModelFactory
 import com.example.flashcardapp.ui.theme.FlashcardAppTheme
 
 

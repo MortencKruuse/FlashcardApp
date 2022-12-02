@@ -1,4 +1,4 @@
-package com.example.flashcardapp.domain.helpers
+package com.example.flashcardapp.data.domain.helpers
 
 import com.example.flashcardapp.data.Card
 import com.example.flashcardapp.data.Interfaces.ICard
