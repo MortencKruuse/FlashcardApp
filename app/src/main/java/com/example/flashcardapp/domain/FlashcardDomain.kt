@@ -73,7 +73,12 @@ class FlashcardDomain(application : Application) : IFlashcardDomain {
         }
     }
 
-
+    fun getAllCards(deckId : String) = channelFlow {
+        coroutineScope.launch(Dispatchers.IO) {
+            send(db.getCards(deckId))
+            //
+        }
+    }
 
      fun getAllDecks() = channelFlow {
         coroutineScope.launch(Dispatchers.IO) {
