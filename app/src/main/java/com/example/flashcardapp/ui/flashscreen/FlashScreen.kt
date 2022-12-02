@@ -1,4 +1,4 @@
-package com.example.flashcardapp.ui.theme.flashscreen
+package com.example.flashcardapp.ui.flashscreen
 
 import android.app.Application
 import androidx.compose.animation.animateColorAsState
@@ -59,7 +59,6 @@ fun FlashScreen(deckId: String?) {
         )
 
         val decks by viewModel.getAllDecks().observeAsState(initial = emptyList())
-        val cards by viewModel.getAllCards(deckId.toString()).observeAsState()
 
 
 
@@ -89,7 +88,7 @@ fun FlashScreen(deckId: String?) {
 
             ) {
 
-                CreateBox(question = cards.get(0).toString(), answer = "God aften", value = myText)
+                CreateBox(question = decks.card.toString(), answer = "God aften", value = myText)
                 Spacer(modifier = Modifier.height(8.dp))
                 ChangeCardButtons()
             }

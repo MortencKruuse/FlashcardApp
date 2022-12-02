@@ -64,7 +64,9 @@ class FirebaseDB {
                     .addOnSuccessListener { result ->
                         deck.cards = result.mapNotNull { snapShot ->
                             snapShot.toObject(DBCard::class.java)
+
                         }
+                        Log.e(TAG,"Fuck af" + deck.toString())
                     }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error getting cards: " + e.message, e)
